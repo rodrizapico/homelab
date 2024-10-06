@@ -9,7 +9,7 @@ services:
       - PGID=1000
       - TZ=Europe/Madrid
     volumes:
-      - ${CONFIG_VOLUMES_PATH}/wireguard/config:/config
+      - ${CONFIG_VOLUMES_PATH}/wireguard:/config
     ports:
       - 51820:51820/udp
       # Transmission webUI
@@ -26,8 +26,8 @@ services:
       - PGID=1000
       - TZ=Europe/Madrid
     volumes:
-      - ${CONFIG_VOLUMES_PATH}/transmission/config:/config
-      - ${DATA_VOLUMES_PATH}/downloads:/downloads
+      - ${CONFIG_VOLUMES_PATH}/transmission:/config
+      - ${DATA_VOLUMES_PATH}/torrents:/data/torrents
     network_mode: service:wireguard
     depends_on:
       - wireguard
@@ -41,7 +41,7 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ${CONFIG_VOLUMES_PATH}/prowlarr/config:/config
+      - ${CONFIG_VOLUMES_PATH}/prowlarr:/config
     ports:
       - 9696:9696
     restart: unless-stopped
@@ -54,10 +54,8 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ${CONFIG_VOLUMES_PATH}/sonarr/config:/config
-      # TODO: get rid of these if possible
-      - ${DATA_VOLUMES_PATH}/tv:/tv #optional
-      - ${DATA_VOLUMES_PATH}/downloads:/downloads #optional
+      - ${CONFIG_VOLUMES_PATH}/sonarr:/config
+      - ${DATA_VOLUMES_PATH}:/data
     ports:
       - 8989:8989
     restart: unless-stopped
