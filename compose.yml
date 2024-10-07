@@ -56,3 +56,15 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      <<: *linuxserver-env
+    volumes:
+      - ${CONFIG_VOLUMES_PATH}/jellyfin:/config
+      - ${DATA_VOLUMES_PATH}/media:/data/media
+    ports:
+      - 8096:8096
+    restart: unless-stopped
