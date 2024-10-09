@@ -8,7 +8,8 @@
 - split up iGPU and pass through
 - subtitles
 - split up series and anime
-- reverse proxy
+- backup configs
+- SSL cert / actual domain
 
 ## Tips
 
