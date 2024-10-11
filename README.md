@@ -10,6 +10,7 @@
 - split up series and anime
 - backup configs
 - SSL cert / actual domain
+- seed ratios / auto delete
 
 ## Tips
 

@@ -3,7 +3,29 @@ x-linuxserver-env: &linuxserver-env
   PGID: 1000
   TZ: Europe/Madrid
 
+x-route-through-vpn: &route-through-vpn
+  network_mode: service:wireguard
+  depends_on:
+    - wireguard
+
 services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    environment:
+      <<: *linuxserver-env
+    volumes:
+      - ${CONFIG_VOLUMES_PATH}/wireguard:/config
+    ports:
+      - 51820:51820/udp
+      # Transmission webUI
+      - 9091:9091
+    restart: unless-stopped
+
   nginx-proxy-manager:
     image: 'jc21/nginx-proxy-manager:latest'
     container_name: nginx-proxy-manager
@@ -18,22 +40,6 @@ services:
       - 443:443
     restart: unless-stopped
 
-  wireguard:
-    image: lscr.io/linuxserver/wireguard:latest
-    container_name: wireguard
-    cap_add:
-      - NET_ADMIN
-    environment:
-      <<: *linuxserver-env
-    volumes:
-      - ${CONFIG_VOLUMES_PATH}/wireguard:/config
-    ports:
-      - 51820:51820/udp
-      # Transmission webUI
-      - 9091:9091
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-    restart: unless-stopped
 
   transmission:
     image: lscr.io/linuxserver/transmission:latest
@@ -43,9 +49,7 @@ services:
     volumes:
       - ${CONFIG_VOLUMES_PATH}/transmission:/config
       - ${DATA_VOLUMES_PATH}/torrents:/data/torrents
-    network_mode: service:wireguard
-    depends_on:
-      - wireguard
+    <<: *route-through-vpn
     restart: unless-stopped
 
   prowlarr:
