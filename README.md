@@ -11,6 +11,9 @@
 - seed ratios / auto delete
 - split up 'front' and 'back' services?
 - 'default/base' config + overwrite with config dir
+- switch to traefik (I think it makes proxy config more explicit)
+- use LDAP for authelia
+- use real storage for authelia
 
 - Add 2nd dns server
 

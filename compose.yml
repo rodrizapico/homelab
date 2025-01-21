@@ -27,13 +27,14 @@ services:
     restart: unless-stopped
 
   nginx-proxy-manager:
-    image: 'jc21/nginx-proxy-manager:latest'
+    image: jc21/nginx-proxy-manager:latest
     container_name: nginx-proxy-manager
     environment:
       <<: *linuxserver-env
     volumes:
       - ${CONFIG_VOLUMES_PATH}/nginx-proxy-manager/data:/data
       - ${CONFIG_VOLUMES_PATH}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+      - ./authelia/snippets:/snippets
     ports:
       - 80:80
       - 81:81
@@ -89,4 +90,12 @@ services:
     volumes:
       - ${CONFIG_VOLUMES_PATH}/dashy:/app/user-data
     restart: unless-stopped
-    
+
+  authelia:
+    image: authelia/authelia
+    container_name: authelia
+    environment:
+      <<: *linuxserver-env
+    volumes:
+      - ${CONFIG_VOLUMES_PATH}/authelia:/config
+    restart: unless-stopped
