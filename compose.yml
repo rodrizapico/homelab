@@ -99,3 +99,14 @@ services:
     volumes:
       - ${CONFIG_VOLUMES_PATH}/authelia:/config
     restart: unless-stopped
+
+  lldap:
+    image: lldap/lldap:stable
+    container_name: lldap
+    environment:
+      - UID=1000
+      - GID=1000
+      - TZ=Europe/Madrid
+    volumes:
+      - ${CONFIG_VOLUMES_PATH}/lldap:/data
+    restart: unless-stopped
