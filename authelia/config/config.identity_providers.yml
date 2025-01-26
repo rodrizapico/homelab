@@ -16,7 +16,7 @@ identity_providers:
     # The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
     # configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
     jwks:
-      - key: {{ secret "/run/secrets/OIDC_JWKS_PRIVATE_KEY" | mindent 10 "|" | msquote }}
+      - key: {{ secret "/run/secrets/AUTHELIA_OIDC_JWKS_PRIVATE_KEY" | mindent 10 "|" | msquote }}
 
     # Enables additional debug messages.
     enable_client_debug_messages: false
@@ -83,8 +83,8 @@ identity_providers:
     # Clients is a list of known clients and their configuration.
     clients:
       - client_name: 'Jellyfin'
-        client_id: '{{ secret "/run/secrets/OIDC_JELLYFIN_CLIENT_ID" }}'
-        client_secret: '{{ secret "/run/secrets/OIDC_JELLYFIN_CLIENT_SECRET" }}'
+        client_id: '{{ secret "/run/secrets/AUTHELIA_OIDC_JELLYFIN_CLIENT_ID" }}'
+        client_secret: '{{ secret "/run/secrets/AUTHELIA_OIDC_JELLYFIN_CLIENT_SECRET" }}'
         public: false
         authorization_policy: 'default'
         require_pkce: true
