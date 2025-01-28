@@ -36,7 +36,7 @@ secrets:
   RESET_PASSWORD_JWT_SECRET:
     file: ./secrets/RESET_PASSWORD_JWT_SECRET
   LDAP_PASSWORD:
-    file: ../lldap/secrets/ADMIN_PASSWORD
+    file: ./secrets/LDAP_PASSWORD
   SESSION_SECRET:
     file: ./secrets/SESSION_SECRET
   STORAGE_ENCRYPTION_KEY:
