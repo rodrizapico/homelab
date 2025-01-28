@@ -2,7 +2,7 @@ services:
   lldap:
     image: lldap/lldap:stable
     container_name: lldap
-    secrets: [JWT_SECRET, KEY_SEED, ADMIN_PASSWORD]
+    secrets: [JWT_SECRET, KEY_SEED, ADMIN_PASSWORD, POSTGRES_CONNECTION_STRING]
     environment:
       UID: ${UID}
       GID: ${GID}
@@ -11,9 +11,25 @@ services:
       LLDAP_KEY_SEED_FILE: /run/secrets/KEY_SEED
       LLDAP_LDAP_BASE_DN: ${LDAP_BASE_DN}
       LLDAP_LDAP_USER_PASS_FILE: /run/secrets/ADMIN_PASSWORD
+      LLDAP_DATABASE_URL_FILE: /run/secrets/POSTGRES_CONNECTION_STRING
     volumes:
       - ${CONFIG_VOLUMES_PATH}/lldap:/data
     restart: unless-stopped
+
+  db:
+    image: postgres
+    container_name: db
+    secrets: [POSTGRES_PASSWORD]
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/POSTGRES_PASSWORD
+      POSTGRES_DB: lldap
+    volumes:
+      - db:/var/lib/postgresql/data
+    shm_size: 128mb
+    restart: unless-stopped
+
+volumes:
+  db:
 
 secrets:
   JWT_SECRET:
@@ -22,3 +38,7 @@ secrets:
     file: ./secrets/KEY_SEED
   ADMIN_PASSWORD:
     file: ./secrets/ADMIN_PASSWORD
+  POSTGRES_PASSWORD:
+    file: ./secrets/POSTGRES_PASSWORD
+  POSTGRES_CONNECTION_STRING:
+    file: ./secrets/POSTGRES_CONNECTION_STRING
