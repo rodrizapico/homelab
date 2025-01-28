@@ -16,7 +16,7 @@ identity_providers:
     # The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
     # configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
     jwks:
-      - key: {{ secret "/run/secrets/AUTHELIA_OIDC_JWKS_PRIVATE_KEY" | mindent 10 "|" | msquote }}
+      - key: {{ secret "/run/secrets/OIDC_JWKS_PRIVATE_KEY" | mindent 10 "|" | msquote }}
 
     # Enables additional debug messages.
     enable_client_debug_messages: false
@@ -26,7 +26,7 @@ identity_providers:
 
     # SECURITY NOTICE: It's not recommended changing this option, and highly discouraged to have it set to 'never'
     # for security reasons.
-    enforce_pkce: 'public_clients_only'
+    enforce_pkce: "public_clients_only"
 
     # SECURITY NOTICE: It's not recommended changing this option. We encourage you to read the documentation and fully
     # understanding it before enabling this option.
@@ -34,41 +34,41 @@ identity_providers:
 
     # The signing algorithm used for signing the discovery and metadata responses. An issuer JWK with a matching
     # algorithm must be available when configured. Most clients completely ignore this and it has a performance cost.
-    discovery_signed_response_alg: 'none'
+    discovery_signed_response_alg: "none"
 
     # The signing key id used for signing the discovery and metadata responses. An issuer JWK with a matching key id
     # must be available when configured. Most clients completely ignore this and it has a performance cost.
-    discovery_signed_response_key_id: ''
+    discovery_signed_response_key_id: ""
 
     # Authorization Policies which can be utilized by clients. The 'policy_name' is an arbitrary value that you pick
     # which is utilized as the value for the 'authorization_policy' on the client.
     authorization_policies:
       default:
-        default_policy: 'one_factor'
+        default_policy: "one_factor"
         rules:
-          - policy: 'one_factor'
-            subject: 'group:services'
+          - policy: "one_factor"
+            subject: "group:services"
 
     # The lifespans configure the expiration for these token types in the duration common syntax. In addition to this
     # syntax the lifespans can be customized per-client.
     lifespans:
       # Configures the default/fallback lifespan for given token types. This behaviour applies to all clients and all
       # grant types but you can override this behaviour using the custom lifespans.
-      access_token: '1 hour'
-      authorize_code: '1 minute'
-      id_token: '1 hour'
-      refresh_token: '90 minutes'
+      access_token: "1 hour"
+      authorize_code: "1 minute"
+      id_token: "1 hour"
+      refresh_token: "90 minutes"
 
     # Cross-Origin Resource Sharing (CORS) settings.
     cors:
       # List of endpoints in addition to the metadata endpoints to permit cross-origin requests on.
       endpoints:
-         - 'authorization'
-         - 'pushed-authorization-request'
-         - 'token'
-         - 'revocation'
-         - 'introspection'
-         - 'userinfo'
+        - "authorization"
+        - "pushed-authorization-request"
+        - "token"
+        - "revocation"
+        - "introspection"
+        - "userinfo"
 
       # List of allowed origins.
       # Any origin with https is permitted unless this option is configured or the
@@ -82,22 +82,20 @@ identity_providers:
 
     # Clients is a list of known clients and their configuration.
     clients:
-      - client_name: 'Jellyfin'
-        client_id: '{{ secret "/run/secrets/AUTHELIA_OIDC_JELLYFIN_CLIENT_ID" }}'
-        client_secret: '{{ secret "/run/secrets/AUTHELIA_OIDC_JELLYFIN_CLIENT_SECRET" }}'
+      - client_name: "Jellyfin"
+        client_id: '{{ secret "/run/secrets/OIDC_JELLYFIN_CLIENT_ID" }}'
+        client_secret: '{{ secret "/run/secrets/OIDC_JELLYFIN_CLIENT_SECRET" }}'
         public: false
-        authorization_policy: 'default'
+        authorization_policy: "default"
         require_pkce: true
-        pkce_challenge_method: 'S256'
+        pkce_challenge_method: "S256"
         redirect_uris:
           - 'https://jellyfin.{{ env "BASE_DOMAIN" }}/sso/OID/redirect/authelia'
         scopes:
-          - 'openid'
-          - 'profile'
-          - 'groups'
-        userinfo_signed_response_alg: 'none'
-        token_endpoint_auth_method: 'client_secret_post'
+          - "openid"
+          - "profile"
+          - "groups"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_post"
         consent_mode: pre-configured
-        pre_configured_consent_duration: '6M'
-
-...
+        pre_configured_consent_duration: "6M"

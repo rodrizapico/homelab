@@ -1,0 +1,24 @@
+services:
+  lldap:
+    image: lldap/lldap:stable
+    container_name: lldap
+    secrets: [JWT_SECRET, KEY_SEED, ADMIN_PASSWORD]
+    environment:
+      UID: ${UID}
+      GID: ${GID}
+      TZ: ${TZ}
+      LLDAP_JWT_SECRET_FILE: /run/secrets/JWT_SECRET
+      LLDAP_KEY_SEED_FILE: /run/secrets/KEY_SEED
+      LLDAP_LDAP_BASE_DN: ${LDAP_BASE_DN}
+      LLDAP_LDAP_USER_PASS_FILE: /run/secrets/ADMIN_PASSWORD
+    volumes:
+      - ${CONFIG_VOLUMES_PATH}/lldap:/data
+    restart: unless-stopped
+
+secrets:
+  JWT_SECRET:
+    file: ./secrets/JWT_SECRET
+  KEY_SEED:
+    file: ./secrets/KEY_SEED
+  ADMIN_PASSWORD:
+    file: ./secrets/ADMIN_PASSWORD

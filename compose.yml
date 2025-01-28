@@ -9,6 +9,7 @@ x-route-through-vpn: &route-through-vpn
     - wireguard
 
 include:
+  - ./lldap/compose.yml
   - ./authelia/compose.yml
 
 services:
