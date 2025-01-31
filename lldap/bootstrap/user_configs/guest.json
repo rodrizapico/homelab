@@ -1,0 +1,6 @@
+{
+  "id": "guest",
+  "email": "mediaguest.homelab@rodrizapico.me",
+  "displayName": "Guest",
+  "groups": ["media_user"]
+}

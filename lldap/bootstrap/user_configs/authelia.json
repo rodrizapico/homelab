@@ -1,0 +1,6 @@
+{
+  "id": "authelia",
+  "email": "authelia@docker.services.buen.ga",
+  "displayName": "Authelia",
+  "groups": ["lldap_password_manager"]
+}
