@@ -13,7 +13,8 @@ services:
         OIDC_JELLYFIN_CLIENT_ID,
         OIDC_JELLYFIN_CLIENT_SECRET,
         AUTHELIA_POSTGRES_PASSWORD,
-        AUTHELIA_REDIS_PASSWORD
+        AUTHELIA_REDIS_PASSWORD,
+        SMTP_PASSWORD,
       ]
     environment:
       PUID: ${UID}
@@ -31,6 +32,7 @@ services:
       AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /run/secrets/STORAGE_ENCRYPTION_KEY
       AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE: /run/secrets/AUTHELIA_POSTGRES_PASSWORD
       AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE: /run/secrets/OIDC_HMAC_SECRET
+      AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE: /run/secrets/SMTP_PASSWORD
     volumes:
       - ${CONFIG_VOLUMES_PATH}/authelia:/config
       - ./config:/config/config_files
@@ -83,3 +85,5 @@ secrets:
     file: ./secrets/POSTGRES_PASSWORD
   AUTHELIA_REDIS_PASSWORD:
     file: ./secrets/REDIS_PASSWORD
+  SMTP_PASSWORD:
+    file: ./secrets/SMTP_PASSWORD

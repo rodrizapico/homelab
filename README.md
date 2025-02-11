@@ -12,11 +12,22 @@
 - split up 'front' and 'back' services?
 - 'default/base' config + overwrite with config dir
 - switch to traefik (I think it makes proxy config more explicit)
-- use LDAP for authelia
 - use real storage for authelia
+- pin container versions
+- replace mail.buen.ga sending address with just buen.ga?
 
 - Add 2nd dns server
+- ssh-agent doesn't auto-start, but persists across logouts. Switching to Gnome messes everything up bc it starts Gnome's keyring. Also, for some reason you need to push something locally before the ssh key can be used within a container to push
+
+### WIP
+
+- Caddy
 
 ## Tips
 
 - Ensure you install docker directly from source (no snap, no bundled with OS)
+
+## Providers
+
+- Mailgun: SMTP
+- Cloudflare: DNS

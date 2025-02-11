@@ -8,93 +8,51 @@ notifier:
   disable_startup_check: false
 
   #
-  # File System (Notification Provider)
+  # SMTP (Notification Provider)
   #
-  # Important: Kubernetes (or HA) users must read https://www.authelia.com/t/statelessness
-  #
-  filesystem:
-    filename: '/config/notification.txt'
+  # Use a SMTP server for sending notifications. Authelia uses the PLAIN or LOGIN methods to authenticate.
+  # [Security] By default Authelia will:
+  #   - force all SMTP connections over TLS including unauthenticated connections
+  #      - use the disable_require_tls boolean value to disable this requirement
+  #        (only works for unauthenticated connections)
+  #   - validate the SMTP server x509 certificate during the TLS handshake against the hosts trusted certificates
+  #     (configure in tls section)
+  smtp:
+    # The address of the SMTP server to connect to in the address common syntax.
+    address: "submission://smtp.eu.mailgun.org:587"
 
-  ##
-  ## SMTP (Notification Provider)
-  ##
-  ## Use a SMTP server for sending notifications. Authelia uses the PLAIN or LOGIN methods to authenticate.
-  ## [Security] By default Authelia will:
-  ##   - force all SMTP connections over TLS including unauthenticated connections
-  ##      - use the disable_require_tls boolean value to disable this requirement
-  ##        (only works for unauthenticated connections)
-  ##   - validate the SMTP server x509 certificate during the TLS handshake against the hosts trusted certificates
-  ##     (configure in tls section)
-  # smtp:
-    ## The address of the SMTP server to connect to in the address common syntax.
-    # address: 'smtp://127.0.0.1:25'
+    # The username used for SMTP authentication.
+    username: 'postmaster@mail.{{ env "BASE_DOMAIN" }}'
 
-    ## The connection timeout in the duration common syntax.
-    # timeout: '5 seconds'
+    # The sender is used to is used for the MAIL FROM command and the FROM header.
+    # If this is not defined and the username is an email, we use the username as this value. This can either be just
+    # an email address or the RFC5322 'Name <email address>' format.
+    sender: 'Auth <auth@mail.{{ env "BASE_DOMAIN" }}>'
 
-    ## The username used for SMTP authentication.
-    # username: 'test'
+    # HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
+    identifier: "localhost"
 
-    ## The password used for SMTP authentication.
-    ## Can also be set using a secret: https://www.authelia.com/c/secrets
-    # password: 'password'
+    # Subject configuration of the emails sent. {title} is replaced by the text from the notifier.
+    subject: "[Authelia] {title}"
 
-    ## The sender is used to is used for the MAIL FROM command and the FROM header.
-    ## If this is not defined and the username is an email, we use the username as this value. This can either be just
-    ## an email address or the RFC5322 'Name <email address>' format.
-    # sender: 'Authelia <admin@example.com>'
+    # This address is used during the startup check to verify the email configuration is correct.
+    # It's not important what it is except if your email server only allows local delivery.
+    startup_check_address: "test@authelia.com"
 
-    ## HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
-    # identifier: 'localhost'
+    # By default we require some form of TLS. This disables this check though is not advised.
+    disable_require_tls: false
 
-    ## Subject configuration of the emails sent. {title} is replaced by the text from the notifier.
-    # subject: '[Authelia] {title}'
+    # Disables sending HTML formatted emails.
+    disable_html_emails: false
 
-    ## This address is used during the startup check to verify the email configuration is correct.
-    ## It's not important what it is except if your email server only allows local delivery.
-    # startup_check_address: 'test@authelia.com'
+    tls:
+      # Skip verifying the server certificate entirely. In preference to setting this we strongly recommend you add the
+      # certificate or the certificate of the authority signing the certificate to the certificates directory which is
+      # defined by the `certificates_directory` option at the top of the configuration.
+      # It's important to note the public key should be added to the directory, not the private key.
+      # This option is strongly discouraged but may be useful in some self-signed situations where validation is not
+      # important to the administrator.
+      skip_verify: false
 
-    ## By default we require some form of TLS. This disables this check though is not advised.
-    # disable_require_tls: false
-
-    ## Disables sending HTML formatted emails.
-    # disable_html_emails: false
-
-    # tls:
-      ## The server subject name to check the servers certificate against during the validation process.
-      ## This option is not required if the certificate has a SAN which matches the address options hostname.
-      # server_name: 'smtp.example.com'
-
-      ## Skip verifying the server certificate entirely. In preference to setting this we strongly recommend you add the
-      ## certificate or the certificate of the authority signing the certificate to the certificates directory which is
-      ## defined by the `certificates_directory` option at the top of the configuration.
-      ## It's important to note the public key should be added to the directory, not the private key.
-      ## This option is strongly discouraged but may be useful in some self-signed situations where validation is not
-      ## important to the administrator.
-      # skip_verify: false
-
-      ## Minimum TLS version for the connection.
-      # minimum_version: 'TLS1.2'
-
-      ## Maximum TLS version for the connection.
-      # maximum_version: 'TLS1.3'
-
-      ## The certificate chain used with the private_key if the server requests TLS Client Authentication
-      ## i.e. Mutual TLS.
-      # certificate_chain: |
-        # -----BEGIN CERTIFICATE-----
-        # ...
-        # -----END CERTIFICATE-----
-        # -----BEGIN CERTIFICATE-----
-        # ...
-        # -----END CERTIFICATE-----
-
-      ## The private key used with the certificate_chain if the server requests TLS Client Authentication
-      ## i.e. Mutual TLS.
-      # private_key: |
-        # -----BEGIN RSA PRIVATE KEY-----
-        # ...
-        # -----END RSA PRIVATE KEY-----
-
-
-...
+      # Minimum TLS version for the connection.
+      minimum_version: "TLS1.2"
