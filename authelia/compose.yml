@@ -12,7 +12,8 @@ services:
         OIDC_JWKS_PRIVATE_KEY,
         OIDC_JELLYFIN_CLIENT_ID,
         OIDC_JELLYFIN_CLIENT_SECRET,
-        AUTHELIA_POSTGRES_PASSWORD
+        AUTHELIA_POSTGRES_PASSWORD,
+        AUTHELIA_REDIS_PASSWORD
       ]
     environment:
       PUID: ${UID}
@@ -26,6 +27,7 @@ services:
       AUTHELIA_AUTHENTICATION_BACKEND_LDAP_USER: uid=authelia,ou=people,${LDAP_BASE_DN}
       AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: /run/secrets/LDAP_PASSWORD
       AUTHELIA_SESSION_SECRET_FILE: /run/secrets/SESSION_SECRET
+      AUTHELIA_SESSION_REDIS_PASSWORD_FILE: /run/secrets/AUTHELIA_REDIS_PASSWORD
       AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /run/secrets/STORAGE_ENCRYPTION_KEY
       AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE: /run/secrets/AUTHELIA_POSTGRES_PASSWORD
       AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE: /run/secrets/OIDC_HMAC_SECRET
@@ -46,8 +48,19 @@ services:
     shm_size: 128mb
     restart: unless-stopped
 
+  authelia_cache:
+    image: bitnami/redis
+    container_name: authelia_cache
+    secrets: [AUTHELIA_REDIS_PASSWORD]
+    environment:
+      REDIS_PASSWORD_FILE: /run/secrets/AUTHELIA_REDIS_PASSWORD
+    volumes:
+      - authelia_cache:/bitnami
+    restart: unless-stopped
+
 volumes:
   authelia_db:
+  authelia_cache:
 
 secrets:
   RESET_PASSWORD_JWT_SECRET:
@@ -68,3 +81,5 @@ secrets:
     file: ./secrets/OIDC_JELLYFIN_CLIENT_SECRET
   AUTHELIA_POSTGRES_PASSWORD:
     file: ./secrets/POSTGRES_PASSWORD
+  AUTHELIA_REDIS_PASSWORD:
+    file: ./secrets/REDIS_PASSWORD
