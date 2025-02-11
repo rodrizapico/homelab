@@ -9,10 +9,6 @@ identity_providers:
   # It's recommended you read the documentation before configuration of this section:
   # https://www.authelia.com/c/oidc
   oidc:
-    ## The hmac_secret is used to sign OAuth2 tokens (authorization code, access tokens and refresh tokens).
-    ## HMAC Secret can also be set using a secret: https://www.authelia.com/c/secrets
-    # hmac_secret: 'some_secret'
-
     # The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
     # configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
     jwks:

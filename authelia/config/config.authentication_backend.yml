@@ -29,7 +29,7 @@ authentication_backend:
     # Square brackets indicate optional portions of the format. Scheme must be 'ldap', 'ldaps', or 'ldapi`.
     # The default scheme is 'ldapi' if the address is an absolute path otherwise it's 'ldaps'.
     # The default port is '636', unless the scheme is 'ldap' in which case it's '389'.
-    address: 'ldap://lldap:3890'
+    address: "ldap://lldap:3890"
 
     # The LDAP implementation, this affects elements like the attribute utilised for resetting a password.
     # Acceptable options are as follows:
@@ -38,22 +38,14 @@ authentication_backend:
     # - 'lldap' - for lldap.
     # - 'custom' - for custom specifications of attributes and filters.
     # This currently defaults to 'custom' to maintain existing behaviour.
-    
+
     # Depending on the option here certain other values in this section have a default value, notably all of the
     # attribute mappings have a default value that this config overrides, you can read more about these default values
     # at https://www.authelia.com/c/ldap#defaults
-    implementation: 'lldap'
+    implementation: "lldap"
 
     # The dial timeout for LDAP in the duration common syntax.
-    timeout: '5 seconds'
-
-    ## The distinguished name of the container searched for objects in the directory information tree.
-    ## See also: additional_users_dn, additional_groups_dn.
-    # base_dn: 'dc=example,dc=com'
-
-    ## The additional_users_dn is prefixed to base_dn and delimited by a comma when searching for users.
-    ## i.e. with this set to OU=Users and base_dn set to DC=a,DC=com; OU=Users,DC=a,DC=com is searched for users.
-    # additional_users_dn: 'ou=users'
+    timeout: "5 seconds"
 
     ## The users filter used in search queries to find the user profile based on input filled in login form.
     ## Various placeholders are available in the user filter which you can read about in the documentation which can
@@ -69,10 +61,6 @@ authentication_backend:
     ## (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
     # users_filter: '(&({username_attribute}={input})(objectClass=person))'
 
-    ## The additional_groups_dn is prefixed to base_dn and delimited by a comma when searching for groups.
-    ## i.e. with this set to OU=Groups and base_dn set to DC=a,DC=com; OU=Groups,DC=a,DC=com is searched for groups.
-    # additional_groups_dn: 'ou=groups'
-
     ## The groups filter used in search queries to find the groups based on relevant authenticated user.
     ## Various placeholders are available in the groups filter which you can read about in the documentation which can
     ## be found at: https://www.authelia.com/c/ldap#groups-filter-replacements
@@ -84,45 +72,3 @@ authentication_backend:
     ## The group search mode to use. Options are 'filter' or 'memberof'. It's essential to read the docs if you wish to
     ## use 'memberof'. Also 'filter' is the best choice for most use cases.
     # group_search_mode: 'filter'
-
-    ## Follow referrals returned by the server.
-    ## This is especially useful for environments where read-only servers exist. Only implemented for write operations.
-    # permit_referrals: false
-
-    ## The username and password of the admin user.
-    # user: 'uid=authelia,ou=people,dc=buen,dc=ga'
-    ## Password can also be set using a secret: https://www.authelia.com/c/secrets
-    # password: 'some_password'
-
-    ## The attributes for users and objects from the directory server.
-    # attributes:
-
-      ## The distinguished name attribute if your directory server supports it. Users should read the docs before
-      ## configuring. Only used for the 'memberof' group search mode.
-      # distinguished_name: ''
-
-      ## The attribute holding the username of the user. This attribute is used to populate the username in the session
-      ## information. For your information, Microsoft Active Directory usually uses 'sAMAccountName' and OpenLDAP
-      ## usually uses 'uid'. Beware that this attribute holds the unique identifiers for the users binding the user and
-      ## the configuration stored in database; therefore only single value attributes are allowed and the value must
-      ## never be changed once attributed to a user otherwise it would break the configuration for that user.
-      ## Technically non-unique attributes like 'mail' can also be used but we don't recommend using them, we instead
-      ## advise to use a filter to perform alternative lookups and the attributes mentioned above
-      ## (sAMAccountName and uid) to follow https://datatracker.ietf.org/doc/html/rfc2307.
-      # username: 'uid'
-
-      ## The attribute holding the display name of the user. This will be used to greet an authenticated user.
-      # display_name: 'displayName'
-
-      ## The attribute holding the mail address of the user. If multiple email addresses are defined for a user, only
-      ## the first one returned by the directory server is used.
-      # mail: 'mail'
-
-      ## The attribute which provides distinguished names of groups an object is a member of.
-      ## Only used for the 'memberof' group search mode.
-      # member_of: 'memberOf'
-
-      ## The attribute holding the name of the group.
-      # group_name: 'cn'
-
-...

@@ -30,7 +30,7 @@
 access_control:
   # Default policy can either be 'bypass', 'one_factor', 'two_factor' or 'deny'. It is the policy applied to any
   # resource if there is no policy to be applied to the user.
-  default_policy: 'deny'
+  default_policy: "deny"
 
   rules:
     # Simple catchall rules to get started
@@ -39,5 +39,3 @@ access_control:
 
     - domain: '*.{{ env "BASE_DOMAIN" }}'
       policy: one_factor
-
-...

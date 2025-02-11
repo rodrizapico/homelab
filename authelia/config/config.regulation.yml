@@ -9,9 +9,7 @@ regulation:
 
   # The time range during which the user can attempt login before being banned in the duration common syntax. The user
   # is banned if the authentication failed 'max_retries' times in a 'find_time' seconds window.
-  find_time: '2 minutes'
+  find_time: "2 minutes"
 
   # The length of time before a banned user can login again in the duration common syntax.
-  ban_time: '5 minutes'
-
-...
+  ban_time: "5 minutes"
