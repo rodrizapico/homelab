@@ -12,6 +12,7 @@ services:
         OIDC_JWKS_PRIVATE_KEY,
         OIDC_JELLYFIN_CLIENT_ID,
         OIDC_JELLYFIN_CLIENT_SECRET,
+        AUTHELIA_POSTGRES_PASSWORD
       ]
     environment:
       PUID: ${UID}
@@ -26,11 +27,27 @@ services:
       AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: /run/secrets/LDAP_PASSWORD
       AUTHELIA_SESSION_SECRET_FILE: /run/secrets/SESSION_SECRET
       AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /run/secrets/STORAGE_ENCRYPTION_KEY
+      AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE: /run/secrets/AUTHELIA_POSTGRES_PASSWORD
       AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE: /run/secrets/OIDC_HMAC_SECRET
     volumes:
       - ${CONFIG_VOLUMES_PATH}/authelia:/config
       - ./config:/config/config_files
     restart: unless-stopped
+
+  authelia_db:
+    image: postgres
+    container_name: authelia_db
+    secrets: [AUTHELIA_POSTGRES_PASSWORD]
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/AUTHELIA_POSTGRES_PASSWORD
+      POSTGRES_DB: authelia
+    volumes:
+      - authelia_db:/var/lib/postgresql/data
+    shm_size: 128mb
+    restart: unless-stopped
+
+volumes:
+  authelia_db:
 
 secrets:
   RESET_PASSWORD_JWT_SECRET:
@@ -49,3 +66,5 @@ secrets:
     file: ./secrets/OIDC_JELLYFIN_CLIENT_ID
   OIDC_JELLYFIN_CLIENT_SECRET:
     file: ./secrets/OIDC_JELLYFIN_CLIENT_SECRET
+  AUTHELIA_POSTGRES_PASSWORD:
+    file: ./secrets/POSTGRES_PASSWORD

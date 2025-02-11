@@ -37,20 +37,20 @@ services:
       - command: /bootstrap/bootstrap.sh
     restart: unless-stopped
 
-  db:
+  lldap_db:
     image: postgres
-    container_name: db
-    secrets: [POSTGRES_PASSWORD]
+    container_name: lldap_db
+    secrets: [LLDAP_POSTGRES_PASSWORD]
     environment:
-      POSTGRES_PASSWORD_FILE: /run/secrets/POSTGRES_PASSWORD
+      POSTGRES_PASSWORD_FILE: /run/secrets/LLDAP_POSTGRES_PASSWORD
       POSTGRES_DB: lldap
     volumes:
-      - db:/var/lib/postgresql/data
+      - lldap_db:/var/lib/postgresql/data
     shm_size: 128mb
     restart: unless-stopped
 
 volumes:
-  db:
+  lldap_db:
 
 secrets:
   JWT_SECRET:
@@ -59,7 +59,7 @@ secrets:
     file: ./secrets/KEY_SEED
   ADMIN_PASSWORD:
     file: ./secrets/ADMIN_PASSWORD
-  POSTGRES_PASSWORD:
+  LLDAP_POSTGRES_PASSWORD:
     file: ./secrets/POSTGRES_PASSWORD
   POSTGRES_CONNECTION_STRING:
     file: ./secrets/POSTGRES_CONNECTION_STRING

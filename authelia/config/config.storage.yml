@@ -4,15 +4,10 @@
 ###############################################################################
 
 storage:
-  ## The encryption key that is used to encrypt sensitive information in the database. Must be a string with a minimum
-  ## length of 20. Please see the docs if you configure this with an undesirable key and need to change it, you MUST use
-  ## the CLI to change this in the database if you want to change it from a previously configured value.
-  # encryption_key: 'some_key'
-
   #
-  # SQLite (Storage Provider)
+  # Postgres
   #
-  local:
-    path: '/config/db.sqlite3'
-
-...
+  postgres:
+    address: "tcp://authelia_db:5432"
+    database: "authelia"
+    username: "postgres"
