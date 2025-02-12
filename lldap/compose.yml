@@ -32,7 +32,7 @@ services:
       SERVICE_PASSWORD_AUTHELIA_FILE: /run/secrets/SERVICE_PASSWORD_AUTHELIA
     volumes:
       - ./bootstrap:/bootstrap
-      - ${CONFIG_VOLUMES_PATH}/lldap:/data
+      - lldap_data:/data
     post_start:
       - command: /bootstrap/bootstrap.sh
     restart: unless-stopped
@@ -50,6 +50,7 @@ services:
     restart: unless-stopped
 
 volumes:
+  lldap_data:
   lldap_db:
 
 secrets:
