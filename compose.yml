@@ -28,7 +28,7 @@ services:
     volumes:
       - ${CONFIG_VOLUMES_PATH}/sonarr:/config
       - ${DATA_VOLUMES_PATH}/media:/data/media
-      - ${DATA_VOLUMES_PATH}/torrents:/data/torrents
+      - ${DATA_VOLUMES_PATH}/downloads:/downloads
     restart: unless-stopped
 
   jellyfin:

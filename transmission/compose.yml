@@ -27,7 +27,7 @@ services:
       <<: *linuxserver-env
     volumes:
       - transmission_config:/config
-      - ${DATA_VOLUMES_PATH}/torrents:/data/torrents
+      - ${DATA_VOLUMES_PATH}/downloads:/downloads
     network_mode: service:transmission_vpn_client
     depends_on:
       - transmission_vpn_client
