@@ -1,0 +1,38 @@
+x-linuxserver-env: &linuxserver-env
+  PUID: ${UID}
+  PGID: ${GID}
+  TZ: ${TZ}
+
+services:
+  transmission_vpn_client:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: transmission_vpn_client
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    environment:
+      <<: *linuxserver-env
+    volumes:
+      - transmission_vpn_client_config:/config
+      - ./secrets/wg_confs:/config/wg_confs
+    ports:
+      - 51820:51820/udp
+    restart: unless-stopped
+
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      <<: *linuxserver-env
+    volumes:
+      - transmission_config:/config
+      - ${DATA_VOLUMES_PATH}/torrents:/data/torrents
+    network_mode: service:transmission_vpn_client
+    depends_on:
+      - transmission_vpn_client
+    restart: unless-stopped
+
+volumes:
+  transmission_vpn_client_config:
+  transmission_config:

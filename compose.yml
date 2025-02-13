@@ -1,47 +1,15 @@
 x-linuxserver-env: &linuxserver-env
   PUID: ${UID}
   PGID: ${GID}
-  TZ:   ${TZ}
-
-x-route-through-vpn: &route-through-vpn
-  network_mode: service:wireguard
-  depends_on:
-    - wireguard
+  TZ: ${TZ}
 
 include:
   - ./lldap/compose.yml
   - ./authelia/compose.yml
   - ./caddy/compose.yml
+  - ./transmission/compose.yml
 
 services:
-  wireguard:
-    image: lscr.io/linuxserver/wireguard:latest
-    container_name: wireguard
-    cap_add:
-      - NET_ADMIN
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-    environment:
-      <<: *linuxserver-env
-    volumes:
-      - ${CONFIG_VOLUMES_PATH}/wireguard:/config
-    ports:
-      - 51820:51820/udp
-      # Transmission webUI
-      - 9091:9091
-    restart: unless-stopped
-
-  transmission:
-    image: lscr.io/linuxserver/transmission:latest
-    container_name: transmission
-    environment:
-      <<: *linuxserver-env
-    volumes:
-      - ${CONFIG_VOLUMES_PATH}/transmission:/config
-      - ${DATA_VOLUMES_PATH}/torrents:/data/torrents
-    <<: *route-through-vpn
-    restart: unless-stopped
-
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr

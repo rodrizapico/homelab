@@ -26,7 +26,7 @@ auth.docker.services.buen.ga {
 transmission.docker.services.buen.ga {
 	import authenticate
 
-	reverse_proxy wireguard:9091
+	reverse_proxy transmission_vpn_client:9091
 }
 
 sonarr.docker.services.buen.ga {
