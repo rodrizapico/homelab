@@ -11,6 +11,7 @@ x-route-through-vpn: &route-through-vpn
 include:
   - ./lldap/compose.yml
   - ./authelia/compose.yml
+  - ./caddy/compose.yml
 
 services:
   wireguard:
@@ -28,21 +29,6 @@ services:
       - 51820:51820/udp
       # Transmission webUI
       - 9091:9091
-    restart: unless-stopped
-
-  nginx-proxy-manager:
-    image: jc21/nginx-proxy-manager:latest
-    container_name: nginx-proxy-manager
-    environment:
-      <<: *linuxserver-env
-    volumes:
-      - ${CONFIG_VOLUMES_PATH}/nginx-proxy-manager/data:/data
-      - ${CONFIG_VOLUMES_PATH}/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
-      - ./authelia/snippets:/snippets
-    ports:
-      - 80:80
-      - 81:81
-      - 443:443
     restart: unless-stopped
 
   transmission:

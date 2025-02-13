@@ -1,0 +1,42 @@
+{
+	acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+}
+
+(authenticate) {
+	forward_auth authelia:9091 {
+		uri /api/authz/forward-auth
+		copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+	}
+}
+
+docker.services.buen.ga {
+	import authenticate
+
+	reverse_proxy dashy:8080
+}
+
+lldap.docker.services.buen.ga {
+	reverse_proxy lldap:17170
+}
+
+auth.docker.services.buen.ga {
+	reverse_proxy authelia:9091
+}
+
+transmission.docker.services.buen.ga {
+	import authenticate
+
+	reverse_proxy wireguard:9091
+}
+
+sonarr.docker.services.buen.ga {
+	reverse_proxy sonarr:8989
+}
+
+prowlarr.docker.services.buen.ga {
+	reverse_proxy prowlarr:9696
+}
+
+jellyfin.docker.services.buen.ga {
+	reverse_proxy jellyfin:8096
+}
