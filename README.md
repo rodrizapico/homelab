@@ -17,11 +17,13 @@
 - replace mail.buen.ga sending address with just buen.ga?
 
 - Add 2nd dns server
-- ssh-agent doesn't auto-start, but persists across logouts. Switching to Gnome messes everything up bc it starts Gnome's keyring. Also, for some reason you need to push something locally before the ssh key can be used within a container to push
+- ssh-agent doesn't (always?) auto-start, but persists across logouts. Switching to Gnome messes everything up bc it starts Gnome's keyring. Also, for some reason you need to push something locally before the ssh key can be used within a container to push
 
 ### WIP
 
 - Caddy
+- Secrets store?
+- docker permissions (UIDs & GIDs)
 
 ## Tips
 
