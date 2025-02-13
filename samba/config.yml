@@ -1,0 +1,23 @@
+auth:
+  - user: samba
+    group: samba
+    uid: 1000
+    gid: 1000
+    password: bar
+    password_file: ${SAMBA_PASSWORD_FILE}
+
+global:
+  - "force user = samba"
+  - "force group = samba"
+
+share:
+  - name: torrents
+    path: /samba/torrents
+    browsable: yes
+    readonly: yes
+    guestok: yes
+  - name: share
+    path: /samba/share
+    browsable: yes
+    readonly: no
+    guestok: yes

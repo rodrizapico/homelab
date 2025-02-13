@@ -8,6 +8,7 @@ include:
   - ./authelia/compose.yml
   - ./caddy/compose.yml
   - ./transmission/compose.yml
+  - ./samba/compose.yml
 
 services:
   prowlarr:
@@ -26,7 +27,8 @@ services:
       <<: *linuxserver-env
     volumes:
       - ${CONFIG_VOLUMES_PATH}/sonarr:/config
-      - ${DATA_VOLUMES_PATH}:/data
+      - ${DATA_VOLUMES_PATH}/media:/data/media
+      - ${DATA_VOLUMES_PATH}/torrents:/data/torrents
     restart: unless-stopped
 
   jellyfin:

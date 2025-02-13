@@ -1,0 +1,26 @@
+services:
+  samba:
+    image: crazymax/samba
+    container_name: samba
+    cap_add:
+      - NET_ADMIN
+      - CAP_NET_RAW
+    secrets: [ SAMBA_PASSWORD ]
+    environment:
+      TZ: ${TZ}
+      SAMBA_PASSWORD_FILE: /run/secrets/SAMBA_PASSWORD
+      WSDD2_ENABLE: 1
+    volumes:
+      - samba_data:/data
+      - ./config.yml:/data/config.yml
+      - ${DATA_VOLUMES_PATH}/torrents/complete:/samba/torrents
+      - ${DATA_VOLUMES_PATH}/share:/samba/share
+    network_mode: host
+    restart: always
+
+volumes:
+  samba_data:
+
+secrets:
+  SAMBA_PASSWORD:
+    file: ./secrets/SAMBA_PASSWORD
