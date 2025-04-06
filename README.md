@@ -14,15 +14,14 @@
 - use real storage for authelia
 - pin container versions
 - replace mail.buen.ga sending address with just buen.ga?
-- Secrets store?
-- docker permissions (UIDs & GIDs)
+- docker permissions (make UIDs & GIDs within containers match local users)
 
 - Add 2nd dns server
 - ssh-agent doesn't (always?) auto-start, but persists across logouts. Switching to Gnome messes everything up bc it starts Gnome's keyring. Also, for some reason you need to push something locally before the ssh key can be used within a container to push
 
 ### WIP
 
-- split up services so it's easier to manage them individually
+- Secrets store?
 
 ## Tips
 
