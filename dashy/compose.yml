@@ -1,0 +1,11 @@
+services:
+  dashy:
+    image: lissy93/dashy
+    container_name: dashy
+    environment:
+      PUID: ${UID}
+      PGID: ${GID}
+      TZ: ${TZ}
+    volumes:
+      - ./config:/app/user-data
+    restart: unless-stopped

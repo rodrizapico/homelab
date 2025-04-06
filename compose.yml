@@ -7,6 +7,7 @@ include:
   - ./lldap/compose.yml
   - ./authelia/compose.yml
   - ./caddy/compose.yml
+  - ./dashy/compose.yml
   - ./transmission/compose.yml
   - ./samba/compose.yml
 
@@ -39,13 +40,4 @@ services:
     volumes:
       - ${CONFIG_VOLUMES_PATH}/jellyfin:/config
       - ${DATA_VOLUMES_PATH}/media:/data/media
-    restart: unless-stopped
-
-  dashy:
-    image: lissy93/dashy
-    container_name: dashy
-    environment:
-      <<: *linuxserver-env
-    volumes:
-      - ${CONFIG_VOLUMES_PATH}/dashy:/app/user-data
     restart: unless-stopped
