@@ -5,7 +5,7 @@ services:
     cap_add:
       - NET_ADMIN
       - CAP_NET_RAW
-    secrets: [ SAMBA_PASSWORD ]
+    secrets: [SAMBA_PASSWORD]
     environment:
       TZ: ${TZ}
       SAMBA_PASSWORD_FILE: /run/secrets/SAMBA_PASSWORD
@@ -13,8 +13,9 @@ services:
     volumes:
       - samba_data:/data
       - ./config.yml:/data/config.yml
-      - ${DATA_VOLUMES_PATH}/torrents/complete:/samba/torrents
       - ${DATA_VOLUMES_PATH}/share:/samba/share
+      - ${DATA_VOLUMES_PATH}/media:/samba/media
+      - ${DATA_VOLUMES_PATH}/downloads/complete:/samba/downloads
     network_mode: host
     restart: always
 

@@ -11,13 +11,18 @@ global:
   - "force group = samba"
 
 share:
-  - name: torrents
-    path: /samba/torrents
-    browsable: yes
-    readonly: yes
-    guestok: yes
   - name: share
     path: /samba/share
     browsable: yes
     readonly: no
+    guestok: yes
+  - name: media
+    path: /samba/media
+    browsable: yes
+    readonly: yes
+    guestok: yes
+  - name: downloads
+    path: /samba/downloads
+    browsable: yes
+    readonly: yes
     guestok: yes
