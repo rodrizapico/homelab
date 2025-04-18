@@ -23,6 +23,11 @@ auth.docker.services.buen.ga {
 	reverse_proxy authelia:9091
 }
 
+
+hedgedoc.docker.services.buen.ga {
+	reverse_proxy hedgedoc:3000
+}
+
 transmission.docker.services.buen.ga {
 	import authenticate
 

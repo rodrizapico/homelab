@@ -80,3 +80,17 @@ sections:
         icon: hl-authelia
         url: https://lldap.docker.services.buen.ga/
         id: 0_1906_lightldap
+  - name: Other
+    icon: far fa-plus
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 1
+      collapsed: false
+      hideForGuests: false
+    items:
+      - title: HedgeDoc
+        icon: hl-hedgedoc
+        url: https://hedgedoc.docker.services.buen.ga/
+        target: newtab
+        id: 0_514_hedgedoc

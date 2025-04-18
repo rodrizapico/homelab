@@ -8,6 +8,7 @@ include:
   - ./authelia/compose.yml
   - ./caddy/compose.yml
   - ./dashy/compose.yml
+  - ./hedgedoc/compose.yml
   - ./transmission/compose.yml
   - ./arr/compose.yml
   - ./jellyfin/compose.yml

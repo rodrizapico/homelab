@@ -12,6 +12,7 @@ identity_providers:
     # The JWK's issuer option configures multiple JSON Web Keys. It's required that at least one of the JWK's
     # configured has the RS256 algorithm. For RSA keys (RS or PS) the minimum is a 2048 bit key.
     jwks:
+      # prettier-ignore
       - key: {{ secret "/run/secrets/OIDC_JWKS_PRIVATE_KEY" | mindent 10 "|" | msquote }}
 
     # Enables additional debug messages.
@@ -90,6 +91,23 @@ identity_providers:
         scopes:
           - "openid"
           - "profile"
+          - "groups"
+        userinfo_signed_response_alg: "none"
+        token_endpoint_auth_method: "client_secret_post"
+        consent_mode: pre-configured
+        pre_configured_consent_duration: "6M"
+
+      - client_name: "HedgeDoc"
+        client_id: '{{ secret "/run/secrets/OIDC_HEDGEDOC_CLIENT_ID" }}'
+        client_secret: '{{ secret "/run/secrets/OIDC_HEDGEDOC_CLIENT_SECRET" }}'
+        public: false
+        authorization_policy: "default"
+        redirect_uris:
+          - 'https://hedgedoc.{{ env "BASE_DOMAIN" }}/auth/oauth2/callback'
+        scopes:
+          - "openid"
+          - "profile"
+          - "email"
           - "groups"
         userinfo_signed_response_alg: "none"
         token_endpoint_auth_method: "client_secret_post"

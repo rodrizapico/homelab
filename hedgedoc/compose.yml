@@ -1,0 +1,40 @@
+services:
+  hedgedoc:
+    image: quay.io/hedgedoc/hedgedoc:latest
+    container_name: hedgedoc
+    secrets: [dbURL, oauth2_clientID, oauth2_clientSecret]
+    environment:
+      PUID: ${UID}
+      PGID: ${GID}
+      TZ: ${TZ}
+      CMD_CONFIG_FILE: /config/config.json
+    volumes:
+      - ./config:/config
+    restart: unless-stopped
+
+  hedgedoc_db:
+    image: postgres
+    container_name: hedgedoc_db
+    secrets: [HEDGEDOC_POSTGRES_PASSWORD]
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/HEDGEDOC_POSTGRES_PASSWORD
+      POSTGRES_DB: hedgedoc
+    ports:
+      - 5432:5432
+    volumes:
+      - hedgedoc_db:/var/lib/postgresql/data
+    shm_size: 128mb
+    restart: unless-stopped
+
+volumes:
+  hedgedoc_db:
+
+secrets:
+  HEDGEDOC_POSTGRES_PASSWORD:
+    file: ./secrets/POSTGRES_PASSWORD
+  dbURL:
+    file: ./secrets/HEDGEDOC_DB_URL
+  oauth2_clientID:
+    file: ./secrets/HEDGEDOC_CLIENT_ID
+  oauth2_clientSecret:
+    file: ./secrets/HEDGEDOC_CLIENT_SECRET

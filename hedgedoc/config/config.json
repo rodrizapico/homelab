@@ -1,0 +1,24 @@
+{
+  "production": {
+    "domain": "hedgedoc.docker.services.buen.ga",
+    "protocolUseSSL": true,
+    "loglevel": "debug",
+    "debug": true,
+    "db": {
+      "dialect": "postgres"
+    },
+    "email": false,
+    "oauth2": {
+      "providerName": "Authelia",
+      "scope": "openid profile email groups",
+      "userProfileUsernameAttr": "name",
+      "userProfileDisplayNameAttr": "name",
+      "userProfileEmailAttr": "email",
+      "rolesClaim": "groups",
+      "accessRole": "media_user",
+      "userProfileURL": "https://auth.docker.services.buen.ga/api/oidc/userinfo",
+      "tokenURL": "https://auth.docker.services.buen.ga/api/oidc/token",
+      "authorizationURL": "https://auth.docker.services.buen.ga/api/oidc/authorization"
+    }
+  }
+}
