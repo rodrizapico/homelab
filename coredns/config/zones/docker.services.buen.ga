@@ -1,0 +1,17 @@
+$ORIGIN       docker.services.buen.ga.
+@             IN  SOA dns.docker.services.buen.ga. homelab.rodrizapico.me. (
+                    2025092722 ; serial
+                    7200       ; refresh (2 hours)
+                    3600       ; retry (1 hour)
+                    1209600    ; expire (2 weeks)
+                    3600       ; minimum (1 hour)
+				            )
+
+dns           IN  A   192.168.20.3
+lldap         IN  A   192.168.20.3
+auth          IN  A   192.168.20.3
+hedgedoc      IN  A   192.168.20.3
+transmission  IN  A   192.168.20.3
+sonarr        IN  A   192.168.20.3
+prowlarr      IN  A   192.168.20.3
+jellyfin      IN  A   192.168.20.3

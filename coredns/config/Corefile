@@ -1,0 +1,5 @@
+docker.services.buen.ga {
+  file /etc/coredns/zones/docker.services.buen.ga
+  log
+  errors
+}

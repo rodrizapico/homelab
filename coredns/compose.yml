@@ -1,0 +1,10 @@
+services:
+  coredns:
+    image: coredns/coredns:latest
+    container_name: coredns
+    volumes:
+      - ./config:/etc/coredns
+    ports:
+      - 53:53/udp
+    command: -conf /etc/coredns/Corefile -dns.port 53
+    restart: unless-stopped

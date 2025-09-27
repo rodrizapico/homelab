@@ -4,6 +4,7 @@ x-linuxserver-env: &linuxserver-env
   TZ: ${TZ}
 
 include:
+  - ./coredns/compose.yml
   - ./lldap/compose.yml
   - ./authelia/compose.yml
   - ./caddy/compose.yml
