@@ -34,8 +34,8 @@ access_control:
 
   rules:
     # Simple catchall rules to get started
-    - domain: '{{ env "BASE_DOMAIN" }}'
+    - domain: '{{ env "SERVICES_DOMAIN" }}'
       policy: one_factor
 
-    - domain: '*.{{ env "BASE_DOMAIN" }}'
+    - domain: '*.{{ env "SERVICES_DOMAIN" }}'
       policy: one_factor

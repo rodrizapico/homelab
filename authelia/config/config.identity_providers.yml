@@ -71,7 +71,7 @@ identity_providers:
       # Any origin with https is permitted unless this option is configured or the
       # allowed_origins_from_client_redirect_uris option is enabled.
       allowed_origins:
-        - 'https://auth.{{ env "BASE_DOMAIN" }}'
+        - 'https://auth.{{ env "SERVICES_DOMAIN" }}'
 
       # Automatically adds the origin portion of all redirect URI's on all clients to the list of allowed_origins,
       # provided they have the scheme http or https and do not have the hostname of localhost.
@@ -87,7 +87,7 @@ identity_providers:
         require_pkce: true
         pkce_challenge_method: "S256"
         redirect_uris:
-          - 'https://jellyfin.{{ env "BASE_DOMAIN" }}/sso/OID/redirect/authelia'
+          - 'https://jellyfin.{{ env "SERVICES_DOMAIN" }}/sso/OID/redirect/authelia'
         scopes:
           - "openid"
           - "profile"
@@ -103,7 +103,7 @@ identity_providers:
         public: false
         authorization_policy: "default"
         redirect_uris:
-          - 'https://hedgedoc.{{ env "BASE_DOMAIN" }}/auth/oauth2/callback'
+          - 'https://hedgedoc.{{ env "SERVICES_DOMAIN" }}/auth/oauth2/callback'
         scopes:
           - "openid"
           - "profile"
