@@ -20,6 +20,5 @@ services:
       <<: *linuxserver-env
     volumes:
       - ${CONFIG_VOLUMES_PATH}/sonarr:/config
-      - ${DATA_VOLUMES_PATH}/media:/data/media
-      - ${DATA_VOLUMES_PATH}/downloads:/downloads
+      - ${DATA_VOLUMES_PATH}:/data
     restart: unless-stopped
