@@ -1,0 +1,5 @@
+vars:
+  stage: dev
+
+import:
+  - deploy/_defaults

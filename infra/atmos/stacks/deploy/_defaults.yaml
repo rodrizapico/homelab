@@ -1,0 +1,6 @@
+
+vars:
+  namespace: homelab
+
+terraform:
+  command: tofu

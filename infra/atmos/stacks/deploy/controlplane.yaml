@@ -1,0 +1,12 @@
+vars:
+  stage: controlplane
+
+import:
+  - deploy/_defaults
+  - catalog/vm/defaults
+
+components:
+  terraform:
+    devpod:
+      vars:
+        vm_name: devpod

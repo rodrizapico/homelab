@@ -1,0 +1,56 @@
+# Global variables
+
+variable namespace {
+}
+
+variable stage {
+}
+
+# What and where to provision it
+
+variable vm_name {
+}
+
+variable proxmox_host {
+}
+
+variable template_name {
+}
+
+# VM settings
+
+variable core_count {
+  default = 1
+}
+
+variable memory_capacity {
+  default = 1024
+}
+
+variable disk_capacity {
+  default = "32G"
+}
+
+variable disk_storage_location {
+}
+
+variable bridge {
+}
+
+variable vlan_tag {
+}
+
+variable startup_shutdown_order {
+  default = -1
+}
+
+# Cloud Init settings
+
+variable cloud_init_user {
+}
+
+variable cloud_init_ssh_key {
+}
+
+variable cloud_init_ip_config {
+}
