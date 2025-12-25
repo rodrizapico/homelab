@@ -3,10 +3,13 @@ vars:
 
 import:
   - deploy/_defaults
-  - catalog/vm/defaults
+  - catalog/vm/md
 
 components:
   terraform:
     devpod:
+      metadata:
+        inherits:
+          - vm/md
       vars:
         vm_name: devpod

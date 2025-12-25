@@ -1,16 +1,6 @@
-module vm_label {
-  source   = "cloudposse/label/null"
-  version  = "0.25.0"
-
-  namespace  = var.namespace
-  stage      = var.stage
-  name       = "vm"
-  attributes = [var.vm_name]
-}
-
 resource proxmox_vm_qemu vm {
-  name        = module.vm_label.id
-  tags        = var.stage
+  name        = "${var.namespace}-${var.stage}-vm-${var.vm_name}"
+  tags        = "${var.namespace},${var.stage}"
   target_node = var.proxmox_host
   clone       = var.template_name
   full_clone  = true
@@ -27,14 +17,26 @@ resource proxmox_vm_qemu vm {
 
   memory = var.memory_capacity
 
-  disk {
-    type       = "disk"
-    slot       = "scsi0"
-    format     = "raw"
-    size       = var.disk_capacity
-    storage    = var.disk_storage_location
-    emulatessd = true
-    discard    = true
+  disks {
+    ide {
+      ide0 {
+        cloudinit {
+          storage = "local-lvm"
+        }
+      }
+    }
+
+    scsi {
+      scsi0 {
+        disk {
+          format     = "raw"
+          size       = var.disk_capacity
+          storage    = var.disk_storage_location
+          emulatessd = true
+          discard    = true
+        }
+      }
+    }
   }
 
   network {

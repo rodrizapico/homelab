@@ -1,8 +1,9 @@
 components:
   terraform:
-    devpod:
+    vm/defaults:
       metadata:
         component: vm
+        type: abstract
       vars:
         proxmox_host: agumon
         template_name: nixos-cloudinit-template

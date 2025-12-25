@@ -1,0 +1,13 @@
+import:
+  - catalog/vm/defaults
+
+components:
+  terraform:
+    vm/md:
+      metadata:
+        type: abstract
+        inherits:
+          - vm/defaults
+      vars:
+        core_count: 2
+        memory_capacity: 2048
