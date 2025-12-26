@@ -58,3 +58,15 @@ resource proxmox_vm_qemu vm {
   ciupgrade = false
   ipconfig0 = var.cloud_init_ip_config
 }
+
+module system-build {
+  source      = "github.com/nix-community/nixos-anywhere//terraform/nix-build"
+  attribute   = "${var.nixos_flake.path}#nixosConfigurations.${var.nixos_flake.configuration_name}.config.system.build.toplevel"
+}
+
+module deploy {
+  source       = "github.com/nix-community/nixos-anywhere//terraform/nixos-rebuild"
+  nixos_system = module.system-build.result.out
+  target_host  = proxmox_vm_qemu.vm.default_ipv4_address
+  target_user  = var.cloud_init_user
+}

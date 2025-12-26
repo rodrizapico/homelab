@@ -54,3 +54,13 @@ variable cloud_init_ssh_key {
 
 variable cloud_init_ip_config {
 }
+
+# Nixos specifics
+
+variable nixos_flake {
+  description = "The flake that's going to be used configure the VM"
+  type        = object({
+    path               = string
+    configuration_name = string
+  })
+}
