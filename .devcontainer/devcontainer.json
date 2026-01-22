@@ -4,6 +4,9 @@
   "postCreateCommand": "/workspace/.devcontainer/post-create.sh",
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "containerEnv": {
+    "GIT_EDITOR": "nano"
+  },
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker": {},
     "ghcr.io/devcontainers/features/common-utils:2": {
