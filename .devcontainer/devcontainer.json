@@ -1,0 +1,29 @@
+{
+    "name": "Homelab DevContainer",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "postCreateCommand": "/workspace/.devcontainer/post-create.sh",
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker": {},
+        "ghcr.io/devcontainers/features/common-utils:2": {
+          "configureZshAsDefaultShell": true
+        },
+        "ghcr.io/devcontainers/features/nix:1": {
+          "packages": "tenv"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "bierner.github-markdown-preview",
+                "tomasdahlqvist.markdown-admonitions",
+                "opentofu.vscode-opentofu",
+                "redhat.vscode-yaml",
+                "bbenoist.nix",
+                "EditorConfig.EditorConfig"
+            ],
+        }
+    }
+}
