@@ -5,5 +5,23 @@
       "!**/stacks/workflows/**/*.yaml",
       "!**/stacks/schemas/**/*.yaml"
     ]
-  }
+  },
+  "yaml.customTags": [
+    "!terraform.output",
+    "!terraform.state",
+    "!store",
+    "!store.get",
+    "!include",
+    "!template",
+    "!exec",
+    "!env",
+    "!repo-root",
+    "!cwd",
+    "!random",
+    "!literal",
+    "!aws.account_id",
+    "!aws.caller_identity_arn",
+    "!aws.caller_identity_user_id",
+    "!aws.region"
+  ]
 }
