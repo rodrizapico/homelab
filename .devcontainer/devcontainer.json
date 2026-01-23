@@ -5,7 +5,8 @@
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "containerEnv": {
-    "GIT_EDITOR": "nano"
+    "GIT_EDITOR": "nano",
+    "TENV_AUTO_INSTALL": "true"
   },
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker": {},
@@ -13,8 +14,10 @@
       "configureZshAsDefaultShell": true
     },
     "ghcr.io/devcontainers/features/nix:1": {
-      "packages": "tenv"
-    }
+      "packages": "tenv",
+      "extraNixConfig": "experimental-features = nix-command flakes"
+    },
+    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}
   },
   "customizations": {
     "vscode": {
