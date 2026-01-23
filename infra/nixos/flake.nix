@@ -18,7 +18,6 @@
         srvos.nixosModules.mixins-nix-experimental
         # Enable VS Code Server
         vscode-server.nixosModules.default
-        { services.vscode-server.enable = true; }
         # Custom config
         ./qemu-guest-hardware-configuration.nix
         ./devpod/configuration.nix
