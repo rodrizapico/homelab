@@ -1,13 +1,14 @@
 {
   "name": "Homelab DevContainer",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "postCreateCommand": "/workspace/.devcontainer/post-create.sh",
-  "workspaceFolder": "/workspace",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  // .env.local should contain PM_API_TOKEN_ID and PM_API_TOKEN_SECRET
+  "runArgs": ["--env-file", ".devcontainer/.env.local"],
   "containerEnv": {
     "GIT_EDITOR": "nano",
     "TENV_AUTO_INSTALL": "true"
   },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker": {},
     "ghcr.io/devcontainers/features/common-utils:2": {
@@ -32,5 +33,6 @@
         "esbenp.prettier-vscode"
       ]
     }
-  }
+  },
+  "postCreateCommand": "/workspace/.devcontainer/post-create.sh"
 }
