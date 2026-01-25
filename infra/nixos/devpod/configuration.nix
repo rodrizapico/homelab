@@ -13,6 +13,7 @@
   boot.loader.grub.enable  = true;
   boot.loader.grub.devices = [ "nodev" ];
 
+  # Switch keyboard layout to spanish
   console.keyMap = "es";
 
   # Override SrvOS's default value to allow cloud-init to set a user's authorized_keys

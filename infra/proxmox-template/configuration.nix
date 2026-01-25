@@ -65,4 +65,7 @@
   };
 
   nix.settings.trusted-users = [ "@wheel" ];
+
+  # Switch keyboard layout to spanish
+  console.keyMap = "es";
 }
