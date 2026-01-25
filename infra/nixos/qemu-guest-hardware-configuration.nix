@@ -21,15 +21,18 @@
     };
   };
 
-  fileSystems."/" ={
-    device     = "/dev/disk/by-label/root";
+  swapDevices = [
+    {
+      device  = "/dev/sda2";
+      options = [ "discard" ];
+    }
+  ];
+
+  fileSystems."/" = {
+    device     = "/dev/sda3";
     autoResize = true;
     fsType     = "ext4";
   };
-
-  swapDevices =[
-    { device = "/dev/disk/by-label/swap"; }
-  ];
 
   nixpkgs.hostPlatform = "x86_64-linux";
 }

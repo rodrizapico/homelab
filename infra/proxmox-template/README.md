@@ -2,7 +2,7 @@
 
 This is a set of instructions to help you set up a 'golden image' template with cloud-init to be used as a basis for building any custom images you might need using NixOS. This is by no means an optimal way of doing things, but it should be good enough to get you a working environment:
 
-- Grab the latest NixOS release and install it into a VM (using a minimal install).
+- Grab the latest NixOS release and install it into a VM (using a minimal install). Manually partition the drive to make sure the root partition is last (so it can be resized by cloud-init)
 - Boot into it and login as root.
 - Open `/etc/nixos/configuration.nix`, uncomment the `# services.openssh.enable = true;` line if commented, and run `nixos-rebuild switch` so you can access the VM through SSH, making it easier to work with.
 - (ssh) Overwrite `/etc/nixos/configuration.nix` with the contents of the `configuration.nix` file in this dir.
