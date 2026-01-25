@@ -13,6 +13,7 @@ components:
           - vm/md
       vars:
         vm_name: devpod
+        vlan_tag: 120
         nixos_flake:
           path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
           configuration_name: devpod
