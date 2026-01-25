@@ -1,3 +1,8 @@
+resource tls_private_key ssh_key {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
 resource proxmox_vm_qemu vm {
   name        = "${var.namespace}-${var.stage}-vm-${var.vm_name}"
   tags        = "${var.namespace},${var.stage}"
@@ -54,7 +59,7 @@ resource proxmox_vm_qemu vm {
 
   # Cloud Init settings
   ciuser    = var.cloud_init_user
-  sshkeys   = var.cloud_init_ssh_key
+  sshkeys   = tls_private_key.ssh_key.public_key_openssh
   ciupgrade = false
   ipconfig0 = var.cloud_init_ip_config
 }
@@ -66,7 +71,8 @@ module system-build {
 
 module deploy {
   source       = "github.com/nix-community/nixos-anywhere//terraform/nixos-rebuild"
-  nixos_system = module.system-build.result.out
-  target_host  = proxmox_vm_qemu.vm.default_ipv4_address
-  target_user  = var.cloud_init_user
+  nixos_system    = module.system-build.result.out
+  target_host     = proxmox_vm_qemu.vm.default_ipv4_address
+  target_user     = var.cloud_init_user
+  ssh_private_key = tls_private_key.ssh_key.private_key_openssh
 }

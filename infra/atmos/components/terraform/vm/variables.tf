@@ -47,9 +47,7 @@ variable startup_shutdown_order {
 # Cloud Init settings
 
 variable cloud_init_user {
-}
-
-variable cloud_init_ssh_key {
+  default = "opentofu"
 }
 
 variable cloud_init_ip_config {

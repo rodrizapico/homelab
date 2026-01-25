@@ -14,6 +14,4 @@ components:
         bridge: vmbr0
         vlan_tag: 130
         startup_shutdown_order: -1
-        cloud_init_user: buengabacho
-        cloud_init_ssh_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU"
         cloud_init_ip_config: ip=dhcp
