@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, srvos, ... }:
 
 {
   # This value determines the NixOS release from which the default
@@ -8,6 +8,14 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11"; # Did you read the comment?
+
+  imports = [
+    # Use srvos' defaults as a base
+    srvos.nixosModules.server
+    srvos.nixosModules.mixins-cloud-init
+    srvos.nixosModules.mixins-nix-experimental
+    ./qemu_guest_hardware_configuration.nix
+  ];
 
   boot.growPartition       = true;
   boot.loader.grub.enable  = true;
@@ -25,10 +33,8 @@
   # Allow managing users outside of NixOS config
   users.mutableUsers = lib.mkForce true;
 
-  # Enable services
-  services.qemuGuest.enable     = true;
-  services.vscode-server.enable = true;
-  virtualisation.docker.enable  = true;
+  # Enable qemu guest agent
+  services.qemuGuest.enable = true;
 
   users.users.buengabacho = {
     description  = "Admin user account";

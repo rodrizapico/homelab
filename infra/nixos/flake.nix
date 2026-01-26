@@ -6,22 +6,17 @@
     vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
-  outputs = { self, nixpkgs, srvos, vscode-server }: {
-  
-    # Devpod config
+  outputs = { self, nixpkgs, ... } @ inputs: {
     nixosConfigurations.devpod = nixpkgs.lib.nixosSystem {
       system  = "x86_64-linux";
-      modules = [
-        # Use srvos' defaults as a base
-        srvos.nixosModules.server
-        srvos.nixosModules.mixins-cloud-init
-        srvos.nixosModules.mixins-nix-experimental
-        # Enable VS Code Server
-        vscode-server.nixosModules.default
-        # Custom config
-        ./qemu-guest-hardware-configuration.nix
-        ./devpod/configuration.nix
-      ];
+      specialArgs = inputs;
+      modules = [ ./devpod.nix ];
+    };
+
+    nixosConfigurations.garage_s3 = nixpkgs.lib.nixosSystem {
+      system      = "x86_64-linux";
+      specialArgs = inputs;
+      modules     = [ ./garage_s3.nix ];
     };
   };
 }
