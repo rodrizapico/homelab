@@ -1,0 +1,6 @@
+
+# Homelab
+
+## Initial setup
+
+Add an `.env.local` file in the `.devcontainer` dir and set the following env variables: `PM_API_TOKEN_ID`, `PM_API_TOKEN_SECRET`
