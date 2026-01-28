@@ -64,15 +64,13 @@ resource proxmox_vm_qemu vm {
   ipconfig0 = var.cloud_init_ip_config
 }
 
-module system-build {
-  source      = "github.com/nix-community/nixos-anywhere//terraform/nix-build"
-  attribute   = "${var.nixos_flake.path}#nixosConfigurations.${var.nixos_flake.configuration_name}.config.system.build.toplevel"
+module "deploy" {
+  source                 = "github.com/nix-community/nixos-anywhere//terraform/all-in-one"
+  nixos_system_attr      = "${var.nixos_flake.path}#nixosConfigurations.${var.nixos_flake.configuration_name}.config.system.build.toplevel"
+  nixos_partitioner_attr = "${var.nixos_flake.path}#nixosConfigurations.${var.nixos_flake.configuration_name}.config.system.build.diskoScript"
+  target_host            = proxmox_vm_qemu.vm.default_ipv4_address
+  target_user            = var.cloud_init_user
+  install_ssh_key        = tls_private_key.ssh_key.private_key_openssh
+  deployment_ssh_key     = tls_private_key.ssh_key.private_key_openssh
 }
 
-module deploy {
-  source       = "github.com/nix-community/nixos-anywhere//terraform/nixos-rebuild"
-  nixos_system    = module.system-build.result.out
-  target_host     = proxmox_vm_qemu.vm.default_ipv4_address
-  target_user     = var.cloud_init_user
-  ssh_private_key = tls_private_key.ssh_key.private_key_openssh
-}

@@ -3,9 +3,12 @@
 {
   imports = [ 
     vscode-server.nixosModules.default
-    ./base.nix
+    ./base
   ];
 
+  networking.hostName = "devpod";
+
+  # Enable services
   services.vscode-server.enable = true;
   virtualisation.docker.enable  = true;
 }

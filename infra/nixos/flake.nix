@@ -1,8 +1,8 @@
 {
   description = "A collection of homelab instance configurations";
   inputs      = {
-    srvos.url         ="github:nix-community/srvos";
-    nixpkgs.follows   = "srvos/nixpkgs";
+    disko.url         = "github:nix-community/disko/latest";
+    srvos.url         = "github:nix-community/srvos";
     vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
 
@@ -10,13 +10,13 @@
     nixosConfigurations.devpod = nixpkgs.lib.nixosSystem {
       system  = "x86_64-linux";
       specialArgs = inputs;
-      modules = [ ./devpod.nix ];
+      modules = [ ./configs/devpod.nix ];
     };
 
     nixosConfigurations.garage_s3 = nixpkgs.lib.nixosSystem {
       system      = "x86_64-linux";
       specialArgs = inputs;
-      modules     = [ ./garage_s3.nix ];
+      modules     = [ ./configs/garage-s3.nix ];
     };
   };
 }

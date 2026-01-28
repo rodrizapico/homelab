@@ -1,4 +1,4 @@
-{ config, pkgs, lib, srvos, ... }:
+{ config, pkgs, lib, disko, srvos, ... }:
 
 {
   # This value determines the NixOS release from which the default
@@ -10,16 +10,17 @@
   system.stateVersion = "25.11"; # Did you read the comment?
 
   imports = [
+    ./disk-config.nix
+    disko.nixosModules.disko
     # Use srvos' defaults as a base
     srvos.nixosModules.server
     srvos.nixosModules.mixins-cloud-init
     srvos.nixosModules.mixins-nix-experimental
-    ./qemu_guest_hardware_configuration.nix
+    ./qemu-guest-hardware-configuration.nix
   ];
 
-  boot.growPartition       = true;
+  # Use grub as the bootloader
   boot.loader.grub.enable  = true;
-  boot.loader.grub.devices = [ "nodev" ];
 
   # Switch keyboard layout to spanish
   console.keyMap = "es";

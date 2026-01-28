@@ -1,5 +1,24 @@
 {
   "nodes": {
+    "disko": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1768920986,
+        "narHash": "sha256-CNzzBsRhq7gg4BMBuTDObiWDH/rFYHEuDRVOwCcwXw4=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "de5708739256238fb912c62f03988815db89ec9a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "latest",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -20,6 +39,36 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1768661221,
+        "narHash": "sha256-MJwOjrIISfOpdI9x4C+5WFQXvHtOuj5mqLZ4TMEtk1M=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3327b113f2ef698d380df83fbccefad7e83d7769",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1769421245,
+        "narHash": "sha256-m5QLKjpdhbDrhyrUbEm5Haq3lqE5Z6xh2tab5vTHUTo=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5b265bda51b42a2a85af0a543c3e57b778b01b7d",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1766601203,
         "narHash": "sha256-iCAUuJRNgRoxlcBfH6pFZLU0TDzfBczpliP5iLJYujk=",
         "owner": "NixOS",
@@ -34,7 +83,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1682134069,
         "narHash": "sha256-TnI/ZXSmRxQDt2sjRYK/8j8iha4B4zP2cnQCZZ3vp7k=",
@@ -50,17 +99,15 @@
     },
     "root": {
       "inputs": {
-        "nixpkgs": [
-          "srvos",
-          "nixpkgs"
-        ],
+        "disko": "disko",
+        "nixpkgs": "nixpkgs_2",
         "srvos": "srvos",
         "vscode-server": "vscode-server"
       }
     },
     "srvos": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1766626001,
@@ -94,7 +141,7 @@
     "vscode-server": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1753541826,
