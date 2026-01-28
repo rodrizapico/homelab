@@ -25,26 +25,38 @@
   # Switch keyboard layout to spanish
   console.keyMap = "es";
 
+  # Enable qemu guest agent
+  services.qemuGuest.enable = true;
+
   # Override SrvOS's default value to allow cloud-init to set a user's authorized_keys
   services.openssh.authorizedKeysFiles = lib.mkOverride 40 [
     ".ssh/authorized_keys"
     "/etc/ssh/authorized_keys.d/%u"
   ];
 
-  # Allow managing users outside of NixOS config
-  users.mutableUsers = lib.mkForce true;
+  # Ensure cloud-init's default user belongs to wheel
+  services.cloud-init.settings = {
+    users = [ "default" ];
 
-  # Enable qemu guest agent
-  services.qemuGuest.enable = true;
-
-  users.users.buengabacho = {
-    description  = "Admin user account";
-    isNormalUser = true;
-    extraGroups  = [ "wheel" "docker" ];
-
-    openssh.authorizedKeys.keys = [
-      # Bitwarden SSH key
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU"
-    ];
+    system_info.default_user = {
+      name = "nix";
+      gecos = "nixos Cloud User";
+      groups = [ "wheel" ];
+      isNormalUser = true;
+    };
   };
+
+  users = {
+    mutableUsers = lib.mkForce true;
+    users.buengabacho = {
+      description  = "Admin user account";
+      isNormalUser = true;
+      extraGroups  = [ "wheel" "docker" ];
+
+      openssh.authorizedKeys.keys = [
+        # Bitwarden SSH key
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU"
+      ];
+    };
+  }
 }
