@@ -15,7 +15,8 @@
       "configureZshAsDefaultShell": true
     },
     "ghcr.io/devcontainers/features/nix:1": {
-      "packages": "tenv",
+      // After updating this, you need to remove the nix volume before rebuilding
+      "packages": "tenv,niv",
       "extraNixConfig": "experimental-features = nix-command flakes"
     },
     "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {}

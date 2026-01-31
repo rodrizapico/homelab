@@ -3,5 +3,5 @@
 {
   imports = [ ./base ];
 
-  networking.hostName = "garage-s3";
+  networking.hostName = terraform.hostname or "garageS3";
 }

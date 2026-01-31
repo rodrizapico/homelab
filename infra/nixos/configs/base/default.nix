@@ -1,6 +1,7 @@
-{ config, pkgs, lib, disko, srvos, ... }:
-
-{
+{ config, pkgs, lib, ... }:
+let
+  sources = import ../../nix/sources.nix;
+in {
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -9,13 +10,14 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11"; # Did you read the comment?
 
+
   imports = [
     ./disk-config.nix
-    disko.nixosModules.disko
+    (sources.disko + "/module.nix")
     # Use srvos' defaults as a base
-    srvos.nixosModules.server
-    srvos.nixosModules.mixins-cloud-init
-    srvos.nixosModules.mixins-nix-experimental
+    (sources.srvos + "/nixos/server/default.nix")
+    (sources.srvos + "/nixos/mixins/cloud-init.nix")
+    (sources.srvos + "/nixos/mixins/nix-experimental.nix")
     ./qemu-guest-hardware-configuration.nix
   ];
 
@@ -58,5 +60,5 @@
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU"
       ];
     };
-  }
+  };
 }

@@ -1,12 +1,15 @@
-{ config, pkgs, lib, vscode-server, ... }:
+{ config, pkgs, lib, terraform, ... }:
+let
+  sources = import ../nix/sources.nix;
+in {
 
-{
+
   imports = [ 
-    vscode-server.nixosModules.default
+    sources.nixos-vscode-server
     ./base
   ];
 
-  networking.hostName = "devpod";
+  networking.hostName = terraform.hostname or "devpod";
 
   # Enable services
   services.vscode-server.enable = true;
