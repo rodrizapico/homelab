@@ -72,5 +72,10 @@ module "deploy" {
   target_user            = var.cloud_init_user
   install_ssh_key        = tls_private_key.ssh_key.private_key_openssh
   deployment_ssh_key     = tls_private_key.ssh_key.private_key_openssh
+  special_args = {
+   terraform = {
+     hostname = proxmox_vm_qemu.vm.name
+   }
+  }
 }
 
