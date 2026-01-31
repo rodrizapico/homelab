@@ -15,7 +15,6 @@ components:
         vm_name: devpod
         vlan_tag: 120
         nixos_flake:
-          path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
           configuration_name: devpod
     garageS3:
       metadata:
@@ -24,5 +23,4 @@ components:
       vars:
         vm_name: garageS3
         nixos_flake:
-          path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
           configuration_name: garage_s3

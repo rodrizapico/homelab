@@ -15,3 +15,5 @@ components:
         vlan_tag: 130
         startup_shutdown_order: -1
         cloud_init_ip_config: ip=dhcp
+        nixos_flake:
+          path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
