@@ -6,7 +6,7 @@
   ];
 
   boot = {
-    kernelModules       = [];
+    kernelModules       = [ "kvm-intel" ];
     extraModulePackages = [];
     initrd              = {
       kernelModules          = [];

@@ -2,8 +2,6 @@
 let
   sources = import ../nix/sources.nix;
 in {
-
-
   imports = [ 
     sources.nixos-vscode-server
     ./base

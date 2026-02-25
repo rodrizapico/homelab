@@ -1,6 +1,6 @@
 {
   description = "A collection of homelab instance configurations";
-  outputs = { self, nixpkgs, ... } @ inputs: {
+  outputs = { self, nixpkgs, ... }: {
     nixosConfigurations.devpod = nixpkgs.lib.nixosSystem {
       system  = "x86_64-linux";
       modules = [ ./configs/devpod.nix ];
