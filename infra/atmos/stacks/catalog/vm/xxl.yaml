@@ -1,0 +1,14 @@
+import:
+  - catalog/vm/xl
+
+components:
+  terraform:
+    vm/xxl:
+      metadata:
+        type: abstract
+        inherits:
+          - vm/xl
+      vars:
+        core_count: 4
+        memory_capacity: 16384
+        disk_capacity: 250G

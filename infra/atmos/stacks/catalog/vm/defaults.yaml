@@ -12,7 +12,7 @@ components:
         disk_capacity: 50G
         disk_storage_location: local-lvm
         bridge: vmbr0
-        vlan_tag: 130
+        vlan_tag: 140
         startup_shutdown_order: -1
         cloud_init_ip_config: ip=dhcp
         nixos_flake:

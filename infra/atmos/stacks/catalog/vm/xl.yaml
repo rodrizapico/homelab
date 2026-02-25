@@ -1,0 +1,15 @@
+import:
+  - catalog/vm/defaults
+
+components:
+  terraform:
+    vm/xl:
+      metadata:
+        type: abstract
+        inherits:
+          - vm/defaults
+      vars:
+        proxmox_host: devimon
+        core_count: 2
+        memory_capacity: 8192
+        disk_capacity: 100G

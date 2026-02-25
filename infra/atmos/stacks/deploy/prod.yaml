@@ -3,3 +3,16 @@ vars:
 
 import:
   - deploy/_defaults
+  - catalog/vm/xxl
+
+components:
+  terraform:
+    mirrorDevpod:
+      metadata:
+        inherits:
+          - vm/xxl
+      vars:
+        vm_name: mirrorDevpod
+        vlan_tag: 120
+        nixos_flake:
+          configuration_name: devpod
