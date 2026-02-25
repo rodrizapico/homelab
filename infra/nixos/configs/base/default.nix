@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  sources = import ../../nix/sources.nix;
+  sources = import ../../npins;
 in {
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

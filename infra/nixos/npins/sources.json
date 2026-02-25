@@ -1,0 +1,50 @@
+{
+  "pins": {
+    "disko": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "disko"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "a4cb7bf73f264d40560ba527f9280469f1f081c6",
+      "url": "https://github.com/nix-community/disko/archive/a4cb7bf73f264d40560ba527f9280469f1f081c6.tar.gz",
+      "hash": "sha256-A5uE/hMium5of/QGC6JwF5TGoDAfpNtW00T0s9u/PN8="
+    },
+    "nixos-vscode-server": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "nixos-vscode-server"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "92ce71c3ba5a94f854e02d57b14af4997ab54ef0",
+      "url": "https://github.com/nix-community/nixos-vscode-server/archive/92ce71c3ba5a94f854e02d57b14af4997ab54ef0.tar.gz",
+      "hash": "sha256-yHmd2B13EtBUPLJ+x0EaBwNkQr9LTne1arLVxT6hSnY="
+    },
+    "nixpkgs": {
+      "type": "Channel",
+      "name": "nixpkgs-unstable",
+      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.05pre953762.ea7f1f06811c/nixexprs.tar.xz",
+      "hash": "sha256-lJiQtL47xYV37Vod9KgPS7dmi1x51A5+chJE48qKimw="
+    },
+    "srvos": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "srvos"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "ffc8fceb1e3cad06b5074cda30f88132b4fb4869",
+      "url": "https://github.com/nix-community/srvos/archive/ffc8fceb1e3cad06b5074cda30f88132b4fb4869.tar.gz",
+      "hash": "sha256-d8LL7nSpFueYtZhK29t7j3JiaKLA4lqW8neJv/uZGQc="
+    }
+  },
+  "version": 7
+}

@@ -1,9 +1,9 @@
 { config, pkgs, lib, terraform, ... }:
 let
-  sources = import ../nix/sources.nix;
+  sources = import ../npins;
 in {
   imports = [ 
-    sources.nixos-vscode-server
+    (sources.nixos-vscode-server + "/default.nix")
     ./base
   ];
 
