@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, terraform, ... }:
 let
   sources = import ../../npins;
 in {
@@ -50,15 +50,11 @@ in {
 
   users = {
     mutableUsers = lib.mkForce true;
-    users.buengabacho = {
+    users.${terraform.username} = {
       description  = "Admin user account";
       isNormalUser = true;
       extraGroups  = [ "wheel" "docker" ];
-
-      openssh.authorizedKeys.keys = [
-        # Bitwarden SSH key
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU"
-      ];
+      openssh.authorizedKeys.keys = terraform.ssh_keys;
     };
   };
 }

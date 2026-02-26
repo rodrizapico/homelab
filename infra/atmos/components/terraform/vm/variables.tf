@@ -62,3 +62,11 @@ variable nixos_flake {
     configuration_name = string
   })
 }
+
+variable nixos_user {
+  description = "The admin user that should be set up inside the VM"
+  type        = object({
+    name     = string
+    ssh_keys = list(string)
+  })
+}

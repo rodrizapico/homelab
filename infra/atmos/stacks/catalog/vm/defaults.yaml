@@ -17,3 +17,7 @@ components:
         cloud_init_ip_config: ip=dhcp
         nixos_flake:
           path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
+        nixos_user:
+          name: buengabacho
+          ssh_keys:
+            - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key

@@ -7,7 +7,7 @@ in {
     ./base
   ];
 
-  networking.hostName = terraform.hostname or "devpod";
+  networking.hostName = terraform.hostname;
 
   # Enable services
   services.vscode-server.enable = true;
