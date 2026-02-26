@@ -2,13 +2,11 @@
 
 The CloudInit user is used for instance management (terraform generates a SSH key pair and uses that to update the instance as needed). Any users you want to use on the deployed instance should be set up statically in the nix config.
 
-# Create devpod in controlplane
+# Create/refresh/destroy component in stage
 
-atmos terraform apply devpod -s controlplane
+`atmos terraform [apply|refresh|destroy] COMPONENT -s STAGE`
 
-# Destroy devpod in controlplane
-
-atmos terraform destroy devpod -s controlplane
+For example: `atmos terraform apply devpod -s controlplane`
 
 # Monkeypatch for nix-build.sh
 
