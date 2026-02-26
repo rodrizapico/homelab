@@ -4,13 +4,14 @@ vars:
 import:
   - deploy/_defaults
   - catalog/vm/md
+  - catalog/vm/xl
 
 components:
   terraform:
     devpod:
       metadata:
         inherits:
-          - vm/md
+          - vm/xl
       vars:
         vm_name: devpod
         vlan_tag: 120
