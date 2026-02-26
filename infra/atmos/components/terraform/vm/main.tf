@@ -26,7 +26,7 @@ resource proxmox_vm_qemu vm {
     ide {
       ide0 {
         cloudinit {
-          storage = "local-lvm"
+          storage = var.disk_storage_location
         }
       }
     }

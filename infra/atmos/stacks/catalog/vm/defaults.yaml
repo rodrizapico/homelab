@@ -10,7 +10,7 @@ components:
         core_count: 2
         memory_capacity: 2048
         disk_capacity: 50G
-        disk_storage_location: local-lvm
+        disk_storage_location: ceph_data
         bridge: vmbr0
         vlan_tag: 140
         startup_shutdown_order: -1
