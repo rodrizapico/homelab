@@ -1,0 +1,8 @@
+vars:
+  stage: dev
+
+components:
+  terraform:
+    vm/defaults:
+      vars:
+        vlan_tag: 140

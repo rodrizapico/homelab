@@ -1,21 +1,12 @@
-vars:
-  stage: prod
-
 import:
   - deploy/_defaults
-  - catalog/vm/xxl
+  - layers/compute
+  - mixins/stage/prod
 
 components:
   terraform:
-    mirrorDevpod:
-      metadata:
-        inherits:
-          - vm/xxl
+    mirror-devpod:
       vars:
-        vm_name: mirrorDevpod
-        vlan_tag: 120
-        nixos_flake:
-          configuration_name: devpod
         nixos_user:
           name: rodrizapico
           ssh_keys:

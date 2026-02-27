@@ -1,0 +1,22 @@
+import:
+  - catalog/vm/md
+  - catalog/vm/xxl
+
+components:
+  terraform:
+    mirror-devpod:
+      metadata:
+        inherits:
+          - vm/xxl
+      vars:
+        vm_name: mirror-devpod
+        nixos_flake:
+          configuration_name: devpod
+    sandbox:
+      metadata:
+        inherits:
+          - vm/md
+      vars:
+        vm_name: sandbox
+        nixos_flake:
+          configuration_name: devpod
