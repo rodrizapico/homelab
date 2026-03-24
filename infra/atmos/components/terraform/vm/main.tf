@@ -11,10 +11,11 @@ resource proxmox_vm_qemu vm {
   full_clone  = true
 
   # VM Settings
-  agent     = 1
-  skip_ipv6 = true
-  os_type   = "cloud-init"
-  scsihw    = "virtio-scsi-pci"
+  start_at_node_boot = var.autostart
+  agent              = 1
+  skip_ipv6          = true
+  os_type            = "cloud-init"
+  scsihw             = "virtio-scsi-pci"
 
   cpu {
     cores = var.core_count

@@ -19,6 +19,10 @@ variable template_name {
 
 # VM settings
 
+variable autostart {
+  default = true
+}
+
 variable core_count {
   default = 1
 }
