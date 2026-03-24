@@ -7,8 +7,6 @@ in {
     ./base
   ];
 
-  networking.hostName = terraform.hostname;
-
   # Enable services
   services.vscode-server.enable = true;
   virtualisation.docker.enable  = true;

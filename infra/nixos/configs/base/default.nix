@@ -10,7 +10,6 @@ in {
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11"; # Did you read the comment?
 
-
   imports = [
     ./disk-config.nix
     (sources.disko + "/module.nix")
@@ -26,6 +25,9 @@ in {
 
   # Switch keyboard layout to spanish
   console.keyMap = "es";
+
+  # Set the hostname based on the configured value
+  networking.hostName = terraform.hostname;
 
   # Enable qemu guest agent
   services.qemuGuest.enable = true;
