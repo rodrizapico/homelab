@@ -10,5 +10,10 @@
       system      = "x86_64-linux";
       modules     = [ ./configs/garage-s3.nix ];
     };
+
+    nixosConfigurations.k3s_server = nixpkgs.lib.nixosSystem {
+      system      = "x86_64-linux";
+      modules     = [ ./configs/k3s-server.nix ];
+    };
   };
 }
