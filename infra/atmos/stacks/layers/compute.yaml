@@ -12,11 +12,36 @@ components:
         vm_name: mirror-devpod
         nixos_flake:
           configuration_name: devpod
-    sandbox:
+    k3s-server-1:
       metadata:
         inherits:
-          - vm/md
+          - vm/xl
       vars:
-        vm_name: sandbox
+        vm_name: k3s-server-1
         nixos_flake:
-          configuration_name: devpod
+          configuration_name: k3s_server
+        nixos_options:
+          k3s_cluster_init: true
+          k3s_cluster_token: !env K3S_CLUSTER_TOKEN
+    k3s-server-2:
+      metadata:
+        inherits:
+          - vm/xl
+      vars:
+        vm_name: k3s-server-2
+        nixos_flake:
+          configuration_name: k3s_server
+        nixos_options:
+          k3s_cluster_token: !env K3S_CLUSTER_TOKEN
+          k3s_server_addr: !terraform.output k3s-server-1 ".ipv4_address | ""https://"" + . + "":6443"""
+    k3s-server-3:
+      metadata:
+        inherits:
+          - vm/xl
+      vars:
+        vm_name: k3s-server-3
+        nixos_flake:
+          configuration_name: k3s_server
+        nixos_options:
+          k3s_cluster_token: !env K3S_CLUSTER_TOKEN
+          k3s_server_addr: !terraform.output k3s-server-1 ".ipv4_address | ""https://"" + . + "":6443"""

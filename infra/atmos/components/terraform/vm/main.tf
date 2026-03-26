@@ -78,6 +78,7 @@ module "deploy" {
      hostname = proxmox_vm_qemu.vm.name
      username = var.nixos_user.name
      ssh_keys = var.nixos_user.ssh_keys
+     options  = var.nixos_options
    }
   }
 }

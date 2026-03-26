@@ -74,3 +74,8 @@ variable nixos_user {
     ssh_keys = list(string)
   })
 }
+
+variable nixos_options {
+  description = "Any additional options that need to be forwarded to the VM"
+  type        = map(string)
+}
