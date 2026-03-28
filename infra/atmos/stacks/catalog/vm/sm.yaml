@@ -9,5 +9,6 @@ components:
         inherits:
           - vm/defaults
       vars:
-        core_count: 1
-        memory_capacity: 1024
+        hardware:
+          core_count: 1
+          memory_capacity: 1024

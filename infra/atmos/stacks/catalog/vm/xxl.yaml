@@ -9,6 +9,8 @@ components:
         inherits:
           - vm/xl
       vars:
-        core_count: 4
-        memory_capacity: 16384
-        disk_capacity: 250G
+        hardware:
+          core_count: 4
+          memory_capacity: 16384
+          storage:
+            capacity: 250G

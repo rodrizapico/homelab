@@ -13,15 +13,10 @@ components:
         inherits:
           - vm/xl
       vars:
-        vm_name: devpod
-        vlan_tag: 120
-        nixos_flake:
-          configuration_name: devpod
-    garageS3:
-      metadata:
-        inherits:
-          - vm/md
-      vars:
-        vm_name: garageS3
-        nixos_flake:
-          configuration_name: garage_s3
+        name: devpod
+        hardware:
+          networking:
+            vlan_tag: 120
+        nixos:
+          flake:
+            configuration_name: devpod

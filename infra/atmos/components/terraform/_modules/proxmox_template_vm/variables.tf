@@ -1,34 +1,23 @@
-# This file should be (mostly) synced up with infra/atmos/components/terraform/_modules/proxmox_template_vm
+# This file should be (mostly) synced up with infra/atmos/components/terraform/vm
 
-# Global variables
-
-variable namespace {}
-
-variable stage {}
-
-# Component specific variables
-
-variable "name" {
-  description = "The VM's base name"
-  type        = string
-}
-
-variable proxmox {
+variable general {
   description = "Base values required to provision a new VM"
   type        = object({
-    host     = string
-    template = string
+    name             = string
+    tags             = string
+    proxmox_host     = string
+    proxmox_template = string
   })
 }
 
 variable hardware {
   description = "Hardware specs for the VM"
   type        = object({
-    core_count      = optional(number)
-    memory_capacity = optional(number)
+    core_count      = optional(number, 1)
+    memory_capacity = optional(number, 1024)
     storage         = object({
       location = string
-      capacity = optional(string)
+      capacity = optional(string, "32G")
     })
     networking      = object({
       bridge   = string
@@ -44,7 +33,7 @@ variable settings {
     startup_shutdown_order = optional(number)
     cloud_init             = optional(object({
       user      = optional(string)
-      ssh_keys  = optional(list(string))
+      ssh_keys  = optional(list(string), [])
       ip_config = optional(string)
     }), {})
   })

@@ -5,19 +5,27 @@ components:
         component: vm
         type: abstract
       vars:
-        proxmox_host: agumon
-        template_name: nixos-cloudinit-template
-        core_count: 2
-        memory_capacity: 2048
-        disk_capacity: 50G
-        disk_storage_location: ceph_data
-        bridge: vmbr0
-        vlan_tag: 140
-        startup_shutdown_order: -1
-        cloud_init_ip_config: ip=dhcp
-        nixos_flake:
-          path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
-        nixos_user:
-          name: buengabacho
-          ssh_keys:
-            - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
+        proxmox:
+          host: agumon
+          template: nixos-cloudinit-template
+        hardware:
+          core_count: 2
+          memory_capacity: 2048
+          storage:
+            location: ceph_data
+            capacity: 50G
+          networking:
+            bridge: vmbr0
+            vlan_tag: 140
+        settings:
+          autostart: true
+          startup_shutdown_order: -1
+          cloud_init:
+            ip_config: ip=dhcp
+        nixos:
+          flake:
+            path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
+          user:
+            name: buengabacho
+            ssh_keys:
+              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key

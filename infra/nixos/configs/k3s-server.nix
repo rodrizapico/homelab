@@ -1,7 +1,7 @@
 { config, pkgs, lib, terraform, ... }:
 let
-  k3sClusterInit  = (terraform.options.k3s_cluster_init or "false") == "true";
-  k3sClusterToken = terraform.options.k3s_cluster_token;
+  k3sClusterInit  = terraform.options.k3s_cluster_init or false;
+  k3sClusterToken = terraform.options.k3s_cluster_token or "";
   k3sServerAddr   = terraform.options.k3s_server_addr or "";
 in {
   imports = [ ./base ];
