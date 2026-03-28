@@ -4,9 +4,21 @@
 [X] Check if partition grows automatically
 [X] Test running in devpod, remove manually created one
 [X] autostart vms on boot
+[X] make base vm able to use SSH keys passed as variables for cloud init
+[X] in base VM, if nixos is enabled, force create the SSH keys
+[ ] remove hardcoded links to local infra (proxmox hosts, for example)
+[ ] add default storage location, proxmox host, template, nixos path
+[ ] make the whole config a single var (this should simplify the next point)
+[ ] make base vm not use nixos forcefully
+[ ] add presets for base VM, allow to customize
+[ ] add validations to base VM variables so that cloud init info can only be set if no nixos; nixos is optional but if it exists must have certain values
 [ ] create k3s terraform component with configurable amount of nodes / distribute across hosts
 [ ] how do I manage secrets for the base infra (proxmox keys, k3s token)? For now, I'm just using env vars in the devcontainer
-[ ] test if changing the configured host rebuilds the vm or simply moves it
 [ ] Configure a backend other than local, probably by deploying a local S3-compatible service (and make sure it's encrypted)
 [ ] Deploy GitLab
 [ ] need to backup controplane state from laptop
+
+## Testing
+
+[ ] Ensure ssh keys passed to cloud init can be used (and the generated one too, in that case)
+[ ] does changing the configured host rebuilds the vm or simply move it?

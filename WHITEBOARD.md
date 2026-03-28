@@ -22,3 +22,7 @@ For example: `atmos terraform apply devpod -s controlplane`
 
 use `-e` to start at the end of the logs.
 use `--no-pager | grep "[your_keyword_here]"` to look for a specific keyword
+
+# Fix missing atmos/terraform/npins/etc after rebuild:
+
+You need to remove the nix volume before rebuilding.
