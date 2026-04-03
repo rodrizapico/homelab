@@ -5,6 +5,7 @@ components:
   terraform:
     vm/defaults:
       vars:
-        hardware:
-          networking:
-            vlan_tag: 120
+        config:
+          hardware:
+            networking:
+              vlan_tag: 120

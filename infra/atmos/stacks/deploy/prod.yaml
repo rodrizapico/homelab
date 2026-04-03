@@ -7,8 +7,9 @@ components:
   terraform:
     mirror-devpod:
       vars:
-        nixos:
-          user:
-            name: rodrizapico
-            ssh_keys:
-              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKe/HIxUFzDHiwSK4fefAX/4qwz+yZtmjPCeSUMpYcy0 # 1Password SSH key
+        config:
+          nixos:
+            user:
+              name: rodrizapico
+              ssh_keys:
+                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKe/HIxUFzDHiwSK4fefAX/4qwz+yZtmjPCeSUMpYcy0 # 1Password SSH key

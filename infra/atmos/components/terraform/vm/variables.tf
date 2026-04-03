@@ -1,4 +1,4 @@
-# This file should be (mostly) synced up with infra/atmos/components/terraform/_modules/proxmox_template_vm
+# This file should be (mostly) synced up with infra/atmos/components/terraform/_modules/proxmox_template_vm/variables.tf
 
 # Global variables
 
@@ -8,60 +8,60 @@ variable stage {}
 
 # Component specific variables
 
-variable "name" {
-  description = "The VM's base name"
-  type        = string
-}
-
-variable proxmox {
-  description = "Base values required to provision a new VM"
+variable config {
+  description = "A collection of all VM's configuration options"
   type        = object({
-    host     = string
-    template = string
-  })
-}
+    name = string
 
-variable hardware {
-  description = "Hardware specs for the VM"
-  type        = object({
-    core_count      = optional(number)
-    memory_capacity = optional(number)
-    storage         = object({
-      location = string
-      capacity = optional(string)
+    proxmox = object({
+      host     = string
+      template = string
     })
-    networking      = object({
-      bridge   = string
-      vlan_tag = number
-    })
-  })
-}
 
-variable settings {
-  description = "Other VM settings"
-  type        = object({
-    autostart              = optional(bool)
-    startup_shutdown_order = optional(number)
-    cloud_init             = optional(object({
-      user      = optional(string)
-      ssh_keys  = optional(list(string))
-      ip_config = optional(string)
-    }), {})
-  })
-  default = {}
-}
+    hardware = object({
+      core_count      = optional(number, 1)
+      memory_capacity = optional(number, 1024)
 
-variable nixos {
-  description = "NixOS settings"
-  type        = object({
-    flake = object({
-      path               = string
-      configuration_name = string
+      storage = object({
+        location = string
+        capacity = optional(string, "32G")
+      })
+
+      networking = object({
+        bridge   = string
+        vlan_tag = optional(number)
+      })
     })
-    user = object({
-      name     = string
-      ssh_keys = list(string)
+    
+    settings = optional(object({
+      autostart              = optional(bool, true)
+      startup_shutdown_order = optional(number, -1)
+      cloud_init             = optional(object({
+        user      = optional(string, "opentofu")
+        ssh_keys  = optional(list(string), [])
+        ip_config = optional(string, "ip=dhcp")
+      }), {})
+    }), {
+      autostart              = true
+      startup_shutdown_order = -1
+
+      cloud_init = {
+        user      = "opentofu"
+        ssh_keys  = []
+        ip_config = "ip=dhcp"
+      }
     })
-    options = optional(any)
+
+    nixos = object({
+      flake = object({
+        path               = string
+        configuration_name = string
+      })
+      user = object({
+        name     = string
+        ssh_keys = list(string)
+      })
+      options = optional(any)
+    })
   })
 }

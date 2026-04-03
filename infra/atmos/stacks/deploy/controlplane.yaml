@@ -13,10 +13,11 @@ components:
         inherits:
           - vm/xl
       vars:
-        name: devpod
-        hardware:
-          networking:
-            vlan_tag: 120
-        nixos:
-          flake:
-            configuration_name: devpod
+        config:
+          name: devpod
+          hardware:
+            networking:
+              vlan_tag: 120
+          nixos:
+            flake:
+              configuration_name: devpod

@@ -9,10 +9,11 @@ components:
         inherits:
           - vm/defaults
       vars:
-        proxmox:
-          host: devimon
-        hardware:
-          core_count: 2
-          memory_capacity: 8192
-          storage:
-            capacity: 100G
+        config:
+          proxmox:
+            host: devimon
+          hardware:
+            core_count: 2
+            memory_capacity: 8192
+            storage:
+              capacity: 100G
