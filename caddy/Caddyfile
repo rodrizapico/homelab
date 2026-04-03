@@ -23,7 +23,6 @@ auth.docker.services.buen.ga {
 	reverse_proxy authelia:9091
 }
 
-
 hedgedoc.docker.services.buen.ga {
 	reverse_proxy hedgedoc:3000
 }
@@ -40,6 +39,10 @@ sonarr.docker.services.buen.ga {
 
 prowlarr.docker.services.buen.ga {
 	reverse_proxy prowlarr:9696
+}
+
+bazarr.docker.services.buen.ga {
+	reverse_proxy bazarr:6767
 }
 
 jellyfin.docker.services.buen.ga {

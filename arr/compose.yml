@@ -22,3 +22,13 @@ services:
       - ${CONFIG_VOLUMES_PATH}/sonarr:/config
       - ${DATA_VOLUMES_PATH}:/data
     restart: unless-stopped
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      <<: *linuxserver-env
+    volumes:
+      - ${CONFIG_VOLUMES_PATH}/bazarr:/config
+      - ${DATA_VOLUMES_PATH}/media:/data/media
+    restart: unless-stopped
