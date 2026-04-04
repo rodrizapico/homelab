@@ -10,4 +10,7 @@ in {
   # Enable services
   services.vscode-server.enable = true;
   virtualisation.docker.enable  = true;
+
+  # Add necessary groups to user
+  users.users.${terraform.username}.extraGroups = [ "wheel" "docker" ];
 }

@@ -55,7 +55,7 @@ in {
     users.${terraform.username} = {
       description  = "Admin user account";
       isNormalUser = true;
-      extraGroups  = [ "wheel" "docker" ];
+      extraGroups  = lib.mkDefault [ "wheel" ];
       openssh.authorizedKeys.keys = terraform.ssh_keys;
     };
   };
