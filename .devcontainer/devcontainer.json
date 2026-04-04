@@ -14,8 +14,9 @@
     "ghcr.io/devcontainers/features/common-utils:2": {
       "configureZshAsDefaultShell": true
     },
-    "ghcr.io/devcontainers/features/nix:1": {
-      // After updating this, you need to remove the nix volume before rebuilding
+    // TODO: we have this pinned to v1.2 due to this issue: https://github.com/devcontainers/features/issues/1505
+    // Once it's resolved, we should switch back to the latest version
+    "ghcr.io/devcontainers/features/nix:1.2": {
       "packages": "tenv,npins",
       "extraNixConfig": "experimental-features = nix-command flakes"
     },
