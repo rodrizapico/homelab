@@ -8,7 +8,7 @@ components:
     mirror-devpod:
       vars:
         config:
-          nixos:
+          settings:
             user:
               name: rodrizapico
               ssh_keys:

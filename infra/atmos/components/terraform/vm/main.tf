@@ -4,7 +4,7 @@ module proxmox_template_vm {
   config = {
     general  = {
       name             = "${var.namespace}-${var.stage}-vm-${var.config.name}"
-      tags             = ["${var.namespace},${var.stage}"]
+      tags             = [var.namespace, var.stage]
       proxmox_host     = var.config.proxmox.host
       proxmox_template = var.config.proxmox.template
     }

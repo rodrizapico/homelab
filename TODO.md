@@ -9,8 +9,8 @@
 
 [X] make the whole config a single var (this should simplify the next point)
 [ ] make base vm not use nixos forcefully
-[ ] add presets for base VM, allow to customize
 [ ] add validations to base VM variables so that cloud init info can only be set if no nixos; nixos is optional but if it exists must have certain values
+[ ] add presets for base VM, allow to customize
 [ ] clean up SSH keys generation?
 
 [ ] remove hardcoded links to local infra (proxmox hosts, for example)

@@ -36,19 +36,16 @@ variable config {
     settings = optional(object({
       autostart              = optional(bool, true)
       startup_shutdown_order = optional(number, -1)
-      cloud_init             = optional(object({
-        user      = optional(string, "opentofu")
-        ssh_keys  = optional(list(string), [])
-        ip_config = optional(string, "ip=dhcp")
-      }), {})
+      user                   = optional(object({
+        name     = optional(string, "opentofu")
+        ssh_keys = optional(list(string), [])
+      }))
     }), {
       autostart              = true
       startup_shutdown_order = -1
-
-      cloud_init = {
-        user      = "opentofu"
+      user                   = {
+        name      = "opentofu"
         ssh_keys  = []
-        ip_config = "ip=dhcp"
       }
     })
 
@@ -56,10 +53,6 @@ variable config {
       flake = object({
         path               = string
         configuration_name = string
-      })
-      user = object({
-        name     = string
-        ssh_keys = list(string)
       })
       options = optional(any)
     })

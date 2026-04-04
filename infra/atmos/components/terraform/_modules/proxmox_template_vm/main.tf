@@ -5,13 +5,15 @@ resource tls_private_key nixos_admin_ssh_key {
 
 locals {
   nixos_admin_private_ssh_key = tls_private_key.nixos_admin_ssh_key.private_key_openssh
-  nixos_admin_public_ssh_key  = tls_private_key.nixos_admin_ssh_key.public_key_openssh
-  cloud_init_ssh_keys         = join("\n", concat(var.config.settings.cloud_init.ssh_keys, [local.nixos_admin_public_ssh_key]))
+  cloud_init                  = {
+    username = "opentofu"
+    ssh_keys = tls_private_key.nixos_admin_ssh_key.public_key_openssh
+  }
 }
 
 resource proxmox_vm_qemu vm {
   name        = var.config.general.name
-  tags        = join("\n", var.config.general.tags)
+  tags        = join(",", var.config.general.tags)
   target_node = var.config.general.proxmox_host
   clone       = var.config.general.proxmox_template
   full_clone  = true
@@ -65,10 +67,10 @@ resource proxmox_vm_qemu vm {
   }
 
   # Cloud Init settings
-  ciuser    = var.config.settings.cloud_init.user
-  sshkeys   = local.cloud_init_ssh_keys
+  ciuser    = local.cloud_init.username
+  sshkeys   = local.cloud_init.ssh_keys
   ciupgrade = false
-  ipconfig0 = var.config.settings.cloud_init.ip_config
+  ipconfig0 = "ip=dhcp"
 }
 
 module nixos_deployment {
@@ -76,14 +78,14 @@ module nixos_deployment {
   nixos_system_attr      = "${var.config.nixos.flake.path}#nixosConfigurations.${var.config.nixos.flake.configuration_name}.config.system.build.toplevel"
   nixos_partitioner_attr = "${var.config.nixos.flake.path}#nixosConfigurations.${var.config.nixos.flake.configuration_name}.config.system.build.diskoScript"
   target_host            = proxmox_vm_qemu.vm.default_ipv4_address
-  target_user            = var.config.settings.cloud_init.user
+  target_user            = local.cloud_init.username
   install_ssh_key        = local.nixos_admin_private_ssh_key
   deployment_ssh_key     = local.nixos_admin_private_ssh_key
   special_args = {
    terraform = {
      hostname = proxmox_vm_qemu.vm.name
-     username = var.config.nixos.user.name
-     ssh_keys = var.config.nixos.user.ssh_keys
+     username = var.config.settings.user.name
+     ssh_keys = var.config.settings.user.ssh_keys
      options  = var.config.nixos.options
    }
   }

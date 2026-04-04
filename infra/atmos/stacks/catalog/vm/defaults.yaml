@@ -21,12 +21,10 @@ components:
           settings:
             autostart: true
             startup_shutdown_order: -1
-            cloud_init:
-              ip_config: ip=dhcp
-          nixos:
-            flake:
-              path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
             user:
               name: buengabacho
               ssh_keys:
                 - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
+          nixos:
+            flake:
+              path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
