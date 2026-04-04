@@ -49,12 +49,22 @@ variable config {
       }
     })
 
-    nixos = object({
-      flake = object({
-        path               = string
-        configuration_name = string
-      })
+    nixos = optional(object({
+      flake = optional(object({
+        path               = optional(string)
+        configuration_name = optional(string)
+      }))
       options = optional(any)
-    })
+    }))
   })
+
+  validation {
+    condition     = contains(["nixos-cloudinit-template", "arch-cloudinit-template"], var.config.proxmox.template)
+    error_message = "'config.proxmox.template' must be 'nixos-cloudinit-template' or 'arch-cloudinit-template'."
+  }
+
+  validation {
+    condition     = var.config.proxmox.template != "nixos-cloudinit-template" || try(var.config.nixos.flake.path != null && var.config.nixos.flake.configuration_name != null, false)
+    error_message = "For NixOS installs, 'config.nixos.flake.path' and 'config.nixos.flake.configuration_name' are required."
+  }
 }

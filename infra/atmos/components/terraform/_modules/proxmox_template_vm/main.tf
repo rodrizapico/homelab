@@ -1,14 +1,17 @@
-resource tls_private_key nixos_admin_ssh_key {
-  algorithm = "RSA"
-  rsa_bits  = 4096
+locals {
+  use_nixos           = var.config.general.proxmox_template == "nixos-cloudinit-template"
+  nixos_admin_ssh_key = try(tls_private_key.nixos_admin_ssh_key[0], null)
+  cloud_init                  = {
+    username = local.use_nixos ? "opentofu" : var.config.settings.user.name
+    ssh_keys = local.use_nixos ? local.nixos_admin_ssh_key.public_key_openssh : join("\n", var.config.settings.user.ssh_keys)
+  }
 }
 
-locals {
-  nixos_admin_private_ssh_key = tls_private_key.nixos_admin_ssh_key.private_key_openssh
-  cloud_init                  = {
-    username = "opentofu"
-    ssh_keys = tls_private_key.nixos_admin_ssh_key.public_key_openssh
-  }
+resource tls_private_key nixos_admin_ssh_key {
+  count = local.use_nixos ? 1 : 0
+
+  algorithm = "RSA"
+  rsa_bits  = 4096
 }
 
 resource proxmox_vm_qemu vm {
@@ -74,13 +77,15 @@ resource proxmox_vm_qemu vm {
 }
 
 module nixos_deployment {
+  count = local.use_nixos ? 1 : 0
+
   source                 = "github.com/nix-community/nixos-anywhere//terraform/all-in-one"
   nixos_system_attr      = "${var.config.nixos.flake.path}#nixosConfigurations.${var.config.nixos.flake.configuration_name}.config.system.build.toplevel"
   nixos_partitioner_attr = "${var.config.nixos.flake.path}#nixosConfigurations.${var.config.nixos.flake.configuration_name}.config.system.build.diskoScript"
   target_host            = proxmox_vm_qemu.vm.default_ipv4_address
   target_user            = local.cloud_init.username
-  install_ssh_key        = local.nixos_admin_private_ssh_key
-  deployment_ssh_key     = local.nixos_admin_private_ssh_key
+  install_ssh_key        = local.nixos_admin_ssh_key.private_key_openssh
+  deployment_ssh_key     = local.nixos_admin_ssh_key.private_key_openssh
   special_args = {
    terraform = {
      hostname = proxmox_vm_qemu.vm.name

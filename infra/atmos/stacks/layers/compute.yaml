@@ -14,6 +14,15 @@ components:
           nixos:
             flake:
               configuration_name: devpod
+    arch:
+      metadata:
+        inherits:
+          - vm/xl
+      vars:
+        config:
+          name: arch
+          proxmox:
+            template: arch-cloudinit-template
     k3s-server-1:
       metadata:
         inherits:

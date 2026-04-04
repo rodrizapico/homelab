@@ -7,13 +7,13 @@
 [X] make base vm able to use SSH keys passed as variables for cloud init
 [X] in base VM, if nixos is enabled, force create the SSH keys
 
+[X] make base vm not use nixos forcefully
 [X] make the whole config a single var (this should simplify the next point)
-[ ] make base vm not use nixos forcefully
-[ ] add validations to base VM variables so that cloud init info can only be set if no nixos; nixos is optional but if it exists must have certain values
+[X] add validations to base VM variables so that cloud init info can only be set if no nixos; nixos is optional but if it exists must have certain values
+[ ] remove hardcoded links to local infra (proxmox hosts, template names, for example)
 [ ] add presets for base VM, allow to customize
 [ ] clean up SSH keys generation?
 
-[ ] remove hardcoded links to local infra (proxmox hosts, for example)
 [ ] add default storage location, proxmox host, template, nixos path
 [ ] create k3s terraform component with configurable amount of nodes / distribute across hosts
 [ ] how do I manage secrets for the base infra (proxmox keys, k3s token)? For now, I'm just using env vars in the devcontainer
