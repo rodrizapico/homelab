@@ -6,21 +6,12 @@ components:
         type: abstract
       vars:
         config:
-          proxmox:
-            host: agumon
-            template: nixos-cloudinit-template
           hardware:
             core_count: 2
             memory_capacity: 2048
-            storage:
-              location: ceph_data
-              capacity: 50G
-            networking:
-              bridge: vmbr0
-              vlan_tag: 140
+            storage_capacity: 50G
+            vlan_tag: 140
           settings:
-            autostart: true
-            startup_shutdown_order: -1
             user:
               name: buengabacho
               ssh_keys:

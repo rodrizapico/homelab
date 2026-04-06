@@ -21,12 +21,13 @@ components:
       vars:
         config:
           name: arch
-          proxmox:
-            template: arch-cloudinit-template
+          advanced:
+            proxmox:
+              vm_template: arch-cloudinit-template
     k3s-server-1:
       metadata:
         inherits:
-          - vm/xl
+          - vm/md
       vars:
         config:
           name: k3s-server-1
@@ -39,7 +40,7 @@ components:
     k3s-server-2:
       metadata:
         inherits:
-          - vm/xl
+          - vm/md
       vars:
         config:
           name: k3s-server-2

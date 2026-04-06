@@ -13,5 +13,4 @@ components:
           hardware:
             core_count: 4
             memory_capacity: 16384
-            storage:
-              capacity: 250G
+            storage_capacity: 250G

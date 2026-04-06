@@ -6,13 +6,14 @@
 [X] autostart vms on boot
 [X] make base vm able to use SSH keys passed as variables for cloud init
 [X] in base VM, if nixos is enabled, force create the SSH keys
-
 [X] make base vm not use nixos forcefully
 [X] make the whole config a single var (this should simplify the next point)
 [X] add validations to base VM variables so that cloud init info can only be set if no nixos; nixos is optional but if it exists must have certain values
-[ ] remove hardcoded links to local infra (proxmox hosts, template names, for example)
-[ ] add presets for base VM, allow to customize
+
+[-] remove hardcoded links to local infra (proxmox hosts, template names, for example)
+[ ] add presets for base VM, allow to customize by having additional 'advanced' settings
 [ ] clean up SSH keys generation?
+[ ] clear up stage usage
 
 [ ] add default storage location, proxmox host, template, nixos path
 [ ] create k3s terraform component with configurable amount of nodes / distribute across hosts

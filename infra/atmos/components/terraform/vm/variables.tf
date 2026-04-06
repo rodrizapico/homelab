@@ -6,6 +6,17 @@ variable namespace {}
 
 variable stage {}
 
+variable proxmox {
+  description = "Proxmox cluster configuration"
+  type        = object({
+    api_url               = string
+    default_allowed_nodes = list(string)
+    default_vm_template   = string
+    default_vm_storage    = string
+    default_vm_bridge     = string
+  })
+}
+
 # Component specific variables
 
 variable config {
@@ -13,24 +24,11 @@ variable config {
   type        = object({
     name = string
 
-    proxmox = object({
-      host     = string
-      template = string
-    })
-
     hardware = object({
-      core_count      = optional(number, 1)
-      memory_capacity = optional(number, 1024)
-
-      storage = object({
-        location = string
-        capacity = optional(string, "32G")
-      })
-
-      networking = object({
-        bridge   = string
-        vlan_tag = optional(number)
-      })
+      core_count       = optional(number, 1)
+      memory_capacity  = optional(number, 1024)
+      storage_capacity = optional(string, "32G")
+      vlan_tag         = optional(number)
     })
     
     settings = optional(object({
@@ -56,15 +54,14 @@ variable config {
       }))
       options = optional(any)
     }))
+
+    advanced = optional(object({
+      proxmox = optional(object({
+        allowed_nodes = optional(list(string))
+        vm_template   = optional(string)
+        vm_storage    = optional(string)
+        vm_bridge     = optional(string)
+      }))
+    }))
   })
-
-  validation {
-    condition     = contains(["nixos-cloudinit-template", "arch-cloudinit-template"], var.config.proxmox.template)
-    error_message = "'config.proxmox.template' must be 'nixos-cloudinit-template' or 'arch-cloudinit-template'."
-  }
-
-  validation {
-    condition     = var.config.proxmox.template != "nixos-cloudinit-template" || try(var.config.nixos.flake.path != null && var.config.nixos.flake.configuration_name != null, false)
-    error_message = "For NixOS installs, 'config.nixos.flake.path' and 'config.nixos.flake.configuration_name' are required."
-  }
 }

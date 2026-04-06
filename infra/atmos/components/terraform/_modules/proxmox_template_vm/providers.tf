@@ -1,4 +1,4 @@
 provider proxmox {
-  pm_api_url      = "https://gabumon.mgmt.buen.ga:8006/api2/json"
+  pm_api_url      = var.proxmox.api_url
   pm_tls_insecure = true
 }

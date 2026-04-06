@@ -10,10 +10,10 @@ components:
           - vm/defaults
       vars:
         config:
-          proxmox:
-            host: devimon
           hardware:
             core_count: 2
             memory_capacity: 8192
-            storage:
-              capacity: 100G
+            storage_capacity: 100G
+          advanced:
+            proxmox:
+              allowed_nodes: [devimon]

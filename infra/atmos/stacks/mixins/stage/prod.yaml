@@ -7,5 +7,4 @@ components:
       vars:
         config:
           hardware:
-            networking:
-              vlan_tag: 120
+            vlan_tag: 120

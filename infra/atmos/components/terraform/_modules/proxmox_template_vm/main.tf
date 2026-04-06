@@ -1,10 +1,12 @@
 locals {
-  use_nixos           = var.config.general.proxmox_template == "nixos-cloudinit-template"
+  use_nixos           = try(var.config.nixos.flake.configuration_name != null, false)
   nixos_admin_ssh_key = try(tls_private_key.nixos_admin_ssh_key[0], null)
-  cloud_init                  = {
+  cloud_init          = {
     username = local.use_nixos ? "opentofu" : var.config.settings.user.name
     ssh_keys = local.use_nixos ? local.nixos_admin_ssh_key.public_key_openssh : join("\n", var.config.settings.user.ssh_keys)
   }
+
+  vm_storage = coalesce(try(var.config.advanced.proxmox.vm_storage, null), var.proxmox.default_vm_storage)
 }
 
 resource tls_private_key nixos_admin_ssh_key {
@@ -15,11 +17,11 @@ resource tls_private_key nixos_admin_ssh_key {
 }
 
 resource proxmox_vm_qemu vm {
-  name        = var.config.general.name
-  tags        = join(",", var.config.general.tags)
-  target_node = var.config.general.proxmox_host
-  clone       = var.config.general.proxmox_template
-  full_clone  = true
+  name        = var.config.name
+  tags        = join(",", var.config.tags)
+  target_nodes = coalesce(try(var.config.advanced.proxmox.allowed_nodes, null), var.proxmox.default_allowed_nodes)
+  clone        = coalesce(try(var.config.advanced.proxmox.vm_template, null), var.proxmox.default_vm_template)
+  full_clone   = true
 
   # VM Settings
   start_at_node_boot = var.config.settings.autostart
@@ -38,7 +40,7 @@ resource proxmox_vm_qemu vm {
     ide {
       ide0 {
         cloudinit {
-          storage = var.config.hardware.storage.location
+          storage = local.vm_storage
         }
       }
     }
@@ -47,8 +49,8 @@ resource proxmox_vm_qemu vm {
       scsi0 {
         disk {
           format     = "raw"
-          size       = var.config.hardware.storage.capacity
-          storage    = var.config.hardware.storage.location
+          size       = var.config.hardware.storage_capacity
+          storage    = local.vm_storage
           emulatessd = true
           discard    = true
         }
@@ -59,8 +61,8 @@ resource proxmox_vm_qemu vm {
   network {
     id     = 0
     model  = "virtio"
-    bridge = var.config.hardware.networking.bridge
-    tag    = var.config.hardware.networking.vlan_tag
+    bridge = coalesce(try(var.config.advanced.proxmox.vm_bridge, null), var.proxmox.default_vm_bridge)
+    tag    = var.config.hardware.vlan_tag
   }
 
   startup_shutdown {

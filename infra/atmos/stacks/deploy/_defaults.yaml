@@ -1,5 +1,11 @@
 vars:
   namespace: homelab
+  proxmox:
+    api_url: https://gabumon.mgmt.buen.ga:8006/api2/json
+    default_allowed_nodes: [agumon]
+    default_vm_template: nixos-cloudinit-template
+    default_vm_storage: ceph_data
+    default_vm_bridge: vmbr0
 
 terraform:
   command: tofu
