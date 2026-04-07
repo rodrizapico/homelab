@@ -30,5 +30,10 @@
       "!aws.caller_identity_user_id",
       "!aws.region",
     ],
+    "[opentofu][opentofu-vars]": {
+      "editor.defaultFormatter": "opentofu.vscode-opentofu",
+      "editor.formatOnSave": true,
+      "editor.formatOnSaveMode": "file",
+    },
   },
 }
