@@ -6,6 +6,7 @@ vars:
     default_vm_template: nixos-cloudinit-template
     default_vm_storage: ceph_data
     default_vm_bridge: vmbr0
+  nixos_flake_path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
 
 terraform:
   command: tofu

@@ -10,10 +10,7 @@ components:
           - vm/defaults
       vars:
         config:
-          hardware:
-            core_count: 2
-            memory_capacity: 8192
-            storage_capacity: 100G
+          hardware_preset: xl
           advanced:
             proxmox:
               allowed_nodes: [devimon]

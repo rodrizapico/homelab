@@ -2,57 +2,42 @@
 
 # Global variables
 
-variable namespace {}
+variable "namespace" {}
 
-variable stage {}
+variable "stage" {}
 
-variable proxmox {
+variable "proxmox" {
   description = "Proxmox cluster configuration"
-  type        = object({
+  type = object({
     api_url               = string
     default_allowed_nodes = list(string)
-    default_vm_template   = string
-    default_vm_storage    = string
-    default_vm_bridge     = string
+    # Must be a cloud init enabled template
+    default_vm_template = string
+    default_vm_storage  = string
+    default_vm_bridge   = string
   })
+}
+
+variable "nixos_flake_path" {
+  description = "Path to the NixOS flake that contains configuration presets"
+  type        = string
+  default     = null
 }
 
 # Component specific variables
 
-variable config {
+variable "config" {
   description = "A collection of all VM's configuration options"
-  type        = object({
+  type = object({
     name = string
+    # Must be either 'none' or a valid config from the configured flake
+    os_preset         = optional(string)
+    os_preset_options = optional(any)
+    hardware_preset   = optional(string)
 
-    hardware = object({
-      core_count       = optional(number, 1)
-      memory_capacity  = optional(number, 1024)
-      storage_capacity = optional(string, "32G")
-      vlan_tag         = optional(number)
-    })
-    
-    settings = optional(object({
-      autostart              = optional(bool, true)
-      startup_shutdown_order = optional(number, -1)
-      user                   = optional(object({
-        name     = optional(string, "opentofu")
-        ssh_keys = optional(list(string), [])
-      }))
-    }), {
-      autostart              = true
-      startup_shutdown_order = -1
-      user                   = {
-        name      = "opentofu"
-        ssh_keys  = []
-      }
-    })
-
-    nixos = optional(object({
-      flake = optional(object({
-        path               = optional(string)
-        configuration_name = optional(string)
-      }))
-      options = optional(any)
+    user = optional(object({
+      name     = optional(string)
+      ssh_keys = optional(list(string))
     }))
 
     advanced = optional(object({
@@ -61,6 +46,18 @@ variable config {
         vm_template   = optional(string)
         vm_storage    = optional(string)
         vm_bridge     = optional(string)
+      }))
+
+      hardware = optional(object({
+        core_count       = optional(number)
+        memory_capacity  = optional(number)
+        storage_capacity = optional(string)
+        vlan_tag         = optional(number)
+      }))
+
+      settings = optional(object({
+        autostart              = optional(bool)
+        startup_shutdown_order = optional(number)
       }))
     }))
   })

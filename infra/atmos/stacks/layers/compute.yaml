@@ -1,23 +1,21 @@
 import:
   - catalog/vm/md
-  - catalog/vm/xxl
+  - catalog/vm/2xl
 
 components:
   terraform:
     mirror-devpod:
       metadata:
         inherits:
-          - vm/xxl
+          - vm/2xl
       vars:
         config:
           name: mirror-devpod
-          nixos:
-            flake:
-              configuration_name: devpod
+          os_preset: devpod
     arch:
       metadata:
         inherits:
-          - vm/xl
+          - vm/md
       vars:
         config:
           name: arch
@@ -31,12 +29,10 @@ components:
       vars:
         config:
           name: k3s-server-1
-          nixos:
-            flake:
-              configuration_name: k3s_server
-            options:
-              k3s_cluster_init: true
-              k3s_cluster_token: !env K3S_CLUSTER_TOKEN
+          os_preset: k3s_server
+          os_preset_options:
+            k3s_cluster_init: true
+            k3s_cluster_token: !env K3S_CLUSTER_TOKEN
     k3s-server-2:
       metadata:
         inherits:
@@ -44,22 +40,18 @@ components:
       vars:
         config:
           name: k3s-server-2
-          nixos:
-            flake:
-              configuration_name: k3s_server
-            options:
-              k3s_cluster_token: !env K3S_CLUSTER_TOKEN
-              k3s_server_addr: !terraform.output k3s-server-1 ".ipv4_address | ""https://"" + . + "":6443"""
+          os_preset: k3s_server
+          os_preset_options:
+            k3s_cluster_token: !env K3S_CLUSTER_TOKEN
+            k3s_server_addr: !terraform.output k3s-server-1 ".ipv4_address | ""https://"" + . + "":6443"""
     k3s-server-3:
       metadata:
         inherits:
-          - vm/xl
+          - vm/md
       vars:
         config:
           name: k3s-server-3
-          nixos:
-            flake:
-              configuration_name: k3s_server
-            options:
-              k3s_cluster_token: !env K3S_CLUSTER_TOKEN
-              k3s_server_addr: !terraform.output k3s-server-1 ".ipv4_address | ""https://"" + . + "":6443"""
+          os_preset: k3s_server
+          os_preset_options:
+            k3s_cluster_token: !env K3S_CLUSTER_TOKEN
+            k3s_server_addr: !terraform.output k3s-server-1 ".ipv4_address | ""https://"" + . + "":6443"""

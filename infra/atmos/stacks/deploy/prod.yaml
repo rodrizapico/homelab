@@ -8,8 +8,7 @@ components:
     mirror-devpod:
       vars:
         config:
-          settings:
-            user:
-              name: rodrizapico
-              ssh_keys:
-                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKe/HIxUFzDHiwSK4fefAX/4qwz+yZtmjPCeSUMpYcy0 # 1Password SSH key
+          user:
+            name: rodrizapico
+            ssh_keys:
+              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKe/HIxUFzDHiwSK4fefAX/4qwz+yZtmjPCeSUMpYcy0 # 1Password SSH key

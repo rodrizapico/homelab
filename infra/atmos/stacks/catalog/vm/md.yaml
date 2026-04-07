@@ -10,6 +10,4 @@ components:
           - vm/defaults
       vars:
         config:
-          hardware:
-            core_count: 2
-            memory_capacity: 2048
+          hardware_preset: md

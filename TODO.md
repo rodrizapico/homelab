@@ -9,13 +9,16 @@
 [X] make base vm not use nixos forcefully
 [X] make the whole config a single var (this should simplify the next point)
 [X] add validations to base VM variables so that cloud init info can only be set if no nixos; nixos is optional but if it exists must have certain values
+[X] remove hardcoded links to local infra (proxmox hosts, template names, for example)
+[X] add presets for base VM, allow to customize by having additional 'advanced' settings
+[X] check if validations work when specified only on the child module
+[X] add default storage location, proxmox host, template, nixos path
 
-[-] remove hardcoded links to local infra (proxmox hosts, template names, for example)
-[ ] add presets for base VM, allow to customize by having additional 'advanced' settings
 [ ] clean up SSH keys generation?
 [ ] clear up stage usage
+[ ] if no user is passed, we need to give an output with valid user/private key OR we need to make ssh_keys mandatory
+[ ] test a different cloudinit image, since the arch one doesn't seem to work with nixos-anywhere
 
-[ ] add default storage location, proxmox host, template, nixos path
 [ ] create k3s terraform component with configurable amount of nodes / distribute across hosts
 [ ] how do I manage secrets for the base infra (proxmox keys, k3s token)? For now, I'm just using env vars in the devcontainer
 [ ] Configure a backend other than local, probably by deploying a local S3-compatible service (and make sure it's encrypted)
@@ -25,4 +28,4 @@
 ## Testing
 
 [ ] Ensure ssh keys passed to cloud init can be used (and the generated one too, in that case)
-[ ] does changing the configured host rebuilds the vm or simply move it?
+[X] does changing the configured host rebuild the vm or simply move it? -> moves it

@@ -6,16 +6,11 @@ components:
         type: abstract
       vars:
         config:
-          hardware:
-            core_count: 2
-            memory_capacity: 2048
-            storage_capacity: 50G
-            vlan_tag: 140
-          settings:
-            user:
-              name: buengabacho
-              ssh_keys:
-                - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
-          nixos:
-            flake:
-              path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
+          hardware_preset: md
+          user:
+            name: buengabacho
+            ssh_keys:
+              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
+          advanced:
+            hardware:
+              vlan_tag: 140

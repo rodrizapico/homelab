@@ -1,52 +1,44 @@
 # This file should be (mostly) synced up with infra/atmos/components/terraform/vm/variables.tf
 
-variable proxmox {
+# Global variables
+
+variable "proxmox" {
   description = "Proxmox cluster configuration"
-  type        = object({
+  type = object({
     api_url               = string
     default_allowed_nodes = list(string)
-    default_vm_template   = string
-    default_vm_storage    = string
-    default_vm_bridge     = string
+    # Must be a cloud init enabled template
+    default_vm_template = string
+    default_vm_storage  = string
+    default_vm_bridge   = string
   })
 }
 
-variable config {
+variable "nixos_flake_path" {
+  description = "Path to the NixOS flake that contains configuration presets"
+  type        = string
+  default     = null
+}
+
+# Component specific variables
+
+variable "config" {
   description = "A collection of all VM's configuration options"
-  type        = object({
+  type = object({
     name = string
-    tags= optional(list(string), [])
+    tags = optional(list(string), [])
+    # Must be either 'none' or a valid config from the configured flake
+    os_preset         = optional(string, "none")
+    os_preset_options = optional(any)
+    hardware_preset   = optional(string, "sm")
 
-    hardware = object({
-      core_count       = optional(number, 1)
-      memory_capacity  = optional(number, 1024)
-      storage_capacity = optional(string, "32G")
-      vlan_tag         = optional(number)
+    user = optional(object({
+      name     = optional(string, "opentofu")
+      ssh_keys = optional(list(string), [])
+      }), {
+      name     = "opentofu"
+      ssh_keys = []
     })
-    
-    settings = optional(object({
-      autostart              = optional(bool, true)
-      startup_shutdown_order = optional(number, -1)
-      user                   = optional(object({
-        name     = optional(string, "opentofu")
-        ssh_keys = optional(list(string), [])
-      }))
-    }), {
-      autostart              = true
-      startup_shutdown_order = -1
-      user                   = {
-        name      = "opentofu"
-        ssh_keys  = []
-      }
-    })
-
-    nixos = optional(object({
-      flake = optional(object({
-        path               = optional(string)
-        configuration_name = optional(string)
-      }))
-      options = optional(any)
-    }))
 
     advanced = optional(object({
       proxmox = optional(object({
@@ -55,11 +47,66 @@ variable config {
         vm_storage    = optional(string)
         vm_bridge     = optional(string)
       }))
+
+      hardware = optional(object({
+        core_count       = optional(number)
+        memory_capacity  = optional(number)
+        storage_capacity = optional(string)
+        vlan_tag         = optional(number)
+      }))
+
+      settings = optional(object({
+        autostart              = optional(bool, true)
+        startup_shutdown_order = optional(number, -1)
+        }), {
+        autostart              = true
+        startup_shutdown_order = -1
+      })
     }))
   })
 
   validation {
-    condition     = try(var.config.nixos.flake.configuration_name == null || var.config.nixos.flake.path != null, true)
-    error_message = "For NixOS installs, 'config.nixos.flake.path' and 'config.nixos.flake.configuration_name' are required."
+    error_message = "Hardware preset must be one of 'sm', 'md', 'lg', 'xl' or 'custom'."
+    condition     = contains(["sm", "md", "lg", "xl", "custom"], var.config.hardware_preset)
+  }
+
+  validation {
+    error_message = "For the 'custom' hardware preset, the following values under 'advanced.hardware' are required: 'core_count', 'memory_capacity' and 'storage_capacity'."
+    condition = (
+      !contains(["custom"], var.config.hardware_preset) ||
+      try(
+        var.config.advanced.hardware.core_count != null &&
+        var.config.advanced.hardware.memory_capacity != null &&
+        var.config.advanced.hardware.storage_capacity != null,
+        false
+      )
+    )
+  }
+
+  validation {
+    error_message = "The following values under 'advanced.hardware' can only be set for the 'custom' hardware preset: 'core_count', 'memory_capacity' and 'storage_capacity'."
+    condition = (
+      contains(["custom"], var.config.hardware_preset) ||
+      (
+        try(var.config.advanced.hardware.core_count == null, true) &&
+        try(var.config.advanced.hardware.memory_capacity == null, true) &&
+        try(var.config.advanced.hardware.storage_capacity == null, true)
+      )
+    )
+  }
+
+  validation {
+    condition     = var.nixos_flake_path != null || contains(["none"], var.config.os_preset)
+    error_message = "When 'nixos_flake_path' is not set, the only allowed OS preset is 'none'."
+  }
+
+  validation {
+    condition     = try(var.config.advanced.proxmox.vm_template == null, true) || contains(["none"], var.config.os_preset)
+    error_message = "When 'advanced.proxmox.vm_template' is set, the only allowed OS preset is 'none'."
+  }
+
+  validation {
+    condition     = !contains(["sm"], var.config.hardware_preset) || contains(["none"], var.config.os_preset)
+    error_message = "When using the 'sm' hardware preset, the only allowed OS preset is 'none'."
   }
 }

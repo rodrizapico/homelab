@@ -1,21 +1,18 @@
-vars:
-  stage: controlplane
-
 import:
-  - deploy/_defaults
-  - catalog/vm/md
   - catalog/vm/xl
 
 components:
   terraform:
-    devpod:
+    vm/2xl:
       metadata:
+        type: abstract
         inherits:
           - vm/xl
       vars:
         config:
-          name: devpod
-          os_preset: devpod
+          hardware_preset: custom
           advanced:
             hardware:
-              vlan_tag: 120
+              core_count: 4
+              memory_capacity: 16384
+              storage_capacity: 250G
