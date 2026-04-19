@@ -17,5 +17,5 @@ components:
           name: devpod
           os_preset: devpod
           advanced:
-            hardware:
-              vlan_tag: 120
+            proxmox:
+              vm_vlan_tag: 120

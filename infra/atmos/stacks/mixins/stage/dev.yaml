@@ -6,5 +6,6 @@ components:
     vm/defaults:
       vars:
         config:
-          hardware:
-            vlan_tag: 140
+          advanced:
+            proxmox:
+              vm_vlan_tag: 140

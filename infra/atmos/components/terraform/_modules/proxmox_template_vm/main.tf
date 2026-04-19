@@ -100,7 +100,7 @@ resource "proxmox_vm_qemu" "vm" {
     id     = 0
     model  = "virtio"
     bridge = coalesce(try(var.config.advanced.proxmox.vm_bridge, null), var.proxmox.default_vm_bridge)
-    tag    = var.config.advanced.hardware.vlan_tag
+    tag    = try(var.config.advanced.proxmox.vm_vlan_tag, null)
   }
 
   startup_shutdown {

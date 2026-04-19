@@ -46,13 +46,13 @@ variable "config" {
         vm_template   = optional(string)
         vm_storage    = optional(string)
         vm_bridge     = optional(string)
+        vm_vlan_tag   = optional(number)
       }))
 
       hardware = optional(object({
         core_count       = optional(number)
         memory_capacity  = optional(number)
         storage_capacity = optional(string)
-        vlan_tag         = optional(number)
       }))
 
       settings = optional(object({

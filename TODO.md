@@ -20,6 +20,7 @@
 [ ] test a different cloudinit image, since the arch one doesn't seem to work with nixos-anywhere
 
 [ ] create k3s terraform component with configurable amount of nodes / distribute across hosts
+[ ] manage env variables like proxmox default values
 [ ] how do I manage secrets for the base infra (proxmox keys, k3s token)? For now, I'm just using env vars in the devcontainer
 [ ] Configure a backend other than local, probably by deploying a local S3-compatible service (and make sure it's encrypted)
 [ ] Deploy GitLab
