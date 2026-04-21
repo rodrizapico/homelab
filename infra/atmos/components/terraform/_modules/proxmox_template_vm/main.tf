@@ -6,7 +6,13 @@ locals {
     ssh_keys = local.use_nixos ? local.nixos_admin_ssh_key.public_key_openssh : join("\n", var.config.user.ssh_keys)
   }
 
-  vm_storage = coalesce(try(var.config.advanced.proxmox.vm_storage, null), var.proxmox.default_vm_storage)
+  proxmox = {
+    allowed_nodes = coalesce(try(var.config.advanced.proxmox.allowed_nodes, null), var.proxmox.default_allowed_nodes)
+    storage       = coalesce(try(var.config.advanced.proxmox.vm_storage, null), var.proxmox.default_vm_storage)
+    template      = coalesce(try(var.config.advanced.proxmox.vm_template, null), var.proxmox.default_vm_template)
+    bridge        = coalesce(try(var.config.advanced.proxmox.vm_bridge, null), var.proxmox.default_vm_bridge)
+    vlan_tag      = try(var.config.advanced.proxmox.vm_vlan_tag, null)
+  }
 
   hardware_presets = {
     sm = {
@@ -34,9 +40,9 @@ locals {
     }
 
     custom = {
-      core_count       = var.config.advanced.hardware.core_count
-      memory_capacity  = var.config.advanced.hardware.memory_capacity
-      storage_capacity = var.config.advanced.hardware.storage_capacity
+      core_count       = try(var.config.advanced.hardware.core_count, null)
+      memory_capacity  = try(var.config.advanced.hardware.memory_capacity, null)
+      storage_capacity = try(var.config.advanced.hardware.storage_capacity, null)
     }
   }
 
@@ -57,12 +63,12 @@ resource "tls_private_key" "nixos_admin_ssh_key" {
 resource "proxmox_vm_qemu" "vm" {
   name         = var.config.name
   tags         = join(",", var.config.tags)
-  target_nodes = coalesce(try(var.config.advanced.proxmox.allowed_nodes, null), var.proxmox.default_allowed_nodes)
-  clone        = coalesce(try(var.config.advanced.proxmox.vm_template, null), var.proxmox.default_vm_template)
+  target_nodes = local.proxmox.allowed_nodes
+  clone        = local.proxmox.template
   full_clone   = true
 
   # VM Settings
-  start_at_node_boot = var.config.advanced.settings.autostart
+  start_at_node_boot = coalesce(try(var.config.advanced.settings.autostart, null), true)
   agent              = 1
   skip_ipv6          = true
   os_type            = "cloud-init"
@@ -78,7 +84,7 @@ resource "proxmox_vm_qemu" "vm" {
     ide {
       ide0 {
         cloudinit {
-          storage = local.vm_storage
+          storage = local.proxmox.storage
         }
       }
     }
@@ -88,7 +94,7 @@ resource "proxmox_vm_qemu" "vm" {
         disk {
           format     = "raw"
           size       = local.hardware.storage_capacity
-          storage    = local.vm_storage
+          storage    = local.proxmox.storage
           emulatessd = true
           discard    = true
         }
@@ -99,12 +105,12 @@ resource "proxmox_vm_qemu" "vm" {
   network {
     id     = 0
     model  = "virtio"
-    bridge = coalesce(try(var.config.advanced.proxmox.vm_bridge, null), var.proxmox.default_vm_bridge)
-    tag    = try(var.config.advanced.proxmox.vm_vlan_tag, null)
+    bridge = local.proxmox.bridge
+    tag    = local.proxmox.vlan_tag
   }
 
   startup_shutdown {
-    order            = var.config.advanced.settings.startup_shutdown_order
+    order            = coalesce(try(var.config.advanced.settings.startup_shutdown_order, null), -1)
     shutdown_timeout = -1
     startup_delay    = -1
   }

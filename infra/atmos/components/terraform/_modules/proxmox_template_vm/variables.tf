@@ -58,10 +58,7 @@ variable "config" {
       settings = optional(object({
         autostart              = optional(bool, true)
         startup_shutdown_order = optional(number, -1)
-        }), {
-        autostart              = true
-        startup_shutdown_order = -1
-      })
+      }))
     }))
   })
 
