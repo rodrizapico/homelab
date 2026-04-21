@@ -1,10 +1,13 @@
-module proxmox_template_vm {
+module "proxmox_template_vm" {
   source = "../_modules/proxmox_template_vm"
+  providers = {
+    proxmox = proxmox
+  }
 
   proxmox          = var.proxmox
   nixos_flake_path = var.nixos_flake_path
 
-  config  = {
+  config = {
     name = "${var.namespace}-${var.stage}-vm-${var.config.name}"
     tags = [var.namespace, var.stage]
     user = var.config.user
