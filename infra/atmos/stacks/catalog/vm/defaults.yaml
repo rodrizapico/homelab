@@ -11,6 +11,3 @@ components:
             name: buengabacho
             ssh_keys:
               - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
-          advanced:
-            proxmox:
-              vm_vlan_tag: 140

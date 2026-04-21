@@ -1,0 +1,137 @@
+import:
+  - catalog/vm/sm
+  - catalog/vm/md
+  - catalog/vm/2xl
+
+components:
+  terraform:
+    mirror-devpod:
+      metadata:
+        inherits:
+          - vm/2xl
+      vars:
+        config:
+          name: mirror-devpod
+          os_preset: devpod
+    arch:
+      metadata:
+        inherits:
+          - vm/sm
+      vars:
+        config:
+          name: arch
+          advanced:
+            proxmox:
+              vm_template: arch-cloudinit-template
+    os-preset-with-arch-as-default-template:
+      metadata:
+        inherits:
+          - vm/sm
+      vars:
+        proxmox:
+          default_vm_template: arch-cloudinit-template
+        config:
+          name: os-preset-with-arch-as-default-template
+          os_preset: devpod
+    custom-hardware-preset:
+      metadata:
+        inherits:
+          - vm/sm
+      vars:
+        config:
+          name: custom-hardware-preset
+          hardware_preset: custom
+          advanced:
+            hardware:
+              core_count: 1
+              memory_capacity: 1024
+              storage_capacity: "20G"
+    invalid-os-preset-with-custom-template:
+      metadata:
+        inherits:
+          - vm/sm
+      vars:
+        config:
+          name: invalid-os-preset-with-custom-template
+          os_preset: devpod
+          advanced:
+            proxmox:
+              vm_template: arch-cloudinit-template
+    invalid-os-preset-without-flake-path:
+      metadata:
+        inherits:
+          - vm/sm
+      vars:
+        nixos_flake_path: null
+        config:
+          name: invalid-os-preset-without-flake-path
+          os_preset: devpod
+    invalid-hardware-preset-name:
+      metadata:
+        inherits:
+          - vm/sm
+      vars:
+        config:
+          name: invalid-hardware-preset-name
+          hardware_preset: pepe
+    invalid-custom-hardware-preset-with-missing-hardware:
+      metadata:
+        inherits:
+          - vm/sm
+      vars:
+        config:
+          name: invalid-custom-hardware-preset-with-missing-hardware
+          hardware_preset: custom
+          advanced:
+            # At least one of these values, or the whole section, must be missing
+            hardware:
+              core_count: 1
+              memory_capacity: 1024
+              # storage_capacity: "20G"
+    invalid-hardware-preset-with-custom-hardware:
+      metadata:
+        inherits:
+          - vm/sm
+      vars:
+        config:
+          name: invalid-hardware-preset-with-custom-hardware
+          hardware_preset: md
+          advanced:
+            # At least one of these values, or the whole section, must be defined
+            hardware:
+              # core_count: 1
+              memory_capacity: 1024
+              # storage_capacity: "20G"
+    k3s-server-1:
+      metadata:
+        inherits:
+          - vm/md
+      vars:
+        config:
+          name: k3s-server-1
+          os_preset: k3s_server
+          os_preset_options:
+            k3s_cluster_init: true
+            k3s_cluster_token: !env K3S_CLUSTER_TOKEN
+    k3s-server-2:
+      metadata:
+        inherits:
+          - vm/md
+      vars:
+        config:
+          name: k3s-server-2
+          os_preset: k3s_server
+          os_preset_options:
+            k3s_cluster_token: !env K3S_CLUSTER_TOKEN
+            k3s_server_addr: !terraform.output k3s-server-1 ".ipv4_address | ""https://"" + . + "":6443"""
+    k3s-server-3:
+      metadata:
+        inherits:
+          - vm/md
+      vars:
+        config:
+          name: k3s-server-3
+          os_preset: k3s_server
+          os_preset_options:
+            k3s_cluster_token: !env K3S_CLUSTER_TOKEN
+            k3s_server_addr: !terraform.output k3s-server-1 ".ipv4_address | ""https://"" + . + "":6443"""

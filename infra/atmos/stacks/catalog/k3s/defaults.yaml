@@ -1,0 +1,13 @@
+components:
+  terraform:
+    k3s/defaults:
+      metadata:
+        component: k3s
+        type: abstract
+      vars:
+        config:
+          node_count: 3
+          node_hardware_preset: md
+          ssh_keys:
+            - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
+
