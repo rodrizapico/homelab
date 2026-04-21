@@ -39,6 +39,12 @@ locals {
       storage_capacity = "100G"
     }
 
+    xxl = {
+      core_count       = 4
+      memory_capacity  = 16384
+      storage_capacity = "250G"
+    }
+
     custom = {
       core_count       = try(var.config.advanced.hardware.core_count, null)
       memory_capacity  = try(var.config.advanced.hardware.memory_capacity, null)

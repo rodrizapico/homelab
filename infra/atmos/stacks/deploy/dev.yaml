@@ -1,12 +1,11 @@
 import:
   - deploy/_defaults
-  - catalog/vm/md
   - layers/compute
   - mixins/stage/dev
 
 components:
   terraform:
     mirror-devpod:
-      metadata:
-        inherits:
-          - vm/md
+      vars:
+        config:
+          hardware_preset: md

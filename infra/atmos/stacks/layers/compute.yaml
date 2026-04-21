@@ -1,6 +1,5 @@
 import:
-  - catalog/vm/md
-  - catalog/vm/2xl
+  - catalog/vm/defaults
   - catalog/k3s/defaults
 
 components:
@@ -8,18 +7,23 @@ components:
     mirror-devpod:
       metadata:
         inherits:
-          - vm/2xl
+          - vm/defaults
       vars:
         config:
           name: mirror-devpod
           os_preset: devpod
+          hardware_preset: xxl
+          advanced:
+            proxmox:
+              allowed_nodes: [devimon]
     arch:
       metadata:
         inherits:
-          - vm/md
+          - vm/defaults
       vars:
         config:
           name: arch
+          hardware_preset: md
           advanced:
             proxmox:
               vm_template: arch-cloudinit-template

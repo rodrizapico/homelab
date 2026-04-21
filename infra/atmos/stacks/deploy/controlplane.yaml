@@ -3,19 +3,19 @@ vars:
 
 import:
   - deploy/_defaults
-  - catalog/vm/md
-  - catalog/vm/xl
+  - catalog/vm/defaults
 
 components:
   terraform:
     devpod:
       metadata:
         inherits:
-          - vm/xl
+          - vm/defaults
       vars:
         config:
           name: devpod
           os_preset: devpod
+          hardware_preset: xl
           advanced:
             proxmox:
               vm_vlan_tag: 120

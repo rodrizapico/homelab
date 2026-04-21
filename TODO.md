@@ -14,16 +14,16 @@
 [X] check if validations work when specified only on the child module
 [X] add default storage location, proxmox host, template, nixos path
 [X] create k3s terraform component with configurable amount of nodes / distribute across hosts
+[X] remove atmos vm component catalog, since it's pretty much redundant now we have hardware presets
 
-[ ] remove atmos vm catalog, since it's pretty much redundant now we have hardware presets
-[ ] clean up SSH keys generation?
 [ ] clear up stage usage
 [ ] if no user is passed, we need to give an output with valid user/private key OR we need to make ssh_keys mandatory
-[ ] test a different cloudinit image, since the arch one doesn't seem to work with nixos-anywhere
+[ ] add a LB to k3s cluster
 [ ] use terraform's DNS provider to dynamically assign URL's to new instances
+[ ] clean up SSH keys generation?
+[ ] test a different cloudinit image, since the arch one doesn't seem to work with nixos-anywhere
 [ ] maybe use a bastion host that holds all SSH keys instead of using my own for everything?
 [ ] add k3s outputs
-[ ] add a LB to k3s cluster
 
 [ ] manage env variables like proxmox default values
 [ ] how do I manage secrets for the base infra (proxmox keys, k3s token)? For now, I'm just using env vars in the devcontainer
