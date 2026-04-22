@@ -10,11 +10,12 @@ variable "proxmox" {
   description = "Proxmox cluster configuration"
   type = object({
     api_url               = string
+    api_token             = string
     default_allowed_nodes = list(string)
     # Must be a cloud init enabled template
-    default_vm_template = string
-    default_vm_storage  = string
-    default_vm_bridge   = string
+    default_vm_template_id = string
+    default_vm_storage     = string
+    default_vm_bridge      = string
   })
 }
 
@@ -42,11 +43,11 @@ variable "config" {
 
     advanced = optional(object({
       proxmox = optional(object({
-        allowed_nodes = optional(list(string))
-        vm_template   = optional(string)
-        vm_storage    = optional(string)
-        vm_bridge     = optional(string)
-        vm_vlan_tag   = optional(number)
+        allowed_nodes  = optional(list(string))
+        vm_template_id = optional(string)
+        vm_storage     = optional(string)
+        vm_bridge      = optional(string)
+        vm_vlan_tag    = optional(number)
       }))
 
       hardware = optional(object({

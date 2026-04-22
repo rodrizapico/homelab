@@ -8,11 +8,12 @@ variable "proxmox" {
   description = "Proxmox cluster configuration"
   type = object({
     api_url               = string
+    api_token             = string
     default_allowed_nodes = list(string)
     # Must be a cloud init enabled template
-    default_vm_template = string
-    default_vm_storage  = string
-    default_vm_bridge   = string
+    default_vm_template_id = string
+    default_vm_storage     = string
+    default_vm_bridge      = string
   })
 }
 

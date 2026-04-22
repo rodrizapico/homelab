@@ -1,9 +1,10 @@
 vars:
   namespace: homelab
   proxmox:
-    api_url: https://gabumon.mgmt.buen.ga:8006/api2/json
+    api_url: !env PM_API_URL
+    api_token: !env PM_API_TOKEN
     default_allowed_nodes: [agumon]
-    default_vm_template: nixos-cloudinit-template
+    default_vm_template_id: 1010
     default_vm_storage: ceph_data
     default_vm_bridge: vmbr0
   nixos_flake_path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"

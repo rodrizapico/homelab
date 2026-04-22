@@ -16,6 +16,10 @@
 [X] create k3s terraform component with configurable amount of nodes / distribute across hosts
 [X] remove atmos vm component catalog, since it's pretty much redundant now we have hardware presets
 
+[X] migrate from using Telmate proxmox provider to BPG
+[ ] use a cloud template so that we don't depend on a preconfigured image
+[ ] use CPU limit to add a xs preset with 0.5cpu
+[ ] improve node selection logic
 [ ] clear up stage usage
 [ ] if no user is passed, we need to give an output with valid user/private key OR we need to make ssh_keys mandatory
 [ ] add a LB to k3s cluster

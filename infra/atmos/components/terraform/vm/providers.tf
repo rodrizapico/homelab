@@ -1,5 +1,6 @@
 provider "proxmox" {
-  pm_api_url      = var.proxmox.api_url
-  pm_tls_insecure = true
+  insecure  = true
+  endpoint  = var.proxmox.api_url
+  api_token = var.proxmox.api_token
 }
 
