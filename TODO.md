@@ -18,6 +18,9 @@
 
 [X] migrate from using Telmate proxmox provider to BPG
 [ ] use a cloud template so that we don't depend on a preconfigured image
+[X] use q35 as machine type
+[ ] try out ovmf (uefi)
+[ ] the template and custom cloud init config should be it's own (root) component to be reused by others
 [ ] use CPU limit to add a xs preset with 0.5cpu
 [ ] improve node selection logic
 [ ] clear up stage usage

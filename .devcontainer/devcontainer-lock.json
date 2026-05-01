@@ -1,0 +1,24 @@
+{
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "version": "2.5.7",
+      "resolved": "ghcr.io/devcontainers/features/common-utils@sha256:dbf431d6b42d55cde50fa1df75c7f7c3999a90cde6d73f7a7071174b3c3d0cc4",
+      "integrity": "sha256:dbf431d6b42d55cde50fa1df75c7f7c3999a90cde6d73f7a7071174b3c3d0cc4"
+    },
+    "ghcr.io/devcontainers/features/docker-outside-of-docker": {
+      "version": "1.9.1",
+      "resolved": "ghcr.io/devcontainers/features/docker-outside-of-docker@sha256:dc89605f01ff2f24252c61f7c8ba2a58ccdbc14f2ebf87a7952d9e2b89834850",
+      "integrity": "sha256:dc89605f01ff2f24252c61f7c8ba2a58ccdbc14f2ebf87a7952d9e2b89834850"
+    },
+    "ghcr.io/devcontainers/features/nix:1.2": {
+      "version": "1.2.0",
+      "resolved": "ghcr.io/devcontainers/features/nix@sha256:b589a5cf56890d22919fb8571595ecf17f00b2e929e4aa0b1b4f15280d105e2a",
+      "integrity": "sha256:b589a5cf56890d22919fb8571595ecf17f00b2e929e4aa0b1b4f15280d105e2a"
+    },
+    "ghcr.io/stuartleeks/dev-container-features/shell-history:0": {
+      "version": "0.0.6",
+      "resolved": "ghcr.io/stuartleeks/dev-container-features/shell-history@sha256:f266af2d093e0611921ccf510046e53affeccb353405ee05d2b91fcc4f69c1c9",
+      "integrity": "sha256:f266af2d093e0611921ccf510046e53affeccb353405ee05d2b91fcc4f69c1c9"
+    }
+  }
+}

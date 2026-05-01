@@ -14,8 +14,8 @@ variable "proxmox" {
     default_allowed_nodes = list(string)
     # Must be a cloud init enabled template
     default_vm_template_id = string
-    default_vm_storage     = string
-    default_vm_bridge      = string
+    default_vm_storage     = optional(string, "local-lvm")
+    default_vm_bridge      = optional(string, "vmbr0")
   })
 }
 

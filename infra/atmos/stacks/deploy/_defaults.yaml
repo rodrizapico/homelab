@@ -5,8 +5,8 @@ vars:
     api_token: !env PM_API_TOKEN
     default_allowed_nodes: [agumon]
     default_vm_template_id: 1010
-    default_vm_storage: ceph_data
-    default_vm_bridge: vmbr0
+    default_vm_storage: !env PM_DEFAULT_VM_STORAGE
+    default_vm_bridge: !env PM_DEFAULT_VM_BRIDGE
   nixos_flake_path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
 
 terraform:
