@@ -15,11 +15,13 @@
 [X] add default storage location, proxmox host, template, nixos path
 [X] create k3s terraform component with configurable amount of nodes / distribute across hosts
 [X] remove atmos vm component catalog, since it's pretty much redundant now we have hardware presets
-
 [X] migrate from using Telmate proxmox provider to BPG
-[ ] use a cloud template so that we don't depend on a preconfigured image
 [X] use q35 as machine type
+
+[ ] use a cloud template so that we don't depend on a preconfigured image
+[ ] export private/public SSH keys somehow
 [ ] try out ovmf (uefi)
+[ ] remove ssh dependency for VM provisioning
 [ ] the template and custom cloud init config should be it's own (root) component to be reused by others
 [ ] use CPU limit to add a xs preset with 0.5cpu
 [ ] improve node selection logic

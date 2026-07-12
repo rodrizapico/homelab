@@ -16,6 +16,7 @@ components:
           advanced:
             proxmox:
               allowed_nodes: [devimon]
+
     arch:
       metadata:
         inherits:
@@ -27,6 +28,7 @@ components:
           advanced:
             proxmox:
               vm_template_id: 1000
+
     k3s-cluster:
       metadata:
         inherits:
@@ -34,3 +36,28 @@ components:
       vars:
         config:
           name: cluster
+
+    ubuntu-template:
+      metadata:
+        component: proxmox/template_vm
+      vars:
+        config:
+          name: ubuntu
+          node: agumon
+          image:
+            url: https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
+            file_name: ubuntu-24-noble-server-cloudimg-amd64.qcow2
+
+    ubuntu-vm:
+      metadata:
+        component: proxmox/vm
+      vars:
+        config:
+          name: ubuntu
+          node: agumon
+          template_id: !terraform.state ubuntu-template id
+          hardware_preset: "md"
+          user:
+            name: buengabacho
+            ssh_keys:
+              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
