@@ -61,3 +61,22 @@ components:
             name: buengabacho
             ssh_keys:
               - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
+
+    ubuntu-vm-2:
+      metadata:
+        component: proxmox/vm
+      vars:
+        config:
+          name: ubuntu-2
+          node: agumon
+          template_id: !terraform.state ubuntu-template id
+          hardware_preset: "md"
+          user:
+            name: buengabacho
+            ssh_keys:
+              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
+          advanced:
+            ip_config:
+              ipv4:
+                address: 192.168.140.20/24
+                gateway: 192.168.140.1

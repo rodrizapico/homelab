@@ -49,6 +49,13 @@ variable "config" {
         storage_capacity = optional(string)
       }))
 
+      ip_config = optional(object({
+        ipv4 = optional(object({
+          address = string
+          gateway = optional(string)
+        }))
+      }))
+
       settings = optional(object({
         autostart              = optional(bool)
         startup_shutdown_order = optional(number)

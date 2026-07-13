@@ -85,7 +85,8 @@ resource "proxmox_virtual_environment_vm" "linux_vm" {
 
     ip_config {
       ipv4 {
-        address = "dhcp"
+        address = local.cloud_init.ip_config.ipv4.address
+        gateway = local.cloud_init.ip_config.ipv4.gateway
       }
     }
 

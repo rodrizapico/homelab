@@ -48,6 +48,13 @@ locals {
 
     username = var.config.user.name
     ssh_keys = var.config.user.ssh_keys
+
+    ip_config = {
+      ipv4 = {
+        address = try(var.config.advanced.ip_config.ipv4.address, "dhcp")
+        gateway = try(var.config.advanced.ip_config.ipv4.gateway, null)
+      }
+    }
   }
 
   vm = {
