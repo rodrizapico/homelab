@@ -37,40 +37,56 @@ components:
         config:
           name: cluster
 
-    ubuntu-template:
+    cloudinit-vendor-data:
       metadata:
-        component: proxmox/template_vm
+        component: proxmox/snippet
       vars:
         config:
-          name: ubuntu
-          node: agumon
-          image:
-            url: https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
-            file_name: ubuntu-24-noble-server-cloudimg-amd64.qcow2
+          name: cloudinit-vendor-data.yaml
+          data: !include.raw ../config/cloudinit-vendor-data.yaml
 
-    ubuntu-vm:
+    ubuntu-24-iso:
+      metadata:
+        component: proxmox/disk_image
+      vars:
+        config:
+          name: ubuntu-24-noble-server-cloudimg-amd64.qcow2
+          url: https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
+
+    ubuntu-24-template:
+      metadata:
+        component: proxmox/vm
+      vars:
+        proxmox:
+          default_cloudinit_vendor_data_file_id: !terraform.state cloudinit-vendor-data id
+        config:
+          name: ubuntu-24-template
+          image_id: !terraform.state ubuntu-24-iso id
+          hardware_preset: md
+          advanced:
+            template: true
+
+    ubuntu-24-vm:
       metadata:
         component: proxmox/vm
       vars:
         config:
-          name: ubuntu
-          node: agumon
-          template_id: !terraform.state ubuntu-template id
-          hardware_preset: "md"
+          name: ubuntu-24
+          template_id: !terraform.state ubuntu-24-template id
+          hardware_preset: md
           user:
             name: buengabacho
             ssh_keys:
               - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
 
-    ubuntu-vm-2:
+    ubuntu-24-static-ip-vm:
       metadata:
         component: proxmox/vm
       vars:
         config:
-          name: ubuntu-2
-          node: agumon
+          name: ubuntu-24-static-ip
           template_id: !terraform.state ubuntu-template id
-          hardware_preset: "md"
+          hardware_preset: md
           user:
             name: buengabacho
             ssh_keys:

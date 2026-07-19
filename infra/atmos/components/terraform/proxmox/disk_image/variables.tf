@@ -9,7 +9,8 @@ variable "proxmox" {
   type = object({
     api_url             = string
     api_token           = string
-    ssh_user            = string
+    ssh_user            = optional(string)
+    default_node        = optional(string)
     default_iso_storage = optional(string, "local")
     default_vm_storage  = optional(string, "local-lvm")
     default_vm_bridge   = optional(string, "vmbr0")
@@ -20,24 +21,11 @@ variable "proxmox" {
 # Component specific variables
 
 variable "config" {
-  description = "A collection of all the template VM's configuration options"
+  description = "A collection of all the image's configuration options"
   type = object({
     name        = string
-    description = optional(string)
-    node        = string
-
-    image = object({
-      url       = string
-      file_name = string
-    })
-
-    advanced = optional(object({
-      proxmox = optional(object({
-        iso_storage = optional(string)
-        vm_storage  = optional(string)
-        vm_bridge   = optional(string)
-        vm_vlan_tag = optional(number)
-      }))
-    }))
+    url         = string
+    node        = optional(string)
+    iso_storage = optional(string)
   })
 }

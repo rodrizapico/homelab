@@ -11,8 +11,9 @@ module "vm" {
     tags        = [var.namespace, var.stage]
     description = var.config.description
 
-    node     = var.config.node
-    clone_id = var.config.template_id
+    node          = coalesce(var.config.node, var.proxmox.default_node)
+    clone_id      = var.config.template_id
+    disk_image_id = var.config.image_id
 
     user            = var.config.user
     hardware_preset = var.config.hardware_preset
@@ -20,4 +21,3 @@ module "vm" {
     advanced = var.config.advanced
   }
 }
-

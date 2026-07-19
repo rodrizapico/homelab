@@ -4,7 +4,7 @@ vars:
     api_url: !env PM_API_URL
     api_token: !env PM_API_TOKEN
     ssh_user: !env PM_SSH_USER
-    default_allowed_nodes: [agumon]
+    default_node: !env PM_DEFAULT_NODE
     default_iso_storage: !env PM_DEFAULT_ISO_STORAGE
     default_vm_storage: !env PM_DEFAULT_VM_STORAGE
     default_vm_bridge: !env PM_DEFAULT_VM_BRIDGE

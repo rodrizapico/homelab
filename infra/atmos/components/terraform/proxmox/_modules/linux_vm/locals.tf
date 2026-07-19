@@ -44,7 +44,7 @@ locals {
   }
 
   cloud_init = {
-    vendor_data_file_id = try(var.config.advanced.cloud_init.vendor_data_file_id, null)
+    vendor_data_file_id = try(var.config.advanced.proxmox.cloudinit.vendor_data_file_id, var.proxmox.default_cloudinit_vendor_data_file_id, null)
 
     username = var.config.user.name
     ssh_keys = var.config.user.ssh_keys

@@ -18,6 +18,7 @@
       "!store",
       "!store.get",
       "!include",
+      "!include.raw",
       "!template",
       "!exec",
       "!env",

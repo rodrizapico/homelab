@@ -3,9 +3,16 @@
 variable "proxmox" {
   description = "Proxmox cluster configuration"
   type = object({
-    default_vm_storage  = optional(string, "local-lvm")
-    default_vm_bridge   = optional(string, "vmbr0")
-    default_vm_vlan_tag = optional(string)
+    api_url   = string
+    api_token = string
+    ssh_user  = optional(string)
+
+    default_node                          = optional(string)
+    default_vm_storage                    = optional(string, "local-lvm")
+    default_iso_storage                   = optional(string, "local")
+    default_vm_bridge                     = optional(string, "vmbr0")
+    default_vm_vlan_tag                   = optional(string)
+    default_cloudinit_vendor_data_file_id = optional(string)
   })
 }
 
