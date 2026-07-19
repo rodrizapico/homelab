@@ -1,7 +1,6 @@
 {
   "name": "Homelab DevContainer",
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  // .env.local should contain PM_API_TOKEN_ID and PM_API_TOKEN_SECRET
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "runArgs": ["--env-file", ".devcontainer/.env.local"],
   "containerEnv": {
     "GIT_EDITOR": "nano",
