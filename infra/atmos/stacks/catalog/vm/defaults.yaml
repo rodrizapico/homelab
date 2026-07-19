@@ -5,14 +5,16 @@ components:
         component: proxmox/vm
         type: abstract
       vars:
-        proxmox:
-          node: !env PM_DEFAULT_NODE
-          vm_storage: !env PM_DEFAULT_VM_STORAGE
-          vm_bridge: !env PM_DEFAULT_VM_BRIDGE
-          vm_vlan_tag: !env PM_DEFAULT_VM_VLAN_TAG
         config:
+          node: !env PM_DEFAULT_NODE
           hardware_preset: md
           user:
             name: buengabacho
             ssh_keys:
               - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
+          advanced:
+            hardware:
+              bridge: !env PM_DEFAULT_VM_BRIDGE
+              vlan_tag: !env PM_DEFAULT_VM_VLAN_TAG
+              storage:
+                location: !env PM_DEFAULT_VM_STORAGE

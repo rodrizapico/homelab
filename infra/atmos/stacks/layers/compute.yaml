@@ -66,7 +66,7 @@ components:
       vars:
         config:
           name: ubuntu-24-template
-          image_id: !terraform.state ubuntu-24-iso id
+          disk_image_id: !terraform.state ubuntu-24-iso id
           advanced:
             template: true
             cloud_init:
@@ -79,7 +79,7 @@ components:
       vars:
         config:
           name: ubuntu-24
-          template_id: !terraform.output ubuntu-24-template id
+          clone_id: !terraform.output ubuntu-24-template id
 
     ubuntu-24-static-ip-vm:
       metadata:
@@ -88,7 +88,7 @@ components:
       vars:
         config:
           name: ubuntu-24-static-ip
-          template_id: !terraform.output ubuntu-24-template id
+          clone_id: !terraform.output ubuntu-24-template id
           advanced:
             ip_config:
               ipv4:

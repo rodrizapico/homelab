@@ -1,16 +1,7 @@
-variable "proxmox" {
-  description = "Proxmox cluster configuration"
-  type = object({
-    node        = string
-    vm_storage  = string
-    vm_bridge   = string
-    vm_vlan_tag = number
-  })
-}
-
 variable "config" {
   description = "A collection of all VM's configuration options"
   type = object({
+    node        = string
     name        = string
     tags        = optional(list(string), [])
     description = optional(string, "Managed by Atmos/OpenTofu")
@@ -33,9 +24,19 @@ variable "config" {
       template = optional(bool, false)
 
       hardware = optional(object({
-        core_count       = optional(number)
-        memory_capacity  = optional(number)
-        storage_capacity = optional(number)
+        core_count = optional(number)
+        bridge     = optional(string)
+        vlan_tag   = optional(number)
+
+        memory = optional(object({
+          capacity = optional(number)
+        }))
+
+        storage = optional(object({
+          location = optional(string)
+          capacity = optional(number)
+        }))
+
       }))
 
       ip_config = optional(object({

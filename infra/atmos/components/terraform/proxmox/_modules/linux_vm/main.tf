@@ -6,10 +6,10 @@ resource "tls_private_key" "ssh_key" {
 }
 
 resource "proxmox_virtual_environment_vm" "linux_vm" {
+  node_name   = var.config.node
   name        = var.config.name
   tags        = var.config.tags
   description = var.config.description
-  node_name   = var.proxmox.node
 
   dynamic "clone" {
     for_each = var.config.clone_id != null ? [1] : []
@@ -50,13 +50,13 @@ resource "proxmox_virtual_environment_vm" "linux_vm" {
   }
 
   efi_disk {
-    datastore_id      = var.proxmox.vm_storage
+    datastore_id      = local.hardware.storage_location
     type              = "2m"
     pre_enrolled_keys = false
   }
 
   disk {
-    datastore_id = var.proxmox.vm_storage
+    datastore_id = local.hardware.storage_location
     interface    = "scsi0"
     import_from  = local.vm.disk_image_id
     size         = local.hardware.storage_capacity
@@ -65,13 +65,13 @@ resource "proxmox_virtual_environment_vm" "linux_vm" {
   }
 
   tpm_state {
-    datastore_id = var.proxmox.vm_storage
+    datastore_id = local.hardware.storage_location
   }
 
   network_device {
     model   = "virtio"
-    bridge  = var.proxmox.vm_bridge
-    vlan_id = var.proxmox.vm_vlan_tag
+    bridge  = local.hardware.bridge
+    vlan_id = local.hardware.vlan_tag
   }
 
   startup {
@@ -80,7 +80,7 @@ resource "proxmox_virtual_environment_vm" "linux_vm" {
 
   # Cloud Init settings
   initialization {
-    datastore_id        = var.proxmox.vm_storage
+    datastore_id        = local.hardware.storage_location
     vendor_data_file_id = local.cloud_init.vendor_data_file_id
 
     ip_config {

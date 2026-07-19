@@ -32,14 +32,17 @@ locals {
 
     custom = {
       core_count       = try(var.config.advanced.hardware.core_count, null)
-      memory_capacity  = try(var.config.advanced.hardware.memory_capacity, null)
-      storage_capacity = try(var.config.advanced.hardware.storage_capacity, null)
+      memory_capacity  = try(var.config.advanced.hardware.memory.capacity, null)
+      storage_capacity = try(var.config.advanced.hardware.storage.capacity, null)
     }
   }
 
   hardware = {
     core_count       = local.hardware_presets[var.config.hardware_preset].core_count
+    bridge           = try(var.config.advanced.hardware.bridge, null)
+    vlan_tag         = try(var.config.advanced.hardware.vlan_tag, null)
     memory_capacity  = local.hardware_presets[var.config.hardware_preset].memory_capacity
+    storage_location = try(var.config.advanced.hardware.storage.location, null)
     storage_capacity = local.hardware_presets[var.config.hardware_preset].storage_capacity
   }
 
