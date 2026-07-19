@@ -11,7 +11,6 @@ module "vm" {
     tags        = [var.namespace, var.stage]
     description = var.config.description
 
-    node          = coalesce(var.config.node, var.proxmox.default_node)
     clone_id      = var.config.template_id
     disk_image_id = var.config.image_id
 

@@ -1,22 +1,12 @@
-# Global variables
-
 variable "proxmox" {
   description = "Proxmox cluster configuration"
   type = object({
-    api_url   = string
-    api_token = string
-    ssh_user  = optional(string)
-
-    default_node                          = optional(string)
-    default_vm_storage                    = optional(string, "local-lvm")
-    default_iso_storage                   = optional(string, "local")
-    default_vm_bridge                     = optional(string, "vmbr0")
-    default_vm_vlan_tag                   = optional(string)
-    default_cloudinit_vendor_data_file_id = optional(string)
+    node        = string
+    vm_storage  = string
+    vm_bridge   = string
+    vm_vlan_tag = number
   })
 }
-
-# Component specific variables
 
 variable "config" {
   description = "A collection of all VM's configuration options"
@@ -25,7 +15,6 @@ variable "config" {
     tags        = optional(list(string), [])
     description = optional(string, "Managed by Atmos/OpenTofu")
 
-    node            = string
     clone_id        = optional(string, null)
     disk_image_id   = optional(string, null)
     hardware_preset = optional(string, "sm")
@@ -42,12 +31,6 @@ variable "config" {
 
     advanced = optional(object({
       template = optional(bool, false)
-
-      proxmox = optional(object({
-        vm_storage  = optional(string)
-        vm_bridge   = optional(string)
-        vm_vlan_tag = optional(number)
-      }))
 
       hardware = optional(object({
         core_count       = optional(number)

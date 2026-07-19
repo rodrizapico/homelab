@@ -44,7 +44,7 @@ locals {
   }
 
   cloud_init = {
-    vendor_data_file_id = try(var.config.advanced.proxmox.cloudinit.vendor_data_file_id, var.proxmox.default_cloudinit_vendor_data_file_id, null)
+    vendor_data_file_id = try(var.config.advanced.cloud_init.vendor_data_file_id, null)
 
     username = var.config.user.name
     ssh_keys = var.config.user.ssh_keys
@@ -58,13 +58,9 @@ locals {
   }
 
   vm = {
-    node          = var.config.node
     clone_id      = try(var.config.clone_id, null)
     disk_image_id = try(var.config.disk_image_id, null)
     template      = try(var.config.advanced.template, false)
-    storage       = coalesce(try(var.config.advanced.proxmox.vm_storage, null), var.proxmox.default_vm_storage)
-    bridge        = coalesce(try(var.config.advanced.proxmox.vm_bridge, null), var.proxmox.default_vm_bridge)
-    vlan_tag      = coalesce(var.config.advanced.proxmox.vm_vlan_tag, var.proxmox.default_vm_vlan_tag)
   }
 
   settings = {

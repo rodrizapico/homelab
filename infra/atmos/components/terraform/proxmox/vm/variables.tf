@@ -6,30 +6,25 @@ variable "namespace" {}
 
 variable "stage" {}
 
+# Component specific variables
+
 variable "proxmox" {
   description = "Proxmox cluster configuration"
   type = object({
-    api_url   = string
-    api_token = string
-    ssh_user  = optional(string)
-
-    default_node                          = optional(string)
-    default_vm_storage                    = optional(string, "local-lvm")
-    default_iso_storage                   = optional(string, "local")
-    default_vm_bridge                     = optional(string, "vmbr0")
-    default_vm_vlan_tag                   = optional(string)
-    default_cloudinit_vendor_data_file_id = optional(string)
+    api_url     = string
+    api_token   = string
+    node        = string
+    vm_storage  = string
+    vm_bridge   = string
+    vm_vlan_tag = number
   })
 }
-
-# Component specific variables
 
 variable "config" {
   description = "A collection of all VM's configuration options"
   type = object({
     name        = string
     description = optional(string)
-    node        = optional(string)
 
     template_id = optional(string)
     image_id    = optional(string)
@@ -44,12 +39,6 @@ variable "config" {
 
     advanced = optional(object({
       template = optional(bool, false)
-
-      proxmox = optional(object({
-        vm_storage  = optional(string)
-        vm_bridge   = optional(string)
-        vm_vlan_tag = optional(number)
-      }))
 
       hardware = optional(object({
         core_count       = optional(number)
@@ -67,6 +56,10 @@ variable "config" {
       settings = optional(object({
         autostart              = optional(bool)
         startup_shutdown_order = optional(number)
+      }))
+
+      cloud_init = optional(object({
+        vendor_data_file_id = optional(string)
       }))
     }))
   })

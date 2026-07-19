@@ -2,9 +2,14 @@ components:
   terraform:
     vm/defaults:
       metadata:
-        component: vm
+        component: proxmox/vm
         type: abstract
       vars:
+        proxmox:
+          node: !env PM_DEFAULT_NODE
+          vm_storage: !env PM_DEFAULT_VM_STORAGE
+          vm_bridge: !env PM_DEFAULT_VM_BRIDGE
+          vm_vlan_tag: !env PM_DEFAULT_VM_VLAN_TAG
         config:
           hardware_preset: md
           user:
