@@ -1,6 +1,10 @@
 vars:
   stage: dev
-  config:
-    advanced:
-      proxmox:
-        vm_vlan_tag: 140
+components:
+  terraform:
+    vm/defaults:
+      vars:
+        config:
+          advanced:
+            hardware:
+              vlan_tag: 140
