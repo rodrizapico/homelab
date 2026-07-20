@@ -1,0 +1,15 @@
+components:
+  terraform:
+    vm/default:
+      metadata:
+        type: abstract
+      vars:
+        config:
+          node: !env PM_DEFAULT_NODE
+          hardware_preset: md
+          advanced:
+            hardware:
+              bridge: !env PM_DEFAULT_VM_BRIDGE
+              vlan_tag: !env PM_DEFAULT_VM_VLAN_TAG
+              storage:
+                location: !env PM_DEFAULT_VM_STORAGE

@@ -1,20 +1,21 @@
+import:
+  - catalog/vm/default
+
 components:
   terraform:
-    vm/defaults:
+    vm/ubuntu/noble:
       metadata:
         component: proxmox/vm
         type: abstract
+        inherits:
+          - vm/default
       vars:
         config:
-          node: !env PM_DEFAULT_NODE
-          hardware_preset: md
+          clone_id: !terraform.state ubuntu-noble-template id
           user:
             name: buengabacho
             ssh_keys:
               - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
-          advanced:
-            hardware:
-              bridge: !env PM_DEFAULT_VM_BRIDGE
-              vlan_tag: !env PM_DEFAULT_VM_VLAN_TAG
-              storage:
-                location: !env PM_DEFAULT_VM_STORAGE
+      dependencies:
+        components:
+          - name: ubuntu-noble-template

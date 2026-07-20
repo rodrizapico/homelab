@@ -17,12 +17,13 @@
 [X] remove atmos vm component catalog, since it's pretty much redundant now we have hardware presets
 [X] migrate from using Telmate proxmox provider to BPG
 [X] use q35 as machine type
+[X] the template and custom cloud init config should be it's own (root) component to be reused by others
+[X] use a cloud template so that we don't depend on a preconfigured image
+[X] test a different cloudinit image, since the arch one doesn't seem to work with nixos-anywhere
 
-[ ] use a cloud template so that we don't depend on a preconfigured image
 [ ] export private/public SSH keys somehow
 [ ] try out ovmf (uefi)
 [ ] remove ssh dependency for VM provisioning
-[ ] the template and custom cloud init config should be it's own (root) component to be reused by others
 [ ] use CPU limit to add a xs preset with 0.5cpu
 [ ] improve node selection logic
 [ ] clear up stage usage
@@ -30,7 +31,6 @@
 [ ] add a LB to k3s cluster
 [ ] use terraform's DNS provider to dynamically assign URL's to new instances
 [ ] clean up SSH keys generation?
-[ ] test a different cloudinit image, since the arch one doesn't seem to work with nixos-anywhere
 [ ] maybe use a bastion host that holds all SSH keys instead of using my own for everything?
 [ ] add k3s outputs
 

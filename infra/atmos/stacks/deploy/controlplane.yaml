@@ -1,21 +1,5 @@
-vars:
-  stage: controlplane
-
 import:
   - deploy/_defaults
-  - catalog/vm/defaults
 
-components:
-  terraform:
-    devpod:
-      metadata:
-        inherits:
-          - vm/defaults
-      vars:
-        config:
-          name: devpod
-          os_preset: devpod
-          hardware_preset: xl
-          advanced:
-            proxmox:
-              vm_vlan_tag: 120
+vars:
+  stage: controlplane

@@ -1,94 +1,24 @@
 import:
-  - catalog/vm/defaults
+  - catalog/vm/ubuntu/noble
   - catalog/k3s/defaults
 
 components:
   terraform:
-    mirror-devpod:
+    ubuntu-noble-vm:
       metadata:
         inherits:
-          - vm/defaults
+          - vm/ubuntu/noble
       vars:
         config:
-          name: mirror-devpod
-          os_preset: devpod
-          hardware_preset: xxl
-          advanced:
-            proxmox:
-              allowed_nodes: [devimon]
+          name: ubuntu-noble
 
-    arch:
+    ubuntu-noble-static-ip-vm:
       metadata:
         inherits:
-          - vm/defaults
+          - vm/ubuntu/noble
       vars:
         config:
-          name: arch
-          hardware_preset: md
-          advanced:
-            proxmox:
-              vm_template_id: 1000
-
-    k3s-cluster:
-      metadata:
-        inherits:
-          - k3s/defaults
-      vars:
-        config:
-          name: cluster
-
-    cloudinit-vendor-data:
-      metadata:
-        component: proxmox/snippet
-      vars:
-        proxmox:
-          node: !env PM_DEFAULT_NODE
-          iso_storage: !env PM_DEFAULT_ISO_STORAGE
-        config:
-          name: cloudinit-vendor-data.yaml
-          data: !include.raw ../config/cloudinit-vendor-data.yaml
-
-    ubuntu-24-iso:
-      metadata:
-        component: proxmox/disk_image
-      vars:
-        proxmox:
-          node: !env PM_DEFAULT_NODE
-          iso_storage: !env PM_DEFAULT_ISO_STORAGE
-        config:
-          name: ubuntu-24-noble-server-cloudimg-amd64.qcow2
-          url: https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
-
-    ubuntu-24-template:
-      metadata:
-        inherits:
-          - vm/defaults
-      vars:
-        config:
-          name: ubuntu-24-template
-          disk_image_id: !terraform.state ubuntu-24-iso id
-          advanced:
-            template: true
-            cloud_init:
-              vendor_data_file_id: !terraform.state cloudinit-vendor-data id
-
-    ubuntu-24-vm:
-      metadata:
-        inherits:
-          - vm/defaults
-      vars:
-        config:
-          name: ubuntu-24
-          clone_id: !terraform.output ubuntu-24-template id
-
-    ubuntu-24-static-ip-vm:
-      metadata:
-        inherits:
-          - vm/defaults
-      vars:
-        config:
-          name: ubuntu-24-static-ip
-          clone_id: !terraform.output ubuntu-24-template id
+          name: ubuntu-noble-static-ip
           advanced:
             ip_config:
               ipv4:
