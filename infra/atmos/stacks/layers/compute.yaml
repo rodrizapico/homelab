@@ -11,16 +11,3 @@ components:
       vars:
         config:
           name: ubuntu-noble
-
-    ubuntu-noble-static-ip-vm:
-      metadata:
-        inherits:
-          - vm/ubuntu/noble
-      vars:
-        config:
-          name: ubuntu-noble-static-ip
-          advanced:
-            ip_config:
-              ipv4:
-                address: 192.168.140.20/24
-                gateway: 192.168.140.1

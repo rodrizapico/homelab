@@ -22,6 +22,7 @@
 [X] test a different cloudinit image, since the arch one doesn't seem to work with nixos-anywhere
 
 [ ] export private/public SSH keys somehow
+[ ] bootstrap is not idempotent: running a second time recreates the placeholder vm and then destroys it again
 [ ] try out ovmf (uefi)
 [ ] remove ssh dependency for VM provisioning
 [ ] use CPU limit to add a xs preset with 0.5cpu
