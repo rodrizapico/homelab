@@ -16,6 +16,9 @@ stacks:
     - "**/_defaults.yaml"
   name_template: "{{.vars.stage}}"
 
+workflows:
+  base_path: "stacks/workflows"
+
 logs:
   file: "/dev/stderr"
   level: "Info"

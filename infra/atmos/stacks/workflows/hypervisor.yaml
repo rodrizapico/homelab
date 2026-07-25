@@ -1,0 +1,27 @@
+workflows:
+  bootstrap-hypervisor:
+    description: Bootstrap selected environment's hypervisor layer
+    steps:
+      - name: stack_selection
+        type: choose
+        prompt: "Which stask should be bootstrapped?"
+        options: [dev, prod]
+        default: !env ATMOS_STACK dev
+      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} cloudinit-vendor-data
+      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} ubuntu-noble-iso
+      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} ubuntu-noble-template
+      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} nixos-template
+        when: always
+
+  teardown-hypervisor:
+    description: Destroy selected environment's hypervisor layer
+    steps:
+      - name: stack_selection
+        type: choose
+        prompt: "Which stask should be bootstrapped?"
+        options: [dev, prod]
+        default: !env ATMOS_STACK dev
+      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} nixos-template
+      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} ubuntu-noble-template
+      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} ubuntu-noble-iso
+      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} cloudinit-vendor-data
