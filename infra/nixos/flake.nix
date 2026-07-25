@@ -1,6 +1,11 @@
 {
   description = "A collection of homelab instance configurations";
   outputs = { self, nixpkgs, ... }: {
+    nixosConfigurations.cloudinit = nixpkgs.lib.nixosSystem {
+      system  = "x86_64-linux";
+      modules = [ ./configs/cloudinit.nix ];
+    };
+
     nixosConfigurations.devpod = nixpkgs.lib.nixosSystem {
       system  = "x86_64-linux";
       modules = [ ./configs/devpod.nix ];

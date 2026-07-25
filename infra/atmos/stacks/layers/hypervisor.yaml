@@ -1,0 +1,101 @@
+import:
+  - catalog/vm/default
+  - catalog/vm/nixos
+
+components:
+  terraform:
+    cloudinit-vendor-data:
+      metadata:
+        component: proxmox/snippet
+      vars:
+        proxmox:
+          node: !env PM_DEFAULT_NODE
+          iso_storage: !env PM_DEFAULT_ISO_STORAGE
+        config:
+          name: cloudinit-vendor-data.yaml
+          data: !include.raw config/cloudinit-vendor-data.yaml
+
+    ubuntu-noble-iso:
+      metadata:
+        component: proxmox/disk_image
+      vars:
+        proxmox:
+          node: !env PM_DEFAULT_NODE
+          iso_storage: !env PM_DEFAULT_ISO_STORAGE
+        config:
+          name: ubuntu-24-noble-server-cloudimg-amd64.qcow2
+          url: https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
+
+    ubuntu-noble-template:
+      metadata:
+        component: proxmox/vm
+        inherits:
+          - vm/default
+      vars:
+        config:
+          name: ubuntu-noble-template
+          disk_image_id: !terraform.state ubuntu-noble-iso id
+          advanced:
+            template: true
+            cloud_init:
+              vendor_data_file_id: !terraform.state cloudinit-vendor-data id
+      dependencies:
+        components:
+          - name: ubuntu-noble-iso
+          - name: cloudinit-vendor-data
+
+    nixos-placeholder-vm:
+      metadata:
+        inherits:
+          - vm/nixos
+      vars:
+        config:
+          name: nixos-placeholder
+          vm_id: !env PM_PLACEHOLDER_VM_ID
+          clone_id: !terraform.state ubuntu-noble-template id
+          advanced:
+            ip_config:
+              ipv4:
+                address: !env PM_PLACEHOLDER_VM_STATIC_IP_ADDRESS
+                gateway: !env PM_PLACEHOLDER_VM_GATEWAY
+        nixos_config:
+          os_preset: cloudinit
+      dependencies:
+        components:
+          - name: ubuntu-noble-template
+
+    nixos-template:
+      metadata:
+        component: proxmox/vm
+        inherits:
+          - vm/default
+      vars:
+        config:
+          name: nixos-template
+          clone_id: !env PM_PLACEHOLDER_VM_ID
+          advanced:
+            template: true
+            ip_config:
+              ipv4:
+                address: dhcp
+      hooks:
+        prepare-placeholder-vm:
+          events: [before.terraform.plan, before.terraform.apply]
+          kind: steps
+          with:
+            - type: atmos
+              command: terraform apply -auto-approve -s {{ .stack }} nixos-placeholder-vm
+            - type: shell
+              command: 'curl --insecure -X POST -H "Authorization: PVEAPIToken=$PM_API_TOKEN" $PM_API_URL/api2/json/nodes/$PM_DEFAULT_NODE/qemu/$PM_PLACEHOLDER_VM_ID/status/stop'
+          on_failure: fail
+        cleanup-placeholder-vm:
+          events: [after.terraform.apply]
+          when: always
+          kind: step
+          type: atmos
+          with:
+            command: terraform destroy -auto-approve -s dev nixos-placeholder-vm
+          on_failure: fail
+      dependencies:
+        components:
+          - name: nixos-placeholder-vm

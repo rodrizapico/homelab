@@ -4,7 +4,6 @@ vars:
     api_url: !env PM_API_URL
     api_token: !env PM_API_TOKEN
     ssh_user: !env PM_SSH_USER
-  nixos_flake_path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
 
 terraform:
   command: tofu

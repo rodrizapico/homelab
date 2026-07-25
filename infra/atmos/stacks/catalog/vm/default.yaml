@@ -2,11 +2,14 @@ components:
   terraform:
     vm/default:
       metadata:
+        component: proxmox/vm
         type: abstract
       vars:
         config:
           node: !env PM_DEFAULT_NODE
           hardware_preset: md
+          user:
+            generate_ssh_keys: true
           advanced:
             hardware:
               bridge: !env PM_DEFAULT_VM_BRIDGE

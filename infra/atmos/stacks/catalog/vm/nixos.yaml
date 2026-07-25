@@ -1,0 +1,19 @@
+import:
+  - catalog/vm/default
+
+components:
+  terraform:
+    vm/nixos:
+      metadata:
+        component: proxmox/nixos_vm
+        type: abstract
+        inherits:
+          - vm/default
+      vars:
+        config:
+          clone_id: !terraform.state nixos-template id
+        nixos_config:
+          flake_path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
+      dependencies:
+        components:
+          - name: nixos-template

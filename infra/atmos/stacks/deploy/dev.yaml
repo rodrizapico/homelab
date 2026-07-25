@@ -1,6 +1,6 @@
 import:
   - deploy/_defaults
-  - layers/bootstrap
+  - layers/hypervisor
   - layers/compute
   - mixins/stage/dev
 

@@ -5,17 +5,12 @@ components:
   terraform:
     vm/ubuntu/noble:
       metadata:
-        component: proxmox/vm
         type: abstract
         inherits:
           - vm/default
       vars:
         config:
           clone_id: !terraform.state ubuntu-noble-template id
-          user:
-            name: buengabacho
-            ssh_keys:
-              - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBGuvLnYXThp0dvDp/W7mZOnnpE9i+NClbYJwx5hsHIU # Bitwarden SSH key
       dependencies:
         components:
           - name: ubuntu-noble-template
