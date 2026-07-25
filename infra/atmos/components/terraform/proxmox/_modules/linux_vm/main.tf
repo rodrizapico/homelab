@@ -8,6 +8,7 @@ resource "tls_private_key" "ssh_key" {
 resource "proxmox_virtual_environment_vm" "linux_vm" {
   node_name   = var.config.node
   name        = var.config.name
+  vm_id       = var.config.vm_id
   tags        = var.config.tags
   description = var.config.description
 
@@ -97,13 +98,13 @@ resource "proxmox_virtual_environment_vm" "linux_vm" {
   }
 
   lifecycle {
-    ignore_changes = [node_name]
+    ignore_changes = [node_name, started]
   }
 }
 
 check "reachability_check" {
   assert {
-    error_message = "Your resource might be unreachable since no list of SSH keys (as 'config.user.ssh_keys') was provided, and 'config.user.generate_ssh_keys' is false"
+    error_message = "Your resource might be unreachable since no SSH keys were provided (as 'config.user.ssh_keys'), and 'config.user.generate_ssh_keys' is false"
     condition     = var.config.user.generate_ssh_keys || length(var.config.user.ssh_keys) > 0
   }
 }

@@ -3,6 +3,7 @@ variable "config" {
   type = object({
     node        = string
     name        = string
+    vm_id       = optional(number, null)
     tags        = optional(list(string), [])
     description = optional(string, "Managed by Atmos/OpenTofu")
 
