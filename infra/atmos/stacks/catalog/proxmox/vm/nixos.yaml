@@ -12,6 +12,8 @@ components:
       vars:
         config:
           clone_id: !terraform.state proxmox/vm/template/nixos id
+        nixos_config:
+          flake_path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
       dependencies:
         components:
           - name: proxmox/vm/template/nixos

@@ -59,7 +59,6 @@ components:
                 address: !env PM_PLACEHOLDER_VM_STATIC_IP_ADDRESS
                 gateway: !env PM_PLACEHOLDER_VM_GATEWAY
         nixos_config:
-          flake_path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
           preset: cloudinit
       dependencies:
         components:
