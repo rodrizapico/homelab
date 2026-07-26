@@ -1,0 +1,16 @@
+import:
+  - catalog/proxmox/vm/defaults
+
+components:
+  terraform:
+    proxmox/vm/ubuntu/noble:
+      metadata:
+        type: abstract
+        inherits:
+          - proxmox/vm/defaults
+      vars:
+        config:
+          clone_id: !terraform.state proxmox/vm/template/ubuntu_noble id
+      dependencies:
+        components:
+          - name: proxmox/vm/template/ubuntu_noble

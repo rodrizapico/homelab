@@ -1,0 +1,14 @@
+import:
+  - catalog/proxmox/vm/defaults
+
+components:
+  terraform:
+    proxmox/vm/template:
+      metadata:
+        type: abstract
+        inherits:
+          - proxmox/vm/defaults
+      vars:
+        config:
+          advanced:
+            template: true

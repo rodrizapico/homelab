@@ -1,6 +1,6 @@
 components:
   terraform:
-    vm/default:
+    proxmox/vm/defaults:
       metadata:
         component: proxmox/vm
         type: abstract

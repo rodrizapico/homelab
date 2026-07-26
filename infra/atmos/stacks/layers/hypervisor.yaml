@@ -1,10 +1,10 @@
 import:
-  - catalog/vm/default
-  - catalog/vm/nixos
+  - catalog/proxmox/vm/template
+  - catalog/proxmox/vm/nixos
 
 components:
   terraform:
-    cloudinit-vendor-data:
+    proxmox/snippet/cloudinit_vendor_data:
       metadata:
         component: proxmox/snippet
       vars:
@@ -12,10 +12,10 @@ components:
           node: !env PM_DEFAULT_NODE
           iso_storage: !env PM_DEFAULT_ISO_STORAGE
         config:
-          name: cloudinit-vendor-data.yaml
-          data: !include.raw config/cloudinit-vendor-data.yaml
+          name: cloudinit_vendor_data.yaml
+          data: !include.raw config/cloudinit_vendor_data.yaml
 
-    ubuntu-noble-iso:
+    proxmox/disk_image/ubuntu_noble:
       metadata:
         component: proxmox/disk_image
       vars:
@@ -26,76 +26,76 @@ components:
           name: ubuntu-24-noble-server-cloudimg-amd64.qcow2
           url: https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img
 
-    ubuntu-noble-template:
+    proxmox/vm/template/ubuntu_noble:
       metadata:
         component: proxmox/vm
         inherits:
-          - vm/default
+          - proxmox/vm/template
       vars:
         config:
-          name: ubuntu-noble-template
-          disk_image_id: !terraform.state ubuntu-noble-iso id
+          name: template-ubuntu-noble
+          disk_image_id: !terraform.state proxmox/disk_image/ubuntu_noble id
           advanced:
-            template: true
             cloud_init:
-              vendor_data_file_id: !terraform.state cloudinit-vendor-data id
+              vendor_data_file_id: !terraform.state proxmox/snippet/cloudinit_vendor_data id
       dependencies:
         components:
-          - name: ubuntu-noble-iso
-          - name: cloudinit-vendor-data
+          - name: proxmox/disk_image/ubuntu_noble
+          - name: proxmox/snippet/cloudinit_vendor_data
 
-    nixos-placeholder-vm:
+    proxmox/vm/nixos/template_placeholder:
       metadata:
+        component: proxmox/nixos_vm
         inherits:
-          - vm/nixos
+          - proxmox/vm/nixos
       vars:
         config:
           name: nixos-placeholder
           vm_id: !env PM_PLACEHOLDER_VM_ID
-          clone_id: !terraform.state ubuntu-noble-template id
+          clone_id: !terraform.output proxmox/vm/template/ubuntu_noble id
           advanced:
             ip_config:
               ipv4:
                 address: !env PM_PLACEHOLDER_VM_STATIC_IP_ADDRESS
                 gateway: !env PM_PLACEHOLDER_VM_GATEWAY
         nixos_config:
+          flake_path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
           os_preset: cloudinit
       dependencies:
         components:
-          - name: ubuntu-noble-template
+          - name: proxmox/vm/template/ubuntu_noble
 
-    nixos-template:
+    proxmox/vm/template/nixos:
       metadata:
         component: proxmox/vm
         inherits:
-          - vm/default
+          - proxmox/vm/template
       vars:
         config:
-          name: nixos-template
+          name: template-nixos
           clone_id: !env PM_PLACEHOLDER_VM_ID
           advanced:
-            template: true
             ip_config:
               ipv4:
                 address: dhcp
       hooks:
-        prepare-placeholder-vm:
+        prepare_placeholder_vm:
           events: [before.terraform.plan, before.terraform.apply]
           kind: steps
           with:
             - type: atmos
-              command: terraform apply -auto-approve -s {{ .stack }} nixos-placeholder-vm
+              command: "terraform apply -auto-approve -s {{ .stack }} proxmox/vm/nixos/template_placeholder"
             - type: shell
               command: 'curl --insecure -X POST -H "Authorization: PVEAPIToken=$PM_API_TOKEN" $PM_API_URL/api2/json/nodes/$PM_DEFAULT_NODE/qemu/$PM_PLACEHOLDER_VM_ID/status/stop'
           on_failure: fail
-        cleanup-placeholder-vm:
+        cleanup_placeholder_vm:
           events: [after.terraform.apply]
           when: always
           kind: step
           type: atmos
           with:
-            command: terraform destroy -auto-approve -s dev nixos-placeholder-vm
+            command: "terraform destroy -auto-approve -s {{ .stack }} proxmox/vm/nixos/template_placeholder"
           on_failure: fail
       dependencies:
         components:
-          - name: nixos-placeholder-vm
+          - name: proxmox/vm/nixos/template_placeholder

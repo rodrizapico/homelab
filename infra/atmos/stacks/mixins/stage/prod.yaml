@@ -2,7 +2,7 @@ vars:
   stage: prod
 components:
   terraform:
-    vm/defaults:
+    proxmox/vm/defaults:
       vars:
         config:
           advanced:

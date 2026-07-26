@@ -1,0 +1,17 @@
+import:
+  - catalog/proxmox/vm/defaults
+
+components:
+  terraform:
+    proxmox/vm/nixos:
+      metadata:
+        component: proxmox/nixos_vm
+        type: abstract
+        inherits:
+          - proxmox/vm/defaults
+      vars:
+        config:
+          clone_id: !terraform.state proxmox/vm/template/nixos id
+      dependencies:
+        components:
+          - name: proxmox/vm/template/nixos

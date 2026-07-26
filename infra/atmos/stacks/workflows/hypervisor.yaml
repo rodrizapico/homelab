@@ -7,10 +7,10 @@ workflows:
         prompt: "Which stask should be bootstrapped?"
         options: [dev, prod]
         default: !env ATMOS_STACK dev
-      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} cloudinit-vendor-data
-      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} ubuntu-noble-iso
-      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} ubuntu-noble-template
-      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} nixos-template
+      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} proxmox/snippet/cloudinit_vendor_data
+      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} proxmox/disk_image/ubuntu_noble
+      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} proxmox/vm/template/ubuntu_noble
+      - command: terraform apply -auto-approve -s {{ .steps.stack_selection.value }} proxmox/vm/template/nixos
         when: always
 
   teardown-hypervisor:
@@ -21,7 +21,7 @@ workflows:
         prompt: "Which stask should be bootstrapped?"
         options: [dev, prod]
         default: !env ATMOS_STACK dev
-      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} nixos-template
-      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} ubuntu-noble-template
-      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} ubuntu-noble-iso
-      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} cloudinit-vendor-data
+      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} proxmox/vm/template/nixos
+      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} proxmox/vm/template/ubuntu_noble
+      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} proxmox/disk_image/ubuntu_noble
+      - command: terraform destroy -auto-approve -s {{ .steps.stack_selection.value }} proxmox/snippet/cloudinit_vendor_data

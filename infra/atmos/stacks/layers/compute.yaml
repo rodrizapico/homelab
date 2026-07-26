@@ -1,13 +1,23 @@
 import:
-  - catalog/vm/ubuntu/noble
-  - catalog/k3s/defaults
+  - catalog/proxmox/vm/ubuntu/noble
+  - catalog/proxmox/vm/nixos
 
 components:
   terraform:
-    ubuntu-noble-vm:
+    proxmox/vm/ubuntu/noble/test:
       metadata:
         inherits:
-          - vm/ubuntu/noble
+          - proxmox/vm/ubuntu/noble
       vars:
         config:
-          name: ubuntu-noble
+          name: ubuntu-noble-test
+
+    proxmox/vm/nixos/text:
+      metadata:
+        inherits:
+          - proxmox/vm/nixos
+      vars:
+        config:
+          name: nixos-test
+        nixos_config:
+          os_preset: devpod
