@@ -7,9 +7,9 @@ variable "config" {
     tags        = optional(list(string), [])
     description = optional(string, "Managed by Atmos/OpenTofu")
 
-    clone_id        = optional(string, null)
-    disk_image_id   = optional(string, null)
-    hardware_preset = optional(string, "sm")
+    clone_id      = optional(string, null)
+    disk_image_id = optional(string, null)
+    instance_type = optional(string, "sm")
 
     user = optional(object({
       name              = optional(string, "opentofu")
@@ -69,14 +69,14 @@ variable "config" {
   }
 
   validation {
-    error_message = "'config.hardware_preset' must be one of 'sm', 'md', 'lg', 'xl' or 'custom'."
-    condition     = contains(["sm", "md", "lg", "xl", "custom"], var.config.hardware_preset)
+    error_message = "'config.instance_type' must be one of 'sm', 'md', 'lg', 'xl' or 'custom'."
+    condition     = contains(["sm", "md", "lg", "xl", "custom"], var.config.instance_type)
   }
 
   validation {
-    error_message = "For the 'custom' hardware preset, the following values under 'config.advanced.hardware' are required: 'core_count', 'memory_capacity' and 'storage_capacity'."
+    error_message = "For the 'custom' instance type, the following values under 'config.advanced.hardware' are required: 'core_count', 'memory_capacity' and 'storage_capacity'."
     condition = (
-      !contains(["custom"], var.config.hardware_preset) ||
+      !contains(["custom"], var.config.instance_type) ||
       try(
         var.config.advanced.hardware.core_count != null &&
         var.config.advanced.hardware.memory_capacity != null &&
@@ -87,9 +87,9 @@ variable "config" {
   }
 
   validation {
-    error_message = "The following values under 'config.advanced.hardware' can only be set for the 'custom' hardware preset: 'core_count', 'memory_capacity' and 'storage_capacity'."
+    error_message = "The following values under 'config.advanced.hardware' can only be set for the 'custom' instance type: 'core_count', 'memory_capacity' and 'storage_capacity'."
     condition = (
-      contains(["custom"], var.config.hardware_preset) ||
+      contains(["custom"], var.config.instance_type) ||
       (
         try(var.config.advanced.hardware.core_count == null, true) &&
         try(var.config.advanced.hardware.memory_capacity == null, true) &&

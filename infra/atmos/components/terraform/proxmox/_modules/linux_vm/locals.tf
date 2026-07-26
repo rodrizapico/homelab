@@ -1,5 +1,5 @@
 locals {
-  hardware_presets = {
+  instance_types = {
     sm = {
       core_count       = 1
       memory_capacity  = 1024
@@ -38,12 +38,12 @@ locals {
   }
 
   hardware = {
-    core_count       = local.hardware_presets[var.config.hardware_preset].core_count
+    core_count       = local.instance_types[var.config.instance_type].core_count
     bridge           = try(var.config.advanced.hardware.bridge, null)
     vlan_tag         = try(var.config.advanced.hardware.vlan_tag, null)
-    memory_capacity  = local.hardware_presets[var.config.hardware_preset].memory_capacity
+    memory_capacity  = local.instance_types[var.config.instance_type].memory_capacity
     storage_location = try(var.config.advanced.hardware.storage.location, null)
-    storage_capacity = local.hardware_presets[var.config.hardware_preset].storage_capacity
+    storage_capacity = local.instance_types[var.config.instance_type].storage_capacity
   }
 
   cloud_init = {

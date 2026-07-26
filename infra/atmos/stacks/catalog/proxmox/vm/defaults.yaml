@@ -7,7 +7,7 @@ components:
       vars:
         config:
           node: !env PM_DEFAULT_NODE
-          hardware_preset: md
+          instance_type: md
           user:
             generate_ssh_keys: true
           advanced:

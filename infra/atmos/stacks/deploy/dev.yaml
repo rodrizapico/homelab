@@ -9,4 +9,4 @@ components:
     mirror-devpod:
       vars:
         config:
-          hardware_preset: md
+          instance_type: md
