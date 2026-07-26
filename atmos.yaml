@@ -16,6 +16,10 @@ stacks:
     - "**/_defaults.yaml"
   name_template: "{{.vars.stage}}"
 
+templates:
+  settings:
+    enabled: true
+
 workflows:
   base_path: "stacks/workflows"
 
