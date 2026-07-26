@@ -12,7 +12,7 @@ components:
         config:
           name: ubuntu-noble-test
 
-    proxmox/vm/nixos/text:
+    proxmox/vm/nixos/test:
       metadata:
         inherits:
           - proxmox/vm/nixos
