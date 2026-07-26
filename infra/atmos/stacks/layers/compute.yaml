@@ -20,4 +20,4 @@ components:
         config:
           name: nixos-test
         nixos_config:
-          os_preset: devpod
+          preset: devpod

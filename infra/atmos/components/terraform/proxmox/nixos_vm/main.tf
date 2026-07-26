@@ -13,8 +13,8 @@ module "vm" {
 module "nixos_deployment" {
   source = "github.com/nix-community/nixos-anywhere//terraform/all-in-one"
 
-  nixos_system_attr      = "${var.nixos_config.flake_path}#nixosConfigurations.${var.nixos_config.os_preset}.config.system.build.toplevel"
-  nixos_partitioner_attr = "${var.nixos_config.flake_path}#nixosConfigurations.${var.nixos_config.os_preset}.config.system.build.diskoScript"
+  nixos_system_attr      = "${var.nixos_config.flake_path}#nixosConfigurations.${var.nixos_config.preset}.config.system.build.toplevel"
+  nixos_partitioner_attr = "${var.nixos_config.flake_path}#nixosConfigurations.${var.nixos_config.preset}.config.system.build.diskoScript"
   target_host            = module.vm.ipv4_address
   target_user            = module.vm.ssh_user
   install_ssh_key        = module.vm.generated_ssh_private_key

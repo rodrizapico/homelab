@@ -60,7 +60,7 @@ components:
                 gateway: !env PM_PLACEHOLDER_VM_GATEWAY
         nixos_config:
           flake_path: !exec echo "$(git rev-parse --show-toplevel)/infra/nixos"
-          os_preset: cloudinit
+          preset: cloudinit
       dependencies:
         components:
           - name: proxmox/vm/template/ubuntu_noble

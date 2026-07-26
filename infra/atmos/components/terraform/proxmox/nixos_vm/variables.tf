@@ -24,7 +24,7 @@ variable "nixos_config" {
   description = "A collection of all configuration options related to NixOS"
   type = object({
     flake_path = string
-    os_preset  = string
+    preset     = string
 
     user = optional(object({
       name     = optional(string, "nixos")
