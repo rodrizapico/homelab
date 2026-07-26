@@ -52,7 +52,7 @@ components:
         config:
           name: nixos-placeholder
           vm_id: !env PM_PLACEHOLDER_VM_ID
-          clone_id: !terraform.output proxmox/vm/template/ubuntu_noble id
+          clone_id: !terraform.state proxmox/vm/template/ubuntu_noble id
           advanced:
             ip_config:
               ipv4:
