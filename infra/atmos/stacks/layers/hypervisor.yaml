@@ -1,12 +1,14 @@
 import:
+  - catalog/proxmox/vm/defaults
   - catalog/proxmox/vm/template
-  - catalog/proxmox/vm/nixos
 
 components:
   terraform:
     proxmox/snippet/cloudinit_vendor_data:
       metadata:
         component: proxmox/snippet
+        labels:
+          layer: hypervisor
       vars:
         proxmox:
           node: !env PM_DEFAULT_NODE
@@ -18,6 +20,8 @@ components:
     proxmox/disk_image/ubuntu_noble:
       metadata:
         component: proxmox/disk_image
+        labels:
+          layer: hypervisor
       vars:
         proxmox:
           node: !env PM_DEFAULT_NODE
@@ -31,6 +35,8 @@ components:
         component: proxmox/vm
         inherits:
           - proxmox/vm/template
+        labels:
+          layer: hypervisor
       vars:
         config:
           name: template-ubuntu-noble
@@ -43,15 +49,18 @@ components:
           - name: proxmox/disk_image/ubuntu_noble
           - name: proxmox/snippet/cloudinit_vendor_data
 
-    proxmox/vm/nixos/template_placeholder:
+    proxmox/vm/template/nixos:
       metadata:
         component: proxmox/nixos_vm
         inherits:
-          - proxmox/vm/nixos
+          - proxmox/vm/defaults
+        labels:
+          layer: hypervisor
+      locals:
+        base_api_command: 'curl --insecure -H "Authorization: PVEAPIToken=$PM_API_TOKEN" $PM_API_URL/api2/json/nodes'
       vars:
         config:
-          name: nixos-placeholder
-          vm_id: !env PM_PLACEHOLDER_VM_ID
+          name: template-nixos
           clone_id: !terraform.state proxmox/vm/template/ubuntu_noble id
           advanced:
             ip_config:
@@ -59,42 +68,24 @@ components:
                 address: !env PM_PLACEHOLDER_VM_STATIC_IP_ADDRESS
                 gateway: !env PM_PLACEHOLDER_VM_GATEWAY
         nixos_config:
+          flake_path: '{{ atmos.Resolve "!git.root" }}/infra/nixos'
           preset: cloudinit
+      hooks:
+        convert_to_template:
+          events: [after.terraform.apply]
+          kind: steps
+          with:
+            - name: vm_node
+              type: atmos
+              command: "terraform output -s {{ .atmos_stack }} --skip-init {{ .atmos_component }} -raw node"
+            - name: vm_id
+              type: atmos
+              command: "terraform output -s {{ .atmos_stack }} --skip-init {{ .atmos_component }} -raw id"
+            - type: shell
+              command: '{{ .locals.base_api_command }}/{{ atmos.Resolve "{{ .steps.vm_node.value }}/qemu/{{ .steps.vm_id.value }}/agent/shutdown" }} -X POST'
+            - type: shell
+              command: '{{ .locals.base_api_command }}/{{ atmos.Resolve "{{ .steps.vm_node.value }}/qemu/{{ .steps.vm_id.value }}/config" }} -X POST --data template=1 --data-urlencode ipconfig0="ip=dhcp"'
+          on_failure: fail
       dependencies:
         components:
           - name: proxmox/vm/template/ubuntu_noble
-
-    proxmox/vm/template/nixos:
-      metadata:
-        component: proxmox/vm
-        inherits:
-          - proxmox/vm/template
-      vars:
-        config:
-          name: template-nixos
-          clone_id: !env PM_PLACEHOLDER_VM_ID
-          advanced:
-            ip_config:
-              ipv4:
-                address: dhcp
-      hooks:
-        prepare_placeholder_vm:
-          events: [before.terraform.plan, before.terraform.apply]
-          kind: steps
-          with:
-            - type: atmos
-              command: "terraform apply -auto-approve -s {{ .stack }} proxmox/vm/nixos/template_placeholder"
-            - type: shell
-              command: 'curl --insecure -X POST -H "Authorization: PVEAPIToken=$PM_API_TOKEN" $PM_API_URL/api2/json/nodes/$PM_DEFAULT_NODE/qemu/$PM_PLACEHOLDER_VM_ID/status/stop'
-          on_failure: fail
-        cleanup_placeholder_vm:
-          events: [after.terraform.apply]
-          when: always
-          kind: step
-          type: atmos
-          with:
-            command: "terraform destroy -auto-approve -s {{ .stack }} proxmox/vm/nixos/template_placeholder"
-          on_failure: fail
-      dependencies:
-        components:
-          - name: proxmox/vm/nixos/template_placeholder

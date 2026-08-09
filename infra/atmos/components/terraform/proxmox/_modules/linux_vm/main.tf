@@ -98,7 +98,7 @@ resource "proxmox_virtual_environment_vm" "linux_vm" {
   }
 
   lifecycle {
-    ignore_changes = [node_name, started]
+    ignore_changes = [node_name, started, initialization["ip_config"]]
   }
 }
 

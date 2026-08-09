@@ -1,3 +1,7 @@
+output "node" {
+  description = "The VM's node"
+  value       = module.vm.node
+}
 output "id" {
   description = "The VM's id"
   value       = module.vm.id

@@ -1,3 +1,7 @@
+output "node" {
+  description = "The VM's node"
+  value       = proxmox_virtual_environment_vm.linux_vm.node_name
+}
 output "id" {
   description = "The deployed VM's id"
   value       = proxmox_virtual_environment_vm.linux_vm.id

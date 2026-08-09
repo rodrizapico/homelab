@@ -21,6 +21,10 @@
 [X] use a cloud template so that we don't depend on a preconfigured image
 [X] test a different cloudinit image, since the arch one doesn't seem to work with nixos-anywhere
 
+[ ] use settings (or probably even better, locals, since those apparently can pre-render values for consumption - https://atmos.tools/stacks/locals#combining-yaml-functions-with-templates)
+[ ] proxmox/snippet and proxmox/disk_image should be predefined components
+[ ] clean up labels usage to be able to target components per layer
+
 [ ] export private/public SSH keys somehow
 [ ] bootstrap is not idempotent: running a second time recreates the placeholder vm and then destroys it again
 [ ] try out ovmf (uefi)
